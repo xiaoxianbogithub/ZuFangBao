@@ -8,9 +8,9 @@
     <artifactId>ruoyi</artifactId>
     <version>3.8.6</version>
 
-    <name>ruoyi</name>
-    <url>http://www.ruoyi.vip</url>
-    <description>若依管理系统</description>
+    <name>zfb</name>
+    <url>http://xmzfb.com</url>
+    <description>厦门租房宝</description>
     
     <properties>
         <ruoyi.version>3.8.6</ruoyi.version>

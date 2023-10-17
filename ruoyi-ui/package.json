@@ -1,8 +1,8 @@
 {
-  "name": "ruoyi",
-  "version": "3.8.6",
-  "description": "若依管理系统",
-  "author": "若依",
+  "name": "zfb",
+  "version": "0.0.1",
+  "description": "厦门租房网管理系统",
+  "author": "ZFW",
   "license": "MIT",
   "scripts": {
     "dev": "vue-cli-service serve",
