@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.residence.mapper.ResidencePayMapper">
+    
+    <resultMap type="ResidencePay" id="ResidencePayResult">
+        <result property="id"    column="id"    />
+        <result property="value"    column="value"    />
+        <result property="name"    column="name"    />
+        <result property="sort"    column="sort"    />
+        <result property="display"    column="display"    />
+        <result property="deleted"    column="deleted"    />
+    </resultMap>
+
+    <sql id="selectResidencePayVo">
+        select id, value, name, sort, display, deleted from residence_pay
+    </sql>
+
+    <select id="selectResidencePayList" parameterType="ResidencePay" resultMap="ResidencePayResult">
+        <include refid="selectResidencePayVo"/>
+        <where>  
+            <if test="value != null "> and value = #{value}</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="sort != null "> and sort = #{sort}</if>
+            <if test="display != null "> and display = #{display}</if>
+            <if test="deleted != null "> and deleted = #{deleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectResidencePayById" parameterType="Long" resultMap="ResidencePayResult">
+        <include refid="selectResidencePayVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertResidencePay" parameterType="ResidencePay" useGeneratedKeys="true" keyProperty="id">
+        insert into residence_pay
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="value != null">value,</if>
+            <if test="name != null">name,</if>
+            <if test="sort != null">sort,</if>
+            <if test="display != null">display,</if>
+            <if test="deleted != null">deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="value != null">#{value},</if>
+            <if test="name != null">#{name},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="display != null">#{display},</if>
+            <if test="deleted != null">#{deleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateResidencePay" parameterType="ResidencePay">
+        update residence_pay
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="value != null">value = #{value},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="display != null">display = #{display},</if>
+            <if test="deleted != null">deleted = #{deleted},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteResidencePayById" parameterType="Long">
+        delete from residence_pay where id = #{id}
+    </delete>
+
+    <delete id="deleteResidencePayByIds" parameterType="String">
+        delete from residence_pay where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

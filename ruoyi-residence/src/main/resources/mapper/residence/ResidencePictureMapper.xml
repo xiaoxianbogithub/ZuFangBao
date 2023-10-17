@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.residence.mapper.ResidencePictureMapper">
+    
+    <resultMap type="ResidencePicture" id="ResidencePictureResult">
+        <result property="id"    column="id"    />
+        <result property="residenceId"    column="residence_id"    />
+        <result property="picUrl"    column="pic_url"    />
+        <result property="sort"    column="sort"    />
+    </resultMap>
+
+    <sql id="selectResidencePictureVo">
+        select id, residence_id, pic_url, sort from residence_picture
+    </sql>
+
+    <select id="selectResidencePictureList" parameterType="ResidencePicture" resultMap="ResidencePictureResult">
+        <include refid="selectResidencePictureVo"/>
+        <where>  
+            <if test="residenceId != null "> and residence_id = #{residenceId}</if>
+            <if test="picUrl != null  and picUrl != ''"> and pic_url = #{picUrl}</if>
+            <if test="sort != null "> and sort = #{sort}</if>
+        </where>
+    </select>
+    
+    <select id="selectResidencePictureById" parameterType="Long" resultMap="ResidencePictureResult">
+        <include refid="selectResidencePictureVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertResidencePicture" parameterType="ResidencePicture" useGeneratedKeys="true" keyProperty="id">
+        insert into residence_picture
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="residenceId != null">residence_id,</if>
+            <if test="picUrl != null">pic_url,</if>
+            <if test="sort != null">sort,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="residenceId != null">#{residenceId},</if>
+            <if test="picUrl != null">#{picUrl},</if>
+            <if test="sort != null">#{sort},</if>
+         </trim>
+    </insert>
+
+    <update id="updateResidencePicture" parameterType="ResidencePicture">
+        update residence_picture
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="residenceId != null">residence_id = #{residenceId},</if>
+            <if test="picUrl != null">pic_url = #{picUrl},</if>
+            <if test="sort != null">sort = #{sort},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteResidencePictureById" parameterType="Long">
+        delete from residence_picture where id = #{id}
+    </delete>
+
+    <delete id="deleteResidencePictureByIds" parameterType="String">
+        delete from residence_picture where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

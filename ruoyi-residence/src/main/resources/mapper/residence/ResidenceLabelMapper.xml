@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.residence.mapper.ResidenceLabelMapper">
+    
+    <resultMap type="ResidenceLabel" id="ResidenceLabelResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="systemType"    column="system_type"    />
+        <result property="sort"    column="sort"    />
+        <result property="display"    column="display"    />
+        <result property="deleted"    column="deleted"    />
+    </resultMap>
+
+    <sql id="selectResidenceLabelVo">
+        select id, name, system_type, sort, display, deleted from residence_label
+    </sql>
+
+    <select id="selectResidenceLabelList" parameterType="ResidenceLabel" resultMap="ResidenceLabelResult">
+        <include refid="selectResidenceLabelVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="systemType != null "> and system_type = #{systemType}</if>
+            <if test="sort != null "> and sort = #{sort}</if>
+            <if test="display != null "> and display = #{display}</if>
+            <if test="deleted != null "> and deleted = #{deleted}</if>
+        </where>
+    </select>
+    
+    <select id="selectResidenceLabelById" parameterType="Long" resultMap="ResidenceLabelResult">
+        <include refid="selectResidenceLabelVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertResidenceLabel" parameterType="ResidenceLabel" useGeneratedKeys="true" keyProperty="id">
+        insert into residence_label
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="systemType != null">system_type,</if>
+            <if test="sort != null">sort,</if>
+            <if test="display != null">display,</if>
+            <if test="deleted != null">deleted,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="systemType != null">#{systemType},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="display != null">#{display},</if>
+            <if test="deleted != null">#{deleted},</if>
+         </trim>
+    </insert>
+
+    <update id="updateResidenceLabel" parameterType="ResidenceLabel">
+        update residence_label
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="systemType != null">system_type = #{systemType},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="display != null">display = #{display},</if>
+            <if test="deleted != null">deleted = #{deleted},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteResidenceLabelById" parameterType="Long">
+        delete from residence_label where id = #{id}
+    </delete>
+
+    <delete id="deleteResidenceLabelByIds" parameterType="String">
+        delete from residence_label where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

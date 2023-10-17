@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.residence.mapper.ResidenceCategoryMapper">
+    
+    <resultMap type="ResidenceCategory" id="ResidenceCategoryResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="display"    column="display"    />
+        <result property="deleted"    column="deleted"    />
+        <result property="sort"    column="sort"    />
+    </resultMap>
+
+    <sql id="selectResidenceCategoryVo">
+        select id, name, display, deleted, sort from residence_category
+    </sql>
+
+    <select id="selectResidenceCategoryList" parameterType="ResidenceCategory" resultMap="ResidenceCategoryResult">
+        <include refid="selectResidenceCategoryVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="display != null "> and display = #{display}</if>
+            <if test="deleted != null "> and deleted = #{deleted}</if>
+            <if test="sort != null "> and sort = #{sort}</if>
+        </where>
+    </select>
+    
+    <select id="selectResidenceCategoryById" parameterType="Long" resultMap="ResidenceCategoryResult">
+        <include refid="selectResidenceCategoryVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertResidenceCategory" parameterType="ResidenceCategory" useGeneratedKeys="true" keyProperty="id">
+        insert into residence_category
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="display != null">display,</if>
+            <if test="deleted != null">deleted,</if>
+            <if test="sort != null">sort,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="display != null">#{display},</if>
+            <if test="deleted != null">#{deleted},</if>
+            <if test="sort != null">#{sort},</if>
+         </trim>
+    </insert>
+
+    <update id="updateResidenceCategory" parameterType="ResidenceCategory">
+        update residence_category
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="display != null">display = #{display},</if>
+            <if test="deleted != null">deleted = #{deleted},</if>
+            <if test="sort != null">sort = #{sort},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteResidenceCategoryById" parameterType="Long">
+        delete from residence_category where id = #{id}
+    </delete>
+
+    <delete id="deleteResidenceCategoryByIds" parameterType="String">
+        delete from residence_category where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

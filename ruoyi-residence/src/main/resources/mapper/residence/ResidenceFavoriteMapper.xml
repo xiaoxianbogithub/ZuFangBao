@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.residence.mapper.ResidenceFavoriteMapper">
+    
+    <resultMap type="ResidenceFavorite" id="ResidenceFavoriteResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="residenceId"    column="residence_id"    />
+        <result property="sort"    column="sort"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectResidenceFavoriteVo">
+        select id, user_id, residence_id, sort, create_time from residence_favorite
+    </sql>
+
+    <select id="selectResidenceFavoriteList" parameterType="ResidenceFavorite" resultMap="ResidenceFavoriteResult">
+        <include refid="selectResidenceFavoriteVo"/>
+        <where>  
+            <if test="userId != null "> and user_id = #{userId}</if>
+            <if test="residenceId != null "> and residence_id = #{residenceId}</if>
+            <if test="sort != null "> and sort = #{sort}</if>
+        </where>
+    </select>
+    
+    <select id="selectResidenceFavoriteById" parameterType="Long" resultMap="ResidenceFavoriteResult">
+        <include refid="selectResidenceFavoriteVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertResidenceFavorite" parameterType="ResidenceFavorite" useGeneratedKeys="true" keyProperty="id">
+        insert into residence_favorite
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userId != null">user_id,</if>
+            <if test="residenceId != null">residence_id,</if>
+            <if test="sort != null">sort,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userId != null">#{userId},</if>
+            <if test="residenceId != null">#{residenceId},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateResidenceFavorite" parameterType="ResidenceFavorite">
+        update residence_favorite
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="residenceId != null">residence_id = #{residenceId},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteResidenceFavoriteById" parameterType="Long">
+        delete from residence_favorite where id = #{id}
+    </delete>
+
+    <delete id="deleteResidenceFavoriteByIds" parameterType="String">
+        delete from residence_favorite where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
