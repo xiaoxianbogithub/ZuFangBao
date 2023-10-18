@@ -1,6 +1,6 @@
 import request from '@/utils/request'
 
-// 查询房源品牌图片列表
+// 查询房源图片列表
 export function listPicture(query) {
   return request({
     url: '/residence/picture/list',
@@ -9,7 +9,7 @@ export function listPicture(query) {
   })
 }
 
-// 查询房源品牌图片详细
+// 查询房源图片详细
 export function getPicture(id) {
   return request({
     url: '/residence/picture/' + id,
@@ -17,7 +17,7 @@ export function getPicture(id) {
   })
 }
 
-// 新增房源品牌图片
+// 新增房源图片
 export function addPicture(data) {
   return request({
     url: '/residence/picture',
@@ -26,7 +26,7 @@ export function addPicture(data) {
   })
 }
 
-// 修改房源品牌图片
+// 修改房源图片
 export function updatePicture(data) {
   return request({
     url: '/residence/picture',
@@ -35,7 +35,7 @@ export function updatePicture(data) {
   })
 }
 
-// 删除房源品牌图片
+// 删除房源图片
 export function delPicture(id) {
   return request({
     url: '/residence/picture/' + id,

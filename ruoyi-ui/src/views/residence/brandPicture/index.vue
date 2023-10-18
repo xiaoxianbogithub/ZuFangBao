@@ -1,10 +1,10 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="名称" prop="name">
+      <el-form-item label="Id" prop="id">
         <el-input
-          v-model="queryParams.name"
-          placeholder="请输入名称"
+          v-model="queryParams.id"
+          placeholder="请输入Id"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -23,7 +23,7 @@
           icon="el-icon-plus"
           size="mini"
           @click="handleAdd"
-          v-hasPermi="['residence:deposit:add']"
+          v-hasPermi="['residence:brandPicture:add']"
         >新增</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -34,7 +34,7 @@
           size="mini"
           :disabled="single"
           @click="handleUpdate"
-          v-hasPermi="['residence:deposit:edit']"
+          v-hasPermi="['residence:brandPicture:edit']"
         >修改</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -45,7 +45,7 @@
           size="mini"
           :disabled="multiple"
           @click="handleDelete"
-          v-hasPermi="['residence:deposit:remove']"
+          v-hasPermi="['residence:brandPicture:remove']"
         >删除</el-button>
       </el-col>
       <el-col :span="1.5">
@@ -55,19 +55,18 @@
           icon="el-icon-download"
           size="mini"
           @click="handleExport"
-          v-hasPermi="['residence:deposit:export']"
+          v-hasPermi="['residence:brandPicture:export']"
         >导出</el-button>
       </el-col>
       <right-toolbar :showSearch.sync="showSearch" @queryTable="getList"></right-toolbar>
     </el-row>
 
-    <el-table v-loading="loading" :data="depositList" @selection-change="handleSelectionChange">
+    <el-table v-loading="loading" :data="brandPictureList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="ID" align="center" prop="id" />
-      <el-table-column label="值" align="center" prop="value" />
-      <el-table-column label="名称" align="center" prop="name" />
+      <el-table-column label="Id" align="center" prop="id" />
+      <el-table-column label="房源品牌Id" align="center" prop="residenceBrandId" />
+      <el-table-column label="图片路径" align="center" prop="picUrl" />
       <el-table-column label="排序" align="center" prop="sort" />
-      <el-table-column label="是否可见" align="center" prop="display" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -75,14 +74,14 @@
             type="text"
             icon="el-icon-edit"
             @click="handleUpdate(scope.row)"
-            v-hasPermi="['residence:deposit:edit']"
+            v-hasPermi="['residence:brandPicture:edit']"
           >修改</el-button>
           <el-button
             size="mini"
             type="text"
             icon="el-icon-delete"
             @click="handleDelete(scope.row)"
-            v-hasPermi="['residence:deposit:remove']"
+            v-hasPermi="['residence:brandPicture:remove']"
           >删除</el-button>
         </template>
       </el-table-column>
@@ -96,14 +95,11 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改房源押金设置对话框 -->
+    <!-- 添加或修改房源品牌图片对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="值" prop="value">
-          <el-input v-model="form.value" placeholder="请输入值" />
-        </el-form-item>
-        <el-form-item label="名称" prop="name">
-          <el-input v-model="form.name" placeholder="请输入名称" />
+        <el-form-item label="图片路径" prop="picUrl">
+          <el-input v-model="form.picUrl" placeholder="请输入图片路径" />
         </el-form-item>
         <el-form-item label="排序" prop="sort">
           <el-input v-model="form.sort" placeholder="请输入排序" />
@@ -118,10 +114,10 @@
 </template>
 
 <script>
-import { listDeposit, getDeposit, delDeposit, addDeposit, updateDeposit } from "@/api/residence/deposit";
+import { listBrandPicture, getBrandPicture, delBrandPicture, addBrandPicture, updateBrandPicture } from "@/api/residence/brandPicture";
 
 export default {
-  name: "Deposit",
+  name: "BrandPicture",
   data() {
     return {
       // 遮罩层
@@ -136,8 +132,8 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 房源押金设置表格数据
-      depositList: [],
+      // 房源品牌图片表格数据
+      brandPictureList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
@@ -146,13 +142,16 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        name: null,
-        display: null,
+        id: null,
+        residenceBrandId: null,
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
+        residenceBrandId: [
+          { required: true, message: "房源品牌Id不能为空", trigger: "change" }
+        ],
       }
     };
   },
@@ -160,11 +159,11 @@ export default {
     this.getList();
   },
   methods: {
-    /** 查询房源押金设置列表 */
+    /** 查询房源品牌图片列表 */
     getList() {
       this.loading = true;
-      listDeposit(this.queryParams).then(response => {
-        this.depositList = response.rows;
+      listBrandPicture(this.queryParams).then(response => {
+        this.brandPictureList = response.rows;
         this.total = response.total;
         this.loading = false;
       });
@@ -178,11 +177,9 @@ export default {
     reset() {
       this.form = {
         id: null,
-        value: null,
-        name: null,
-        sort: null,
-        display: null,
-        deleted: null
+        residenceBrandId: null,
+        picUrl: null,
+        sort: null
       };
       this.resetForm("form");
     },
@@ -206,16 +203,16 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加房源押金设置";
+      this.title = "添加房源品牌图片";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
       this.reset();
       const id = row.id || this.ids
-      getDeposit(id).then(response => {
+      getBrandPicture(id).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改房源押金设置";
+        this.title = "修改房源品牌图片";
       });
     },
     /** 提交按钮 */
@@ -223,13 +220,13 @@ export default {
       this.$refs["form"].validate(valid => {
         if (valid) {
           if (this.form.id != null) {
-            updateDeposit(this.form).then(response => {
+            updateBrandPicture(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
               this.open = false;
               this.getList();
             });
           } else {
-            addDeposit(this.form).then(response => {
+            addBrandPicture(this.form).then(response => {
               this.$modal.msgSuccess("新增成功");
               this.open = false;
               this.getList();
@@ -241,8 +238,8 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除房源押金设置编号为"' + ids + '"的数据项？').then(function() {
-        return delDeposit(ids);
+      this.$modal.confirm('是否确认删除房源品牌图片编号为"' + ids + '"的数据项？').then(function() {
+        return delBrandPicture(ids);
       }).then(() => {
         this.getList();
         this.$modal.msgSuccess("删除成功");
@@ -250,9 +247,9 @@ export default {
     },
     /** 导出按钮操作 */
     handleExport() {
-      this.download('residence/deposit/export', {
+      this.download('residence/brandPicture/export', {
         ...this.queryParams
-      }, `deposit_${new Date().getTime()}.xlsx`)
+      }, `brandPicture_${new Date().getTime()}.xlsx`)
     }
   }
 };

@@ -25,7 +25,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * 房源品牌Controller
  * 
  * @author climber
- * @date 2023-10-17
+ * @date 2023-10-18
  */
 @RestController
 @RequestMapping("/residence/brand")

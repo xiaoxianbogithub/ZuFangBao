@@ -11,8 +11,8 @@ import com.ruoyi.residence.service.IResidenceFavoriteService;
 /**
  * 房源收藏Service业务层处理
  * 
- * @author ruoyi
- * @date 2023-10-17
+ * @author climber
+ * @date 2023-10-18
  */
 @Service
 public class ResidenceFavoriteServiceImpl implements IResidenceFavoriteService 

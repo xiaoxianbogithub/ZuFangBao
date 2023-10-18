@@ -1,45 +1,24 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="品牌名称 e.g. 自如,链家" prop="name">
+      <el-form-item label="品牌名称" prop="name">
         <el-input
           v-model="queryParams.name"
-          placeholder="请输入品牌名称 e.g. 自如,链家"
+          placeholder="请输入品牌名称"
           clearable
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="品牌首页图片" prop="picUrl">
-        <el-input
-          v-model="queryParams.picUrl"
-          placeholder="请输入品牌首页图片"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="${comment}" prop="sort">
-        <el-input
-          v-model="queryParams.sort"
-          placeholder="请输入${comment}"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="0: 隐藏;1:显示" prop="display">
-        <el-input
-          v-model="queryParams.display"
-          placeholder="请输入0: 隐藏;1:显示"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="0:未删除;1:已删除" prop="deleted">
-        <el-input
-          v-model="queryParams.deleted"
-          placeholder="请输入0:未删除;1:已删除"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
+      <el-form-item label="创建时间">
+        <el-date-picker
+          v-model="daterangeCreateTime"
+          style="width: 240px"
+          value-format="yyyy-MM-dd"
+          type="daterange"
+          range-separator="-"
+          start-placeholder="开始日期"
+          end-placeholder="结束日期"
+        ></el-date-picker>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -95,14 +74,22 @@
 
     <el-table v-loading="loading" :data="brandList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="${comment}" align="center" prop="id" />
-      <el-table-column label="品牌名称 e.g. 自如,链家" align="center" prop="name" />
-      <el-table-column label="品牌首页图片" align="center" prop="picUrl" />
+      <el-table-column label="Id" align="center" prop="id" />
+      <el-table-column label="品牌名称" align="center" prop="name" />
+      <el-table-column label="品牌首页图片" align="center" prop="picUrl" width="100">
+        <template slot-scope="scope">
+          <image-preview :src="scope.row.picUrl" :width="50" :height="50"/>
+        </template>
+      </el-table-column>
       <el-table-column label="品牌描述" align="center" prop="description" />
-      <el-table-column label="${comment}" align="center" prop="sort" />
-      <el-table-column label="${comment}" align="center" prop="status" />
-      <el-table-column label="0: 隐藏;1:显示" align="center" prop="display" />
-      <el-table-column label="0:未删除;1:已删除" align="center" prop="deleted" />
+      <el-table-column label="排序" align="center" prop="sort" />
+      <el-table-column label="状态" align="center" prop="status" />
+      <el-table-column label="是否可见" align="center" prop="display" />
+      <el-table-column label="创建时间" align="center" prop="createTime" width="180">
+        <template slot-scope="scope">
+          <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -134,24 +121,41 @@
     <!-- 添加或修改房源品牌对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="品牌名称 e.g. 自如,链家" prop="name">
-          <el-input v-model="form.name" placeholder="请输入品牌名称 e.g. 自如,链家" />
+        <el-form-item label="品牌名称" prop="name">
+          <el-input v-model="form.name" placeholder="请输入品牌名称" />
         </el-form-item>
         <el-form-item label="品牌首页图片" prop="picUrl">
-          <el-input v-model="form.picUrl" placeholder="请输入品牌首页图片" />
+          <image-upload v-model="form.picUrl"/>
         </el-form-item>
         <el-form-item label="品牌描述" prop="description">
           <el-input v-model="form.description" type="textarea" placeholder="请输入内容" />
         </el-form-item>
-        <el-form-item label="${comment}" prop="sort">
-          <el-input v-model="form.sort" placeholder="请输入${comment}" />
+        <el-form-item label="排序" prop="sort">
+          <el-input v-model="form.sort" placeholder="请输入排序" />
         </el-form-item>
-        <el-form-item label="0: 隐藏;1:显示" prop="display">
-          <el-input v-model="form.display" placeholder="请输入0: 隐藏;1:显示" />
-        </el-form-item>
-        <el-form-item label="0:未删除;1:已删除" prop="deleted">
-          <el-input v-model="form.deleted" placeholder="请输入0:未删除;1:已删除" />
-        </el-form-item>
+        <el-divider content-position="center">房源品牌图片信息</el-divider>
+        <el-row :gutter="10" class="mb8">
+          <el-col :span="1.5">
+            <el-button type="primary" icon="el-icon-plus" size="mini" @click="handleAddResidenceBrandPicture">添加</el-button>
+          </el-col>
+          <el-col :span="1.5">
+            <el-button type="danger" icon="el-icon-delete" size="mini" @click="handleDeleteResidenceBrandPicture">删除</el-button>
+          </el-col>
+        </el-row>
+        <el-table :data="residenceBrandPictureList" :row-class-name="rowResidenceBrandPictureIndex" @selection-change="handleResidenceBrandPictureSelectionChange" ref="residenceBrandPicture">
+          <el-table-column type="selection" width="50" align="center" />
+          <el-table-column label="序号" align="center" prop="index" width="50"/>
+          <el-table-column label="图片路径" prop="picUrl" width="150">
+            <template slot-scope="scope">
+              <el-input v-model="scope.row.picUrl" placeholder="请输入图片路径" />
+            </template>
+          </el-table-column>
+          <el-table-column label="排序" prop="sort" width="150">
+            <template slot-scope="scope">
+              <el-input v-model="scope.row.sort" placeholder="请输入排序" />
+            </template>
+          </el-table-column>
+        </el-table>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -172,6 +176,8 @@ export default {
       loading: true,
       // 选中数组
       ids: [],
+      // 子表选中数据
+      checkedResidenceBrandPicture: [],
       // 非单个禁用
       single: true,
       // 非多个禁用
@@ -182,21 +188,23 @@ export default {
       total: 0,
       // 房源品牌表格数据
       brandList: [],
+      // 房源品牌图片表格数据
+      residenceBrandPictureList: [],
       // 弹出层标题
       title: "",
       // 是否显示弹出层
       open: false,
+      // 排序时间范围
+      daterangeCreateTime: [],
       // 查询参数
       queryParams: {
         pageNum: 1,
         pageSize: 10,
         name: null,
-        picUrl: null,
         description: null,
-        sort: null,
         status: null,
         display: null,
-        deleted: null,
+        createTime: null
       },
       // 表单参数
       form: {},
@@ -212,8 +220,12 @@ export default {
     /** 查询房源品牌列表 */
     getList() {
       this.loading = true;
+      this.queryParams.params = {};
+      if (null != this.daterangeCreateTime && '' != this.daterangeCreateTime) {
+        this.queryParams.params["beginCreateTime"] = this.daterangeCreateTime[0];
+        this.queryParams.params["endCreateTime"] = this.daterangeCreateTime[1];
+      }
       listBrand(this.queryParams).then(response => {
-        console.log(response);
         this.brandList = response.rows;
         this.total = response.total;
         this.loading = false;
@@ -237,6 +249,7 @@ export default {
         deleted: null,
         createTime: null
       };
+      this.residenceBrandPictureList = [];
       this.resetForm("form");
     },
     /** 搜索按钮操作 */
@@ -246,6 +259,7 @@ export default {
     },
     /** 重置按钮操作 */
     resetQuery() {
+      this.daterangeCreateTime = [];
       this.resetForm("queryForm");
       this.handleQuery();
     },
@@ -267,6 +281,7 @@ export default {
       const id = row.id || this.ids
       getBrand(id).then(response => {
         this.form = response.data;
+        this.residenceBrandPictureList = response.data.residenceBrandPictureList;
         this.open = true;
         this.title = "修改房源品牌";
       });
@@ -275,6 +290,7 @@ export default {
     submitForm() {
       this.$refs["form"].validate(valid => {
         if (valid) {
+          this.form.residenceBrandPictureList = this.residenceBrandPictureList;
           if (this.form.id != null) {
             updateBrand(this.form).then(response => {
               this.$modal.msgSuccess("修改成功");
@@ -300,6 +316,33 @@ export default {
         this.getList();
         this.$modal.msgSuccess("删除成功");
       }).catch(() => {});
+    },
+	/** 房源品牌图片序号 */
+    rowResidenceBrandPictureIndex({ row, rowIndex }) {
+      row.index = rowIndex + 1;
+    },
+    /** 房源品牌图片添加按钮操作 */
+    handleAddResidenceBrandPicture() {
+      let obj = {};
+      obj.picUrl = "";
+      obj.sort = "";
+      this.residenceBrandPictureList.push(obj);
+    },
+    /** 房源品牌图片删除按钮操作 */
+    handleDeleteResidenceBrandPicture() {
+      if (this.checkedResidenceBrandPicture.length == 0) {
+        this.$modal.msgError("请先选择要删除的房源品牌图片数据");
+      } else {
+        const residenceBrandPictureList = this.residenceBrandPictureList;
+        const checkedResidenceBrandPicture = this.checkedResidenceBrandPicture;
+        this.residenceBrandPictureList = residenceBrandPictureList.filter(function(item) {
+          return checkedResidenceBrandPicture.indexOf(item.index) == -1
+        });
+      }
+    },
+    /** 复选框选中数据 */
+    handleResidenceBrandPictureSelectionChange(selection) {
+      this.checkedResidenceBrandPicture = selection.map(item => item.index)
     },
     /** 导出按钮操作 */
     handleExport() {

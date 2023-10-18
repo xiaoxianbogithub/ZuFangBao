@@ -19,8 +19,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectResidencePictureVo"/>
         <where>  
             <if test="residenceId != null "> and residence_id = #{residenceId}</if>
-            <if test="picUrl != null  and picUrl != ''"> and pic_url = #{picUrl}</if>
-            <if test="sort != null "> and sort = #{sort}</if>
         </where>
     </select>
     

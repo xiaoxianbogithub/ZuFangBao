@@ -9,13 +9,14 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * 房源收藏对象 residence_favorite
  * 
  * @author climber
- * @date 2023-10-17
+ * @date 2023-10-18
  */
 public class ResidenceFavorite extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** $column.columnComment */
+    /** Id */
+    @Excel(name = "Id")
     private Long id;
 
     /** 用户Id */
@@ -26,8 +27,8 @@ public class ResidenceFavorite extends BaseEntity
     @Excel(name = "房源Id")
     private Long residenceId;
 
-    /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    /** 排序 */
+    @Excel(name = "排序")
     private Long sort;
 
     public void setId(Long id) 

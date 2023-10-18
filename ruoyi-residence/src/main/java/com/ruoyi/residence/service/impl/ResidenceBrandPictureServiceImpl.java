@@ -10,8 +10,8 @@ import com.ruoyi.residence.service.IResidenceBrandPictureService;
 /**
  * 房源品牌图片Service业务层处理
  * 
- * @author ruoyi
- * @date 2023-10-17
+ * @author climber
+ * @date 2023-10-18
  */
 @Service
 public class ResidenceBrandPictureServiceImpl implements IResidenceBrandPictureService 

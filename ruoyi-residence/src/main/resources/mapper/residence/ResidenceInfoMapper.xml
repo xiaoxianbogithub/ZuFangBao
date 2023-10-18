@@ -38,6 +38,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateTime"    column="update_time"    />
     </resultMap>
 
+    <resultMap id="ResidenceInfoResidencePictureResult" type="ResidenceInfo" extends="ResidenceInfoResult">
+        <collection property="residencePictureList" notNullColumn="sub_id" javaType="java.util.List" resultMap="ResidencePictureResult" />
+    </resultMap>
+
+    <resultMap type="ResidencePicture" id="ResidencePictureResult">
+        <result property="id"    column="sub_id"    />
+        <result property="residenceId"    column="sub_residence_id"    />
+        <result property="picUrl"    column="sub_pic_url"    />
+        <result property="sort"    column="sub_sort"    />
+    </resultMap>
+
     <sql id="selectResidenceInfoVo">
         select id, category_id, brand_id, price, deposit_id, pay_id, deposite_amount, pay_amount, total_amount, water_bill, electricity_bill, house_type_id, square, floor, elevator, furnish, introduction, address_id, address_detail, facilities, labels, favorite_count, browse_count, status, deleted, weights, sort, create_by, create_time, update_by, update_time from residence_info
     </sql>
@@ -48,11 +59,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="categoryId != null "> and category_id = #{categoryId}</if>
             <if test="brandId != null "> and brand_id = #{brandId}</if>
             <if test="price != null "> and price = #{price}</if>
-            <if test="depositId != null "> and deposit_id = #{depositId}</if>
-            <if test="payId != null "> and pay_id = #{payId}</if>
-            <if test="depositeAmount != null "> and deposite_amount = #{depositeAmount}</if>
-            <if test="payAmount != null "> and pay_amount = #{payAmount}</if>
-            <if test="totalAmount != null "> and total_amount = #{totalAmount}</if>
             <if test="waterBill != null "> and water_bill = #{waterBill}</if>
             <if test="electricityBill != null "> and electricity_bill = #{electricityBill}</if>
             <if test="houseTypeId != null "> and house_type_id = #{houseTypeId}</if>
@@ -60,23 +66,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="floor != null "> and floor = #{floor}</if>
             <if test="elevator != null "> and elevator = #{elevator}</if>
             <if test="furnish != null  and furnish != ''"> and furnish = #{furnish}</if>
-            <if test="introduction != null  and introduction != ''"> and introduction = #{introduction}</if>
             <if test="addressId != null "> and address_id = #{addressId}</if>
             <if test="addressDetail != null  and addressDetail != ''"> and address_detail = #{addressDetail}</if>
-            <if test="facilities != null  and facilities != ''"> and facilities = #{facilities}</if>
-            <if test="labels != null  and labels != ''"> and labels = #{labels}</if>
-            <if test="favoriteCount != null "> and favorite_count = #{favoriteCount}</if>
-            <if test="browseCount != null "> and browse_count = #{browseCount}</if>
             <if test="status != null  and status != ''"> and status = #{status}</if>
-            <if test="deleted != null "> and deleted = #{deleted}</if>
-            <if test="weights != null "> and weights = #{weights}</if>
-            <if test="sort != null "> and sort = #{sort}</if>
+            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
         </where>
     </select>
     
-    <select id="selectResidenceInfoById" parameterType="Long" resultMap="ResidenceInfoResult">
-        <include refid="selectResidenceInfoVo"/>
-        where id = #{id}
+    <select id="selectResidenceInfoById" parameterType="Long" resultMap="ResidenceInfoResidencePictureResult">
+        select a.id, a.category_id, a.brand_id, a.price, a.deposit_id, a.pay_id, a.deposite_amount, a.pay_amount, a.total_amount, a.water_bill, a.electricity_bill, a.house_type_id, a.square, a.floor, a.elevator, a.furnish, a.introduction, a.address_id, a.address_detail, a.facilities, a.labels, a.favorite_count, a.browse_count, a.status, a.deleted, a.weights, a.sort, a.create_by, a.create_time, a.update_by, a.update_time,
+ b.id as sub_id, b.residence_id as sub_residence_id, b.pic_url as sub_pic_url, b.sort as sub_sort
+        from residence_info a
+        left join residence_picture b on b.residence_id = a.id
+        where a.id = #{id}
     </select>
         
     <insert id="insertResidenceInfo" parameterType="ResidenceInfo" useGeneratedKeys="true" keyProperty="id">
@@ -194,4 +196,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
+    
+    <delete id="deleteResidencePictureByResidenceIds" parameterType="String">
+        delete from residence_picture where residence_id in 
+        <foreach item="residenceId" collection="array" open="(" separator="," close=")">
+            #{residenceId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteResidencePictureByResidenceId" parameterType="Long">
+        delete from residence_picture where residence_id = #{residenceId}
+    </delete>
+
+    <insert id="batchResidencePicture">
+        insert into residence_picture( id, residence_id, pic_url, sort) values
+		<foreach item="item" index="index" collection="list" separator=",">
+            ( #{item.id}, #{item.residenceId}, #{item.picUrl}, #{item.sort})
+        </foreach>
+    </insert>
 </mapper>

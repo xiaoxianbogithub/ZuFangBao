@@ -22,11 +22,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectResidenceFacilityVo"/>
         <where>  
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
-            <if test="iconUrl != null  and iconUrl != ''"> and icon_url = #{iconUrl}</if>
             <if test="systemType != null "> and system_type = #{systemType}</if>
             <if test="sort != null "> and sort = #{sort}</if>
             <if test="display != null "> and display = #{display}</if>
-            <if test="deleted != null "> and deleted = #{deleted}</if>
         </where>
     </select>
     

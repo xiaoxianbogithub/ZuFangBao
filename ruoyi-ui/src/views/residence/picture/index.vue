@@ -1,30 +1,6 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="房源品牌Id" prop="residenceBrandId">
-        <el-input
-          v-model="queryParams.residenceBrandId"
-          placeholder="请输入房源品牌Id"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="图片路径" prop="picUrl">
-        <el-input
-          v-model="queryParams.picUrl"
-          placeholder="请输入图片路径"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="${comment}" prop="sort">
-        <el-input
-          v-model="queryParams.sort"
-          placeholder="请输入${comment}"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -79,10 +55,9 @@
 
     <el-table v-loading="loading" :data="pictureList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="${comment}" align="center" prop="id" />
-      <el-table-column label="房源品牌Id" align="center" prop="residenceBrandId" />
-      <el-table-column label="图片路径" align="center" prop="picUrl" />
-      <el-table-column label="${comment}" align="center" prop="sort" />
+      <el-table-column label="Id" align="center" prop="id" />
+      <el-table-column label="房源Id" align="center" prop="residenceId" />
+      <el-table-column label="排序" align="center" prop="sort" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -111,17 +86,14 @@
       @pagination="getList"
     />
 
-    <!-- 添加或修改房源品牌图片对话框 -->
+    <!-- 添加或修改房源图片对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="房源品牌Id" prop="residenceBrandId">
-          <el-input v-model="form.residenceBrandId" placeholder="请输入房源品牌Id" />
-        </el-form-item>
         <el-form-item label="图片路径" prop="picUrl">
-          <el-input v-model="form.picUrl" placeholder="请输入图片路径" />
+          <image-upload v-model="form.picUrl"/>
         </el-form-item>
-        <el-form-item label="${comment}" prop="sort">
-          <el-input v-model="form.sort" placeholder="请输入${comment}" />
+        <el-form-item label="排序" prop="sort">
+          <el-input v-model="form.sort" placeholder="请输入排序" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -151,7 +123,7 @@ export default {
       showSearch: true,
       // 总条数
       total: 0,
-      // 房源品牌图片表格数据
+      // 房源图片表格数据
       pictureList: [],
       // 弹出层标题
       title: "",
@@ -161,16 +133,14 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        residenceBrandId: null,
-        picUrl: null,
-        sort: null
+        residenceId: null,
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
-        residenceBrandId: [
-          { required: true, message: "房源品牌Id不能为空", trigger: "blur" }
+        residenceId: [
+          { required: true, message: "房源Id不能为空", trigger: "change" }
         ],
       }
     };
@@ -179,7 +149,7 @@ export default {
     this.getList();
   },
   methods: {
-    /** 查询房源品牌图片列表 */
+    /** 查询房源图片列表 */
     getList() {
       this.loading = true;
       listPicture(this.queryParams).then(response => {
@@ -197,7 +167,7 @@ export default {
     reset() {
       this.form = {
         id: null,
-        residenceBrandId: null,
+        residenceId: null,
         picUrl: null,
         sort: null
       };
@@ -223,7 +193,7 @@ export default {
     handleAdd() {
       this.reset();
       this.open = true;
-      this.title = "添加房源品牌图片";
+      this.title = "添加房源图片";
     },
     /** 修改按钮操作 */
     handleUpdate(row) {
@@ -232,7 +202,7 @@ export default {
       getPicture(id).then(response => {
         this.form = response.data;
         this.open = true;
-        this.title = "修改房源品牌图片";
+        this.title = "修改房源图片";
       });
     },
     /** 提交按钮 */
@@ -258,7 +228,7 @@ export default {
     /** 删除按钮操作 */
     handleDelete(row) {
       const ids = row.id || this.ids;
-      this.$modal.confirm('是否确认删除房源品牌图片编号为"' + ids + '"的数据项？').then(function() {
+      this.$modal.confirm('是否确认删除房源图片编号为"' + ids + '"的数据项？').then(function() {
         return delPicture(ids);
       }).then(() => {
         this.getList();

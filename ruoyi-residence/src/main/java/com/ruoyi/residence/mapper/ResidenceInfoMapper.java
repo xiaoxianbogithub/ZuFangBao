@@ -2,12 +2,13 @@ package com.ruoyi.residence.mapper;
 
 import java.util.List;
 import com.ruoyi.residence.domain.ResidenceInfo;
+import com.ruoyi.residence.domain.ResidencePicture;
 
 /**
  * 房屋基本信息Mapper接口
  * 
- * @author ruoyi
- * @date 2023-10-17
+ * @author climber
+ * @date 2023-10-18
  */
 public interface ResidenceInfoMapper 
 {
@@ -58,4 +59,29 @@ public interface ResidenceInfoMapper
      * @return 结果
      */
     public int deleteResidenceInfoByIds(Long[] ids);
+
+    /**
+     * 批量删除房源图片
+     * 
+     * @param ids 需要删除的数据主键集合
+     * @return 结果
+     */
+    public int deleteResidencePictureByResidenceIds(Long[] ids);
+    
+    /**
+     * 批量新增房源图片
+     * 
+     * @param residencePictureList 房源图片列表
+     * @return 结果
+     */
+    public int batchResidencePicture(List<ResidencePicture> residencePictureList);
+    
+
+    /**
+     * 通过房屋基本信息主键删除房源图片信息
+     * 
+     * @param id 房屋基本信息ID
+     * @return 结果
+     */
+    public int deleteResidencePictureByResidenceId(Long id);
 }

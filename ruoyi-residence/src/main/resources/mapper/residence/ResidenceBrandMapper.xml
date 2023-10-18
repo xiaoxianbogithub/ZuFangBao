@@ -16,6 +16,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createTime"    column="create_time"    />
     </resultMap>
 
+    <resultMap id="ResidenceBrandResidenceBrandPictureResult" type="ResidenceBrand" extends="ResidenceBrandResult">
+        <collection property="residenceBrandPictureList" notNullColumn="sub_id" javaType="java.util.List" resultMap="ResidenceBrandPictureResult" />
+    </resultMap>
+
+    <resultMap type="ResidenceBrandPicture" id="ResidenceBrandPictureResult">
+        <result property="id"    column="sub_id"    />
+        <result property="residenceBrandId"    column="sub_residence_brand_id"    />
+        <result property="picUrl"    column="sub_pic_url"    />
+        <result property="sort"    column="sub_sort"    />
+    </resultMap>
+
     <sql id="selectResidenceBrandVo">
         select id, name, pic_url, description, sort, status, display, deleted, create_time from residence_brand
     </sql>
@@ -24,18 +35,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectResidenceBrandVo"/>
         <where>  
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
-            <if test="picUrl != null  and picUrl != ''"> and pic_url = #{picUrl}</if>
-            <if test="description != null  and description != ''"> and description = #{description}</if>
-            <if test="sort != null "> and sort = #{sort}</if>
+            <if test="description != null  and description != ''"> and description like concat('%', #{description}, '%')</if>
             <if test="status != null  and status != ''"> and status = #{status}</if>
             <if test="display != null "> and display = #{display}</if>
-            <if test="deleted != null "> and deleted = #{deleted}</if>
+            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
         </where>
     </select>
     
-    <select id="selectResidenceBrandById" parameterType="Long" resultMap="ResidenceBrandResult">
-        <include refid="selectResidenceBrandVo"/>
-        where id = #{id}
+    <select id="selectResidenceBrandById" parameterType="Long" resultMap="ResidenceBrandResidenceBrandPictureResult">
+        select a.id, a.name, a.pic_url, a.description, a.sort, a.status, a.display, a.deleted, a.create_time,
+ b.id as sub_id, b.residence_brand_id as sub_residence_brand_id, b.pic_url as sub_pic_url, b.sort as sub_sort
+        from residence_brand a
+        left join residence_brand_picture b on b.residence_brand_id = a.id
+        where a.id = #{id}
     </select>
         
     <insert id="insertResidenceBrand" parameterType="ResidenceBrand" useGeneratedKeys="true" keyProperty="id">
@@ -87,4 +99,22 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
+    
+    <delete id="deleteResidenceBrandPictureByResidenceBrandIds" parameterType="String">
+        delete from residence_brand_picture where residence_brand_id in 
+        <foreach item="residenceBrandId" collection="array" open="(" separator="," close=")">
+            #{residenceBrandId}
+        </foreach>
+    </delete>
+
+    <delete id="deleteResidenceBrandPictureByResidenceBrandId" parameterType="Long">
+        delete from residence_brand_picture where residence_brand_id = #{residenceBrandId}
+    </delete>
+
+    <insert id="batchResidenceBrandPicture">
+        insert into residence_brand_picture( id, residence_brand_id, pic_url, sort) values
+		<foreach item="item" index="index" collection="list" separator=",">
+            ( #{item.id}, #{item.residenceBrandId}, #{item.picUrl}, #{item.sort})
+        </foreach>
+    </insert>
 </mapper>

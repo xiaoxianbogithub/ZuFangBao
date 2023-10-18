@@ -6,8 +6,8 @@ import com.ruoyi.residence.domain.ResidenceLabel;
 /**
  * 房源标签Mapper接口
  * 
- * @author ruoyi
- * @date 2023-10-17
+ * @author climber
+ * @date 2023-10-18
  */
 public interface ResidenceLabelMapper 
 {

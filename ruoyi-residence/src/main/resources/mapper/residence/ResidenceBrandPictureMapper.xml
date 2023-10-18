@@ -18,9 +18,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectResidenceBrandPictureList" parameterType="ResidenceBrandPicture" resultMap="ResidenceBrandPictureResult">
         <include refid="selectResidenceBrandPictureVo"/>
         <where>  
+            <if test="id != null "> and id = #{id}</if>
             <if test="residenceBrandId != null "> and residence_brand_id = #{residenceBrandId}</if>
-            <if test="picUrl != null  and picUrl != ''"> and pic_url = #{picUrl}</if>
-            <if test="sort != null "> and sort = #{sort}</if>
         </where>
     </select>
     

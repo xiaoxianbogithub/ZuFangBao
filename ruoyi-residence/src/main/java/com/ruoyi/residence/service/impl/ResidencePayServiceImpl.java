@@ -10,8 +10,8 @@ import com.ruoyi.residence.service.IResidencePayService;
 /**
  * 房源付款设置Service业务层处理
  * 
- * @author ruoyi
- * @date 2023-10-17
+ * @author climber
+ * @date 2023-10-18
  */
 @Service
 public class ResidencePayServiceImpl implements IResidencePayService 

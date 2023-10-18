@@ -1,30 +1,6 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="用户Id" prop="userId">
-        <el-input
-          v-model="queryParams.userId"
-          placeholder="请输入用户Id"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="房源Id" prop="residenceId">
-        <el-input
-          v-model="queryParams.residenceId"
-          placeholder="请输入房源Id"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="${comment}" prop="sort">
-        <el-input
-          v-model="queryParams.sort"
-          placeholder="请输入${comment}"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
         <el-button icon="el-icon-refresh" size="mini" @click="resetQuery">重置</el-button>
@@ -79,10 +55,15 @@
 
     <el-table v-loading="loading" :data="favoriteList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="${comment}" align="center" prop="id" />
+      <el-table-column label="Id" align="center" prop="id" />
       <el-table-column label="用户Id" align="center" prop="userId" />
       <el-table-column label="房源Id" align="center" prop="residenceId" />
-      <el-table-column label="${comment}" align="center" prop="sort" />
+      <el-table-column label="排序" align="center" prop="sort" />
+      <el-table-column label="创建时间" align="center" prop="createTime" width="180">
+        <template slot-scope="scope">
+          <span>{{ parseTime(scope.row.createTime, '{y}-{m}-{d}') }}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -114,15 +95,6 @@
     <!-- 添加或修改房源收藏对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="用户Id" prop="userId">
-          <el-input v-model="form.userId" placeholder="请输入用户Id" />
-        </el-form-item>
-        <el-form-item label="房源Id" prop="residenceId">
-          <el-input v-model="form.residenceId" placeholder="请输入房源Id" />
-        </el-form-item>
-        <el-form-item label="${comment}" prop="sort">
-          <el-input v-model="form.sort" placeholder="请输入${comment}" />
-        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button type="primary" @click="submitForm">确 定</el-button>
@@ -161,16 +133,13 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        userId: null,
-        residenceId: null,
-        sort: null,
       },
       // 表单参数
       form: {},
       // 表单校验
       rules: {
         userId: [
-          { required: true, message: "用户Id不能为空", trigger: "blur" }
+          { required: true, message: "用户Id不能为空", trigger: "change" }
         ],
         residenceId: [
           { required: true, message: "房源Id不能为空", trigger: "blur" }

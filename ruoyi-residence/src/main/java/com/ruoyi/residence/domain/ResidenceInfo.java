@@ -1,6 +1,7 @@
 package com.ruoyi.residence.domain;
 
 import java.math.BigDecimal;
+import java.util.List;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -9,14 +10,14 @@ import com.ruoyi.common.core.domain.BaseEntity;
 /**
  * 房屋基本信息对象 residence_info
  * 
- * @author ruoyi
- * @date 2023-10-17
+ * @author climber
+ * @date 2023-10-18
  */
 public class ResidenceInfo extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** $column.columnComment */
+    /** ID */
     private Long id;
 
     /** 房源分类id */
@@ -40,15 +41,12 @@ public class ResidenceInfo extends BaseEntity
     private Long payId;
 
     /** 押金金额(押一付一:deposite_mount = price * 1) */
-    @Excel(name = "押金金额(押一付一:deposite_mount = price * 1)")
     private BigDecimal depositeAmount;
 
     /** 需付房租金额(押一付一:pay_mount = price * 1) */
-    @Excel(name = "需付房租金额(押一付一:pay_mount = price * 1)")
     private BigDecimal payAmount;
 
     /** 总金额(押一付一:total_mount = price * 2) */
-    @Excel(name = "总金额(押一付一:total_mount = price * 2)")
     private BigDecimal totalAmount;
 
     /** 水费 */
@@ -71,12 +69,12 @@ public class ResidenceInfo extends BaseEntity
     @Excel(name = "楼层")
     private Long floor;
 
-    /** 是否有电梯  (0:无电梯;1:有电梯) */
-    @Excel(name = "是否有电梯  (0:无电梯;1:有电梯)")
+    /** 是否有电梯 */
+    @Excel(name = "是否有电梯")
     private Long elevator;
 
-    /** 装修  (0:简装;1:精装) */
-    @Excel(name = "装修  (0:简装;1:精装)")
+    /** 装修 */
+    @Excel(name = "装修")
     private String furnish;
 
     /** 房源简介 */
@@ -107,21 +105,22 @@ public class ResidenceInfo extends BaseEntity
     @Excel(name = "浏览量")
     private Long browseCount;
 
-    /** 状态  (-2草稿;-1下架;1上架) */
-    @Excel(name = "状态  (-2草稿;-1下架;1上架)")
+    /** 状态 */
+    @Excel(name = "状态")
     private String status;
 
-    /** 是否删除 (0:未删除;1:已删除) */
-    @Excel(name = "是否删除 (0:未删除;1:已删除)")
+    /** 是否删除 */
     private Long deleted;
 
-    /** 权重 (后面评分可能会用到,用于排序) */
-    @Excel(name = "权重 (后面评分可能会用到,用于排序)")
+    /** 权重 */
     private BigDecimal weights;
 
     /** 排序 */
     @Excel(name = "排序")
     private Long sort;
+
+    /** 房源图片信息 */
+    private List<ResidencePicture> residencePictureList;
 
     public void setId(Long id) 
     {
@@ -367,6 +366,16 @@ public class ResidenceInfo extends BaseEntity
         return sort;
     }
 
+    public List<ResidencePicture> getResidencePictureList()
+    {
+        return residencePictureList;
+    }
+
+    public void setResidencePictureList(List<ResidencePicture> residencePictureList)
+    {
+        this.residencePictureList = residencePictureList;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -401,6 +410,7 @@ public class ResidenceInfo extends BaseEntity
             .append("createTime", getCreateTime())
             .append("updateBy", getUpdateBy())
             .append("updateTime", getUpdateTime())
+            .append("residencePictureList", getResidencePictureList())
             .toString();
     }
 }

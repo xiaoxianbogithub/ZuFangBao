@@ -9,29 +9,15 @@
           @keyup.enter.native="handleQuery"
         />
       </el-form-item>
-      <el-form-item label="${comment}" prop="sort">
-        <el-input
-          v-model="queryParams.sort"
-          placeholder="请输入${comment}"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="0: 隐藏;1:显示" prop="display">
-        <el-input
-          v-model="queryParams.display"
-          placeholder="请输入0: 隐藏;1:显示"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="0:未删除;1:已删除" prop="deleted">
-        <el-input
-          v-model="queryParams.deleted"
-          placeholder="请输入0:未删除;1:已删除"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
+      <el-form-item label="是否可见" prop="display">
+        <el-select v-model="queryParams.display" placeholder="请选择是否可见" clearable>
+          <el-option
+            v-for="dict in dict.type.sys_normal_disable"
+            :key="dict.value"
+            :label="dict.label"
+            :value="dict.value"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" icon="el-icon-search" size="mini" @click="handleQuery">搜索</el-button>
@@ -87,12 +73,15 @@
 
     <el-table v-loading="loading" :data="labelList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="${comment}" align="center" prop="id" />
+      <el-table-column label="ID" align="center" prop="id" />
       <el-table-column label="名称" align="center" prop="name" />
-      <el-table-column label="是否为系统内置  (0:否;1:是)" align="center" prop="systemType" />
-      <el-table-column label="${comment}" align="center" prop="sort" />
-      <el-table-column label="0: 隐藏;1:显示" align="center" prop="display" />
-      <el-table-column label="0:未删除;1:已删除" align="center" prop="deleted" />
+      <el-table-column label="是否为系统内置" align="center" prop="systemType" />
+      <el-table-column label="排序" align="center" prop="sort" />
+      <el-table-column label="是否可见" align="center" prop="display">
+        <template slot-scope="scope">
+          <dict-tag :options="dict.type.sys_normal_disable" :value="scope.row.display"/>
+        </template>
+      </el-table-column>
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -127,14 +116,17 @@
         <el-form-item label="名称" prop="name">
           <el-input v-model="form.name" placeholder="请输入名称" />
         </el-form-item>
-        <el-form-item label="${comment}" prop="sort">
-          <el-input v-model="form.sort" placeholder="请输入${comment}" />
+        <el-form-item label="排序" prop="sort">
+          <el-input v-model="form.sort" placeholder="请输入排序" />
         </el-form-item>
-        <el-form-item label="0: 隐藏;1:显示" prop="display">
-          <el-input v-model="form.display" placeholder="请输入0: 隐藏;1:显示" />
-        </el-form-item>
-        <el-form-item label="0:未删除;1:已删除" prop="deleted">
-          <el-input v-model="form.deleted" placeholder="请输入0:未删除;1:已删除" />
+        <el-form-item label="是否可见" prop="display">
+          <el-radio-group v-model="form.display">
+            <el-radio
+              v-for="dict in dict.type.sys_normal_disable"
+              :key="dict.value"
+              :label="parseInt(dict.value)"
+            >{{dict.label}}</el-radio>
+          </el-radio-group>
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -150,6 +142,7 @@ import { listLabel, getLabel, delLabel, addLabel, updateLabel } from "@/api/resi
 
 export default {
   name: "Label",
+  dicts: ['sys_normal_disable'],
   data() {
     return {
       // 遮罩层
@@ -176,9 +169,7 @@ export default {
         pageSize: 10,
         name: null,
         systemType: null,
-        sort: null,
         display: null,
-        deleted: null
       },
       // 表单参数
       form: {},

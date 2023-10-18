@@ -6,8 +6,8 @@ import com.ruoyi.residence.domain.ResidenceHouseType;
 /**
  * 房源户型设定Service接口
  * 
- * @author ruoyi
- * @date 2023-10-17
+ * @author climber
+ * @date 2023-10-18
  */
 public interface IResidenceHouseTypeService 
 {

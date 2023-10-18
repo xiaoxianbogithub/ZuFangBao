@@ -1,42 +1,10 @@
 <template>
   <div class="app-container">
     <el-form :model="queryParams" ref="queryForm" size="small" :inline="true" v-show="showSearch" label-width="68px">
-      <el-form-item label="${comment}" prop="value">
-        <el-input
-          v-model="queryParams.value"
-          placeholder="请输入${comment}"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
       <el-form-item label="名称" prop="name">
         <el-input
           v-model="queryParams.name"
           placeholder="请输入名称"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="${comment}" prop="sort">
-        <el-input
-          v-model="queryParams.sort"
-          placeholder="请输入${comment}"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="0: 隐藏;1:显示" prop="display">
-        <el-input
-          v-model="queryParams.display"
-          placeholder="请输入0: 隐藏;1:显示"
-          clearable
-          @keyup.enter.native="handleQuery"
-        />
-      </el-form-item>
-      <el-form-item label="0:未删除;1:已删除" prop="deleted">
-        <el-input
-          v-model="queryParams.deleted"
-          placeholder="请输入0:未删除;1:已删除"
           clearable
           @keyup.enter.native="handleQuery"
         />
@@ -95,12 +63,10 @@
 
     <el-table v-loading="loading" :data="payList" @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" align="center" />
-      <el-table-column label="${comment}" align="center" prop="id" />
-      <el-table-column label="${comment}" align="center" prop="value" />
+      <el-table-column label="Id" align="center" prop="id" />
       <el-table-column label="名称" align="center" prop="name" />
-      <el-table-column label="${comment}" align="center" prop="sort" />
-      <el-table-column label="0: 隐藏;1:显示" align="center" prop="display" />
-      <el-table-column label="0:未删除;1:已删除" align="center" prop="deleted" />
+      <el-table-column label="排序" align="center" prop="sort" />
+      <el-table-column label="是否可见" align="center" prop="display" />
       <el-table-column label="操作" align="center" class-name="small-padding fixed-width">
         <template slot-scope="scope">
           <el-button
@@ -132,20 +98,11 @@
     <!-- 添加或修改房源付款设置对话框 -->
     <el-dialog :title="title" :visible.sync="open" width="500px" append-to-body>
       <el-form ref="form" :model="form" :rules="rules" label-width="80px">
-        <el-form-item label="${comment}" prop="value">
-          <el-input v-model="form.value" placeholder="请输入${comment}" />
+        <el-form-item label="值" prop="value">
+          <el-input v-model="form.value" placeholder="请输入值" />
         </el-form-item>
-        <el-form-item label="名称" prop="name">
-          <el-input v-model="form.name" placeholder="请输入名称" />
-        </el-form-item>
-        <el-form-item label="${comment}" prop="sort">
-          <el-input v-model="form.sort" placeholder="请输入${comment}" />
-        </el-form-item>
-        <el-form-item label="0: 隐藏;1:显示" prop="display">
-          <el-input v-model="form.display" placeholder="请输入0: 隐藏;1:显示" />
-        </el-form-item>
-        <el-form-item label="0:未删除;1:已删除" prop="deleted">
-          <el-input v-model="form.deleted" placeholder="请输入0:未删除;1:已删除" />
+        <el-form-item label="排序" prop="sort">
+          <el-input v-model="form.sort" placeholder="请输入排序" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -185,11 +142,8 @@ export default {
       queryParams: {
         pageNum: 1,
         pageSize: 10,
-        value: null,
         name: null,
-        sort: null,
         display: null,
-        deleted: null
       },
       // 表单参数
       form: {},

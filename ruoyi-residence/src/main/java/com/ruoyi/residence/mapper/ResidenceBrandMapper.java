@@ -2,12 +2,13 @@ package com.ruoyi.residence.mapper;
 
 import java.util.List;
 import com.ruoyi.residence.domain.ResidenceBrand;
+import com.ruoyi.residence.domain.ResidenceBrandPicture;
 
 /**
  * 房源品牌Mapper接口
  * 
- * @author ruoyi
- * @date 2023-10-17
+ * @author climber
+ * @date 2023-10-18
  */
 public interface ResidenceBrandMapper 
 {
@@ -58,4 +59,29 @@ public interface ResidenceBrandMapper
      * @return 结果
      */
     public int deleteResidenceBrandByIds(Long[] ids);
+
+    /**
+     * 批量删除房源品牌图片
+     * 
+     * @param ids 需要删除的数据主键集合
+     * @return 结果
+     */
+    public int deleteResidenceBrandPictureByResidenceBrandIds(Long[] ids);
+    
+    /**
+     * 批量新增房源品牌图片
+     * 
+     * @param residenceBrandPictureList 房源品牌图片列表
+     * @return 结果
+     */
+    public int batchResidenceBrandPicture(List<ResidenceBrandPicture> residenceBrandPictureList);
+    
+
+    /**
+     * 通过房源品牌主键删除房源品牌图片信息
+     * 
+     * @param id 房源品牌ID
+     * @return 结果
+     */
+    public int deleteResidenceBrandPictureByResidenceBrandId(Long id);
 }

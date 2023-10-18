@@ -9,13 +9,13 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * 房源图片对象 residence_picture
  * 
  * @author climber
- * @date 2023-10-17
+ * @date 2023-10-18
  */
 public class ResidencePicture extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** $column.columnComment */
+    /** Id */
     private Long id;
 
     /** 房源Id */
@@ -23,11 +23,10 @@ public class ResidencePicture extends BaseEntity
     private Long residenceId;
 
     /** 图片路径 */
-    @Excel(name = "图片路径")
     private String picUrl;
 
-    /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    /** 排序 */
+    @Excel(name = "排序")
     private Long sort;
 
     public void setId(Long id) 

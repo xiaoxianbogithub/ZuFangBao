@@ -24,11 +24,11 @@ import com.ruoyi.common.core.page.TableDataInfo;
 /**
  * 房源品牌图片Controller
  * 
- * @author ruoyi
- * @date 2023-10-17
+ * @author climber
+ * @date 2023-10-18
  */
 @RestController
-@RequestMapping("/residence/picture")
+@RequestMapping("/residence/brandPicture")
 public class ResidenceBrandPictureController extends BaseController
 {
     @Autowired
@@ -37,7 +37,7 @@ public class ResidenceBrandPictureController extends BaseController
     /**
      * 查询房源品牌图片列表
      */
-    @PreAuthorize("@ss.hasPermi('residence:picture:list')")
+    @PreAuthorize("@ss.hasPermi('residence:brandPicture:list')")
     @GetMapping("/list")
     public TableDataInfo list(ResidenceBrandPicture residenceBrandPicture)
     {
@@ -49,7 +49,7 @@ public class ResidenceBrandPictureController extends BaseController
     /**
      * 导出房源品牌图片列表
      */
-    @PreAuthorize("@ss.hasPermi('residence:picture:export')")
+    @PreAuthorize("@ss.hasPermi('residence:brandPicture:export')")
     @Log(title = "房源品牌图片", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, ResidenceBrandPicture residenceBrandPicture)
@@ -62,7 +62,7 @@ public class ResidenceBrandPictureController extends BaseController
     /**
      * 获取房源品牌图片详细信息
      */
-    @PreAuthorize("@ss.hasPermi('residence:picture:query')")
+    @PreAuthorize("@ss.hasPermi('residence:brandPicture:query')")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
@@ -72,7 +72,7 @@ public class ResidenceBrandPictureController extends BaseController
     /**
      * 新增房源品牌图片
      */
-    @PreAuthorize("@ss.hasPermi('residence:picture:add')")
+    @PreAuthorize("@ss.hasPermi('residence:brandPicture:add')")
     @Log(title = "房源品牌图片", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody ResidenceBrandPicture residenceBrandPicture)
@@ -83,7 +83,7 @@ public class ResidenceBrandPictureController extends BaseController
     /**
      * 修改房源品牌图片
      */
-    @PreAuthorize("@ss.hasPermi('residence:picture:edit')")
+    @PreAuthorize("@ss.hasPermi('residence:brandPicture:edit')")
     @Log(title = "房源品牌图片", businessType = BusinessType.UPDATE)
     @PutMapping
     public AjaxResult edit(@RequestBody ResidenceBrandPicture residenceBrandPicture)
@@ -94,7 +94,7 @@ public class ResidenceBrandPictureController extends BaseController
     /**
      * 删除房源品牌图片
      */
-    @PreAuthorize("@ss.hasPermi('residence:picture:remove')")
+    @PreAuthorize("@ss.hasPermi('residence:brandPicture:remove')")
     @Log(title = "房源品牌图片", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     public AjaxResult remove(@PathVariable Long[] ids)

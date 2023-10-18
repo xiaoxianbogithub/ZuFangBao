@@ -19,9 +19,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectResidenceFavoriteList" parameterType="ResidenceFavorite" resultMap="ResidenceFavoriteResult">
         <include refid="selectResidenceFavoriteVo"/>
         <where>  
-            <if test="userId != null "> and user_id = #{userId}</if>
-            <if test="residenceId != null "> and residence_id = #{residenceId}</if>
-            <if test="sort != null "> and sort = #{sort}</if>
         </where>
     </select>
     

@@ -1,5 +1,6 @@
 package com.ruoyi.residence.domain;
 
+import java.util.List;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -9,17 +10,17 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * 房源品牌对象 residence_brand
  * 
  * @author climber
- * @date 2023-10-17
+ * @date 2023-10-18
  */
 public class ResidenceBrand extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** $column.columnComment */
+    /** Id */
     private Long id;
 
-    /** 品牌名称 e.g. 自如,链家 */
-    @Excel(name = "品牌名称 e.g. 自如,链家")
+    /** 品牌名称 */
+    @Excel(name = "品牌名称")
     private String name;
 
     /** 品牌首页图片 */
@@ -30,21 +31,23 @@ public class ResidenceBrand extends BaseEntity
     @Excel(name = "品牌描述")
     private String description;
 
-    /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    /** 排序 */
+    @Excel(name = "排序")
     private Long sort;
 
-    /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    /** 状态 */
+    @Excel(name = "状态")
     private String status;
 
-    /** 0: 隐藏;1:显示 */
-    @Excel(name = "0: 隐藏;1:显示")
+    /** 是否可见 */
+    @Excel(name = "是否可见")
     private Long display;
 
-    /** 0:未删除;1:已删除 */
-    @Excel(name = "0:未删除;1:已删除")
+    /** 是否删除 */
     private Long deleted;
+
+    /** 房源品牌图片信息 */
+    private List<ResidenceBrandPicture> residenceBrandPictureList;
 
     public void setId(Long id) 
     {
@@ -119,6 +122,16 @@ public class ResidenceBrand extends BaseEntity
         return deleted;
     }
 
+    public List<ResidenceBrandPicture> getResidenceBrandPictureList()
+    {
+        return residenceBrandPictureList;
+    }
+
+    public void setResidenceBrandPictureList(List<ResidenceBrandPicture> residenceBrandPictureList)
+    {
+        this.residenceBrandPictureList = residenceBrandPictureList;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -131,6 +144,7 @@ public class ResidenceBrand extends BaseEntity
             .append("display", getDisplay())
             .append("deleted", getDeleted())
             .append("createTime", getCreateTime())
+            .append("residenceBrandPictureList", getResidenceBrandPictureList())
             .toString();
     }
 }

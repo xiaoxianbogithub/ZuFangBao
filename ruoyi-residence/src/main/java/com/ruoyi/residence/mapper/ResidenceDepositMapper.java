@@ -6,8 +6,8 @@ import com.ruoyi.residence.domain.ResidenceDeposit;
 /**
  * 房源押金设置Mapper接口
  * 
- * @author ruoyi
- * @date 2023-10-17
+ * @author climber
+ * @date 2023-10-18
  */
 public interface ResidenceDepositMapper 
 {

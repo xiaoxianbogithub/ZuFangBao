@@ -9,33 +9,32 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * 房源标签对象 residence_label
  * 
  * @author climber
- * @date 2023-10-17
+ * @date 2023-10-18
  */
 public class ResidenceLabel extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** $column.columnComment */
+    /** ID */
     private Long id;
 
     /** 名称 */
     @Excel(name = "名称")
     private String name;
 
-    /** 是否为系统内置  (0:否;1:是) */
-    @Excel(name = "是否为系统内置  (0:否;1:是)")
+    /** 是否为系统内置 */
+    @Excel(name = "是否为系统内置")
     private Long systemType;
 
-    /** $column.columnComment */
-    @Excel(name = "${comment}", readConverterExp = "$column.readConverterExp()")
+    /** 排序 */
+    @Excel(name = "排序")
     private Long sort;
 
-    /** 0: 隐藏;1:显示 */
-    @Excel(name = "0: 隐藏;1:显示")
+    /** 是否可见 */
+    @Excel(name = "是否可见")
     private Long display;
 
-    /** 0:未删除;1:已删除 */
-    @Excel(name = "0:未删除;1:已删除")
+    /** 是否删除 */
     private Long deleted;
 
     public void setId(Long id) 

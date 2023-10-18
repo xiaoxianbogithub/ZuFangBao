@@ -4,6 +4,10 @@ import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import java.util.ArrayList;
+import com.ruoyi.common.utils.StringUtils;
+import org.springframework.transaction.annotation.Transactional;
+import com.ruoyi.residence.domain.ResidencePicture;
 import com.ruoyi.residence.mapper.ResidenceInfoMapper;
 import com.ruoyi.residence.domain.ResidenceInfo;
 import com.ruoyi.residence.service.IResidenceInfoService;
@@ -11,8 +15,8 @@ import com.ruoyi.residence.service.IResidenceInfoService;
 /**
  * 房屋基本信息Service业务层处理
  * 
- * @author ruoyi
- * @date 2023-10-17
+ * @author climber
+ * @date 2023-10-18
  */
 @Service
 public class ResidenceInfoServiceImpl implements IResidenceInfoService 
@@ -50,11 +54,14 @@ public class ResidenceInfoServiceImpl implements IResidenceInfoService
      * @param residenceInfo 房屋基本信息
      * @return 结果
      */
+    @Transactional
     @Override
     public int insertResidenceInfo(ResidenceInfo residenceInfo)
     {
         residenceInfo.setCreateTime(DateUtils.getNowDate());
-        return residenceInfoMapper.insertResidenceInfo(residenceInfo);
+        int rows = residenceInfoMapper.insertResidenceInfo(residenceInfo);
+        insertResidencePicture(residenceInfo);
+        return rows;
     }
 
     /**
@@ -63,10 +70,13 @@ public class ResidenceInfoServiceImpl implements IResidenceInfoService
      * @param residenceInfo 房屋基本信息
      * @return 结果
      */
+    @Transactional
     @Override
     public int updateResidenceInfo(ResidenceInfo residenceInfo)
     {
         residenceInfo.setUpdateTime(DateUtils.getNowDate());
+        residenceInfoMapper.deleteResidencePictureByResidenceId(residenceInfo.getId());
+        insertResidencePicture(residenceInfo);
         return residenceInfoMapper.updateResidenceInfo(residenceInfo);
     }
 
@@ -76,9 +86,11 @@ public class ResidenceInfoServiceImpl implements IResidenceInfoService
      * @param ids 需要删除的房屋基本信息主键
      * @return 结果
      */
+    @Transactional
     @Override
     public int deleteResidenceInfoByIds(Long[] ids)
     {
+        residenceInfoMapper.deleteResidencePictureByResidenceIds(ids);
         return residenceInfoMapper.deleteResidenceInfoByIds(ids);
     }
 
@@ -88,9 +100,35 @@ public class ResidenceInfoServiceImpl implements IResidenceInfoService
      * @param id 房屋基本信息主键
      * @return 结果
      */
+    @Transactional
     @Override
     public int deleteResidenceInfoById(Long id)
     {
+        residenceInfoMapper.deleteResidencePictureByResidenceId(id);
         return residenceInfoMapper.deleteResidenceInfoById(id);
+    }
+
+    /**
+     * 新增房源图片信息
+     * 
+     * @param residenceInfo 房屋基本信息对象
+     */
+    public void insertResidencePicture(ResidenceInfo residenceInfo)
+    {
+        List<ResidencePicture> residencePictureList = residenceInfo.getResidencePictureList();
+        Long id = residenceInfo.getId();
+        if (StringUtils.isNotNull(residencePictureList))
+        {
+            List<ResidencePicture> list = new ArrayList<ResidencePicture>();
+            for (ResidencePicture residencePicture : residencePictureList)
+            {
+                residencePicture.setResidenceId(id);
+                list.add(residencePicture);
+            }
+            if (list.size() > 0)
+            {
+                residenceInfoMapper.batchResidencePicture(list);
+            }
+        }
     }
 }
