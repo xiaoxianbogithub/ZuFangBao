@@ -2,6 +2,8 @@ package com.ruoyi.residence.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.common.annotation.Anonymous;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,7 +39,7 @@ public class ResidenceBrandPictureController extends BaseController
     /**
      * 查询房源品牌图片列表
      */
-    @PreAuthorize("@ss.hasPermi('residence:brandPicture:list')")
+    @Anonymous
     @GetMapping("/list")
     public TableDataInfo list(ResidenceBrandPicture residenceBrandPicture)
     {
@@ -62,7 +64,7 @@ public class ResidenceBrandPictureController extends BaseController
     /**
      * 获取房源品牌图片详细信息
      */
-    @PreAuthorize("@ss.hasPermi('residence:brandPicture:query')")
+    @Anonymous
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
