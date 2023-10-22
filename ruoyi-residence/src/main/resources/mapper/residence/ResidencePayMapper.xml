@@ -14,14 +14,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectResidencePayVo">
-        select id, value, name, sort, display, deleted from residence_pay
+        select id, `value`, `name`, `sort`, `display`, `deleted` from residence_pay
     </sql>
 
     <select id="selectResidencePayList" parameterType="ResidencePay" resultMap="ResidencePayResult">
         <include refid="selectResidencePayVo"/>
         <where>  
-            <if test="name != null  and name != ''"> and name = #{name}</if>
+            <if test="name != null  and name != ''"> and name like concat("%",#{name},"%")</if>
             <if test="display != null "> and display = #{display}</if>
+            <if test="deleted != null "> and deleted = #{deleted}</if>
         </where>
     </select>
     

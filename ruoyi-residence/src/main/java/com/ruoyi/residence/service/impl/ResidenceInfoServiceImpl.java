@@ -2,6 +2,7 @@ package com.ruoyi.residence.service.impl;
 
 import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.residence.domain.VO.ResidenceInfoVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -43,9 +44,13 @@ public class ResidenceInfoServiceImpl implements IResidenceInfoService
      * @return 房屋基本信息
      */
     @Override
-    public List<ResidenceInfo> selectResidenceInfoList(ResidenceInfo residenceInfo)
+    public List<ResidenceInfoVO> selectResidenceInfoList(ResidenceInfo residenceInfo)
     {
-        return residenceInfoMapper.selectResidenceInfoList(residenceInfo);
+        List<ResidenceInfoVO> resultList = new ArrayList<>();
+        List<ResidenceInfo> residenceInfos = residenceInfoMapper.selectResidenceInfoList(residenceInfo);
+
+        return resultList;
+
     }
 
     /**

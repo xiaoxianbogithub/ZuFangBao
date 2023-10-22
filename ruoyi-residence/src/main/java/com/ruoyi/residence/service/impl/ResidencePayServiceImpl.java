@@ -1,6 +1,8 @@
 package com.ruoyi.residence.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.common.utils.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.residence.mapper.ResidencePayMapper;
@@ -52,6 +54,8 @@ public class ResidencePayServiceImpl implements IResidencePayService
     @Override
     public int insertResidencePay(ResidencePay residencePay)
     {
+        String name = NumberUtils.numberToChinese(residencePay.getValue().intValue());
+        residencePay.setName(name);
         return residencePayMapper.insertResidencePay(residencePay);
     }
 
@@ -64,6 +68,8 @@ public class ResidencePayServiceImpl implements IResidencePayService
     @Override
     public int updateResidencePay(ResidencePay residencePay)
     {
+        String name = NumberUtils.numberToChinese(residencePay.getValue().intValue());
+        residencePay.setName(name);
         return residencePayMapper.updateResidencePay(residencePay);
     }
 

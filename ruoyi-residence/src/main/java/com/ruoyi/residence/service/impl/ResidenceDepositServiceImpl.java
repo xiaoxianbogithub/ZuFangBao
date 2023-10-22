@@ -1,6 +1,8 @@
 package com.ruoyi.residence.service.impl;
 
 import java.util.List;
+
+import com.ruoyi.common.utils.NumberUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.residence.mapper.ResidenceDepositMapper;
@@ -52,6 +54,8 @@ public class ResidenceDepositServiceImpl implements IResidenceDepositService
     @Override
     public int insertResidenceDeposit(ResidenceDeposit residenceDeposit)
     {
+        String name = NumberUtils.numberToChinese(residenceDeposit.getValue().intValue());
+        residenceDeposit.setName(name);
         return residenceDepositMapper.insertResidenceDeposit(residenceDeposit);
     }
 
@@ -64,6 +68,8 @@ public class ResidenceDepositServiceImpl implements IResidenceDepositService
     @Override
     public int updateResidenceDeposit(ResidenceDeposit residenceDeposit)
     {
+        String name = NumberUtils.numberToChinese(residenceDeposit.getValue().intValue());
+        residenceDeposit.setName(name);
         return residenceDepositMapper.updateResidenceDeposit(residenceDeposit);
     }
 

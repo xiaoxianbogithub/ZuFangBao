@@ -2,6 +2,8 @@ package com.ruoyi.residence.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.residence.domain.VO.ResidenceInfoVO;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -42,7 +44,7 @@ public class ResidenceInfoController extends BaseController
     public TableDataInfo list(ResidenceInfo residenceInfo)
     {
         startPage();
-        List<ResidenceInfo> list = residenceInfoService.selectResidenceInfoList(residenceInfo);
+        List<ResidenceInfoVO> list = residenceInfoService.selectResidenceInfoList(residenceInfo);
         return getDataTable(list);
     }
 
@@ -54,8 +56,8 @@ public class ResidenceInfoController extends BaseController
     @PostMapping("/export")
     public void export(HttpServletResponse response, ResidenceInfo residenceInfo)
     {
-        List<ResidenceInfo> list = residenceInfoService.selectResidenceInfoList(residenceInfo);
-        ExcelUtil<ResidenceInfo> util = new ExcelUtil<ResidenceInfo>(ResidenceInfo.class);
+        List<ResidenceInfoVO> list = residenceInfoService.selectResidenceInfoList(residenceInfo);
+        ExcelUtil<ResidenceInfoVO> util = new ExcelUtil<ResidenceInfoVO>(ResidenceInfoVO.class);
         util.exportExcel(response, list, "房屋基本信息数据");
     }
 
