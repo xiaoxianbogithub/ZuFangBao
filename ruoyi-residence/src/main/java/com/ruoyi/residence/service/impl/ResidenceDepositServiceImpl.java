@@ -55,7 +55,7 @@ public class ResidenceDepositServiceImpl implements IResidenceDepositService
     public int insertResidenceDeposit(ResidenceDeposit residenceDeposit)
     {
         String name = NumberUtils.numberToChinese(residenceDeposit.getValue().intValue());
-        residenceDeposit.setName(name);
+        residenceDeposit.setName("押"+name);
         return residenceDepositMapper.insertResidenceDeposit(residenceDeposit);
     }
 
@@ -69,7 +69,7 @@ public class ResidenceDepositServiceImpl implements IResidenceDepositService
     public int updateResidenceDeposit(ResidenceDeposit residenceDeposit)
     {
         String name = NumberUtils.numberToChinese(residenceDeposit.getValue().intValue());
-        residenceDeposit.setName(name);
+        residenceDeposit.setName("押"+name);
         return residenceDepositMapper.updateResidenceDeposit(residenceDeposit);
     }
 

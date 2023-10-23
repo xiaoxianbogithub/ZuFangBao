@@ -3,6 +3,7 @@ package com.ruoyi.residence.controller;
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ruoyi.common.annotation.Anonymous;
 import com.ruoyi.residence.domain.VO.ResidenceInfoVO;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,7 @@ public class ResidenceInfoController extends BaseController
     /**
      * 查询房屋基本信息列表
      */
-    @PreAuthorize("@ss.hasPermi('residence:info:list')")
+    @Anonymous
     @GetMapping("/list")
     public TableDataInfo list(ResidenceInfo residenceInfo)
     {

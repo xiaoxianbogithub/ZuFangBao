@@ -55,7 +55,7 @@ public class ResidencePayServiceImpl implements IResidencePayService
     public int insertResidencePay(ResidencePay residencePay)
     {
         String name = NumberUtils.numberToChinese(residencePay.getValue().intValue());
-        residencePay.setName(name);
+        residencePay.setName("付"+name);
         return residencePayMapper.insertResidencePay(residencePay);
     }
 
@@ -69,7 +69,7 @@ public class ResidencePayServiceImpl implements IResidencePayService
     public int updateResidencePay(ResidencePay residencePay)
     {
         String name = NumberUtils.numberToChinese(residencePay.getValue().intValue());
-        residencePay.setName(name);
+        residencePay.setName("付"+name);
         return residencePayMapper.updateResidencePay(residencePay);
     }
 

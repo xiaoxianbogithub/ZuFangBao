@@ -3,9 +3,12 @@ package com.ruoyi.residence.service.impl;
 import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.residence.domain.VO.ResidenceInfoVO;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
+import java.util.stream.Collectors;
+
 import com.ruoyi.common.utils.StringUtils;
 import org.springframework.transaction.annotation.Transactional;
 import com.ruoyi.residence.domain.ResidencePicture;
@@ -46,11 +49,15 @@ public class ResidenceInfoServiceImpl implements IResidenceInfoService
     @Override
     public List<ResidenceInfoVO> selectResidenceInfoList(ResidenceInfo residenceInfo)
     {
-        List<ResidenceInfoVO> resultList = new ArrayList<>();
         List<ResidenceInfo> residenceInfos = residenceInfoMapper.selectResidenceInfoList(residenceInfo);
-
+        List<ResidenceInfoVO> resultList = residenceInfos.stream().map(
+            info -> {
+                ResidenceInfoVO residenceInfoVO = new ResidenceInfoVO();
+                BeanUtils.copyProperties(info,residenceInfoVO);
+                return residenceInfoVO;
+            }
+        ).collect(Collectors.toList());
         return resultList;
-
     }
 
     /**
