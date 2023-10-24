@@ -22,6 +22,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <where>  
             <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
             <if test="display != null "> and display = #{display}</if>
+            <if test="deleted != null "> and deleted = #{deleted}</if>
         </where>
     </select>
     

@@ -1,6 +1,8 @@
 package com.ruoyi.residence.service;
 
 import java.util.List;
+import java.util.Map;
+
 import com.ruoyi.residence.domain.ResidenceInfo;
 import com.ruoyi.residence.domain.VO.ResidenceInfoVO;
 

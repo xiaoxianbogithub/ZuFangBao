@@ -65,7 +65,8 @@ public class ResidenceInfoController extends BaseController
     /**
      * 获取房屋基本信息详细信息
      */
-    @PreAuthorize("@ss.hasPermi('residence:info:query')")
+    //@PreAuthorize("@ss.hasPermi('residence:info:query')")
+    @Anonymous
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
@@ -75,7 +76,8 @@ public class ResidenceInfoController extends BaseController
     /**
      * 新增房屋基本信息
      */
-    @PreAuthorize("@ss.hasPermi('residence:info:add')")
+    //@PreAuthorize("@ss.hasPermi('residence:info:add')")
+    @Anonymous
     @Log(title = "房屋基本信息", businessType = BusinessType.INSERT)
     @PostMapping
     public AjaxResult add(@RequestBody ResidenceInfo residenceInfo)
