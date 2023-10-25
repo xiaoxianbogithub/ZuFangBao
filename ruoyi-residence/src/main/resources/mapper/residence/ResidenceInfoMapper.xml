@@ -23,6 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="furnish"    column="furnish"    />
         <result property="introduction"    column="introduction"    />
         <result property="addressId"    column="address_id"    />
+        <result property="roomNo"    column="room_no"    />
         <result property="addressDetail"    column="address_detail"    />
         <result property="facilities"    column="facilities"    />
         <result property="labels"    column="labels"    />
@@ -50,7 +51,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectResidenceInfoVo">
-        select id, category_id, brand_id, price, deposit_id, pay_id, deposite_amount, pay_amount, total_amount, water_bill, electricity_bill, house_type_id, square, floor, elevator, furnish, introduction, address_id, address_detail, facilities, labels, favorite_count, browse_count, status, deleted, weights, sort, create_by, create_time, update_by, update_time from residence_info
+        select id, category_id, brand_id, price, deposit_id, pay_id, deposite_amount, pay_amount, total_amount, water_bill, electricity_bill, house_type_id, square, floor, elevator, furnish, introduction, address_id, room_no,address_detail, facilities, labels, favorite_count, browse_count, status, deleted, weights, sort, create_by, create_time, update_by, update_time from residence_info
     </sql>
 
     <select id="selectResidenceInfoList" parameterType="ResidenceInfo" resultMap="ResidenceInfoResult">
@@ -67,6 +68,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="elevator != null "> and elevator = #{elevator}</if>
             <if test="furnish != null  and furnish != ''"> and furnish = #{furnish}</if>
             <if test="addressId != null "> and address_id = #{addressId}</if>
+            <if test="roomNo != null and roomNo != '' "> and room_no like concat('%', #{roomNo}, '%')</if>
             <if test="addressDetail != null  and addressDetail != ''"> and address_detail = #{addressDetail}</if>
             <if test="status != null  and status != ''"> and status = #{status}</if>
             <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
@@ -74,7 +76,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     
     <select id="selectResidenceInfoById" parameterType="Long" resultMap="ResidenceInfoResidencePictureResult">
-        select a.id, a.category_id, a.brand_id, a.price, a.deposit_id, a.pay_id, a.deposite_amount, a.pay_amount, a.total_amount, a.water_bill, a.electricity_bill, a.house_type_id, a.square, a.floor, a.elevator, a.furnish, a.introduction, a.address_id, a.address_detail, a.facilities, a.labels, a.favorite_count, a.browse_count, a.status, a.deleted, a.weights, a.sort, a.create_by, a.create_time, a.update_by, a.update_time,
+        select a.id, a.category_id, a.brand_id, a.price, a.deposit_id, a.pay_id, a.deposite_amount, a.pay_amount, a.total_amount, a.water_bill, a.electricity_bill, a.house_type_id, a.square, a.floor, a.elevator, a.furnish, a.introduction, a.address_id, a.room_no,a.address_detail, a.facilities, a.labels, a.favorite_count, a.browse_count, a.status, a.deleted, a.weights, a.sort, a.create_by, a.create_time, a.update_by, a.update_time,
  b.id as sub_id, b.residence_id as sub_residence_id, b.pic_url as sub_pic_url, b.sort as sub_sort
         from residence_info a
         left join residence_picture b on b.residence_id = a.id
@@ -101,6 +103,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="furnish != null">furnish,</if>
             <if test="introduction != null">introduction,</if>
             <if test="addressId != null">address_id,</if>
+            <if test="roomNo != null">room_no,</if>
             <if test="addressDetail != null">address_detail,</if>
             <if test="facilities != null">facilities,</if>
             <if test="labels != null">labels,</if>
@@ -133,6 +136,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="furnish != null">#{furnish},</if>
             <if test="introduction != null">#{introduction},</if>
             <if test="addressId != null">#{addressId},</if>
+            <if test="roomNo != null">#{roomNo},</if>
             <if test="addressDetail != null">#{addressDetail},</if>
             <if test="facilities != null">#{facilities},</if>
             <if test="labels != null">#{labels},</if>
@@ -169,6 +173,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="furnish != null">furnish = #{furnish},</if>
             <if test="introduction != null">introduction = #{introduction},</if>
             <if test="addressId != null">address_id = #{addressId},</if>
+            <if test="roomNo != null">room_no = #{roomNo},</if>
             <if test="addressDetail != null">address_detail = #{addressDetail},</if>
             <if test="facilities != null">facilities = #{facilities},</if>
             <if test="labels != null">labels = #{labels},</if>

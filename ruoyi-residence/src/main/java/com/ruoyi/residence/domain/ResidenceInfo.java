@@ -85,16 +85,19 @@ public class ResidenceInfo extends BaseEntity
     @Excel(name = "房源位置id")
     private Long addressId;
 
+    @Excel(name = "房号")
+    private String roomNo;
+
     /** 详细地址 */
     @Excel(name = "详细地址")
     private String addressDetail;
 
     /** 房源配置JSON(属性数组，JSON 格式, e.g.[{propertId: , valueId: }, {propertId: , valueId: }])  */
-    @Excel(name = "房源配置JSON(属性数组，JSON 格式, e.g.[{propertId: , valueId: }, {propertId: , valueId: }]) ")
+    @Excel(name = "房源配置")
     private String facilities;
 
     /** 房源标签JSON */
-    @Excel(name = "房源标签JSON")
+    @Excel(name = "房源标签")
     private String labels;
 
     /** 收藏量 */
@@ -289,6 +292,14 @@ public class ResidenceInfo extends BaseEntity
         this.addressDetail = addressDetail;
     }
 
+    public String getRoomNo() {
+        return roomNo;
+    }
+
+    public void setRoomNo(String roomNo) {
+        this.roomNo = roomNo;
+    }
+
     public String getAddressDetail() 
     {
         return addressDetail;
@@ -397,6 +408,7 @@ public class ResidenceInfo extends BaseEntity
             .append("furnish", getFurnish())
             .append("introduction", getIntroduction())
             .append("addressId", getAddressId())
+            .append("roomNo", getRoomNo())
             .append("addressDetail", getAddressDetail())
             .append("facilities", getFacilities())
             .append("labels", getLabels())

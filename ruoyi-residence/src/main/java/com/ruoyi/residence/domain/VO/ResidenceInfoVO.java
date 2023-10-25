@@ -87,6 +87,9 @@ public class ResidenceInfoVO extends BaseEntity {
     @Excel(name = "房源位置id")
     private Long addressId;
 
+    @Excel(name = "房号")
+    private String roomNo;
+
     /** 详细地址 */
     @Excel(name = "详细地址")
     private String addressDetail;
@@ -292,6 +295,14 @@ public class ResidenceInfoVO extends BaseEntity {
         this.addressId = addressId;
     }
 
+    public String getRoomNo() {
+        return roomNo;
+    }
+
+    public void setRoomNo(String roomNo) {
+        this.roomNo = roomNo;
+    }
+
     public String getAddressDetail() {
         return addressDetail;
     }
@@ -396,6 +407,7 @@ public class ResidenceInfoVO extends BaseEntity {
                 ", furnish='" + furnish + '\'' +
                 ", introduction='" + introduction + '\'' +
                 ", addressId=" + addressId +
+                ", roomNo='" + roomNo + '\'' +
                 ", addressDetail='" + addressDetail + '\'' +
                 ", facilities='" + facilities + '\'' +
                 ", labels='" + labels + '\'' +
