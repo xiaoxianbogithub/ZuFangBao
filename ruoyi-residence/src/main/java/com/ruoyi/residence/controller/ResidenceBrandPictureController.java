@@ -4,6 +4,8 @@ import java.util.List;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.common.annotation.Anonymous;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +31,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * @author climber
  * @date 2023-10-18
  */
+@Api("房源品牌图片")
 @RestController
 @RequestMapping("/residence/brandPicture")
 public class ResidenceBrandPictureController extends BaseController
@@ -41,6 +44,7 @@ public class ResidenceBrandPictureController extends BaseController
      */
     @Anonymous
     @GetMapping("/list")
+    @ApiOperation("查询房源品牌图片列表")
     public TableDataInfo list(ResidenceBrandPicture residenceBrandPicture)
     {
         startPage();
@@ -66,6 +70,7 @@ public class ResidenceBrandPictureController extends BaseController
      */
     @Anonymous
     @GetMapping(value = "/{id}")
+    @ApiOperation("获取房源品牌图片详细信息")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
         return success(residenceBrandPictureService.selectResidenceBrandPictureById(id));
@@ -77,6 +82,7 @@ public class ResidenceBrandPictureController extends BaseController
     @PreAuthorize("@ss.hasPermi('residence:brandPicture:add')")
     @Log(title = "房源品牌图片", businessType = BusinessType.INSERT)
     @PostMapping
+    @ApiOperation("新增房源品牌图片")
     public AjaxResult add(@RequestBody ResidenceBrandPicture residenceBrandPicture)
     {
         return toAjax(residenceBrandPictureService.insertResidenceBrandPicture(residenceBrandPicture));
@@ -88,6 +94,7 @@ public class ResidenceBrandPictureController extends BaseController
     @PreAuthorize("@ss.hasPermi('residence:brandPicture:edit')")
     @Log(title = "房源品牌图片", businessType = BusinessType.UPDATE)
     @PutMapping
+    @ApiOperation("修改房源品牌图片")
     public AjaxResult edit(@RequestBody ResidenceBrandPicture residenceBrandPicture)
     {
         return toAjax(residenceBrandPictureService.updateResidenceBrandPicture(residenceBrandPicture));
@@ -99,6 +106,7 @@ public class ResidenceBrandPictureController extends BaseController
     @PreAuthorize("@ss.hasPermi('residence:brandPicture:remove')")
     @Log(title = "房源品牌图片", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
+    @ApiOperation("删除房源品牌图片")
     public AjaxResult remove(@PathVariable Long[] ids)
     {
         return toAjax(residenceBrandPictureService.deleteResidenceBrandPictureByIds(ids));

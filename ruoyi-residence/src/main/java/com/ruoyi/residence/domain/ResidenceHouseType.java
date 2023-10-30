@@ -1,5 +1,7 @@
 package com.ruoyi.residence.domain;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -11,6 +13,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * @author climber
  * @date 2023-10-18
  */
+@ApiModel(description = "房源户型设置")
 public class ResidenceHouseType extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -20,14 +23,17 @@ public class ResidenceHouseType extends BaseEntity
 
     /** 名称 */
     @Excel(name = "名称")
+    @ApiModelProperty(value = "名称",required = true)
     private String name;
 
     /** 排序 */
     @Excel(name = "排序")
+    @ApiModelProperty(value = "排序",required = true)
     private Long sort;
 
     /** 是否可见 */
     @Excel(name = "是否可见")
+    @ApiModelProperty(value = "排序",required = true)
     private Long display;
 
     /** 是否删除 */

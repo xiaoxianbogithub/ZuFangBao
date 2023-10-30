@@ -2,6 +2,9 @@ package com.ruoyi.residence.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +30,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * @author climber
  * @date 2023-10-18
  */
+@Api("房源图片")
 @RestController
 @RequestMapping("/residence/picture")
 public class ResidencePictureController extends BaseController
@@ -39,6 +43,7 @@ public class ResidencePictureController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('residence:picture:list')")
     @GetMapping("/list")
+    @ApiOperation("查询房源图片列表")
     public TableDataInfo list(ResidencePicture residencePicture)
     {
         startPage();
@@ -64,6 +69,7 @@ public class ResidencePictureController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('residence:picture:query')")
     @GetMapping(value = "/{id}")
+    @ApiOperation("获取房源图片详细信息")
     public AjaxResult getInfo(@PathVariable("id") Long id)
     {
         return success(residencePictureService.selectResidencePictureById(id));
@@ -75,6 +81,7 @@ public class ResidencePictureController extends BaseController
     @PreAuthorize("@ss.hasPermi('residence:picture:add')")
     @Log(title = "房源图片", businessType = BusinessType.INSERT)
     @PostMapping
+    @ApiOperation("新增房源图片")
     public AjaxResult add(@RequestBody ResidencePicture residencePicture)
     {
         return toAjax(residencePictureService.insertResidencePicture(residencePicture));
@@ -86,6 +93,7 @@ public class ResidencePictureController extends BaseController
     @PreAuthorize("@ss.hasPermi('residence:picture:edit')")
     @Log(title = "房源图片", businessType = BusinessType.UPDATE)
     @PutMapping
+    @ApiOperation("修改房源图片")
     public AjaxResult edit(@RequestBody ResidencePicture residencePicture)
     {
         return toAjax(residencePictureService.updateResidencePicture(residencePicture));
@@ -97,6 +105,7 @@ public class ResidencePictureController extends BaseController
     @PreAuthorize("@ss.hasPermi('residence:picture:remove')")
     @Log(title = "房源图片", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
+    @ApiOperation("删除房源图片")
     public AjaxResult remove(@PathVariable Long[] ids)
     {
         return toAjax(residencePictureService.deleteResidencePictureByIds(ids));

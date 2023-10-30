@@ -2,6 +2,8 @@ package com.ruoyi.residence.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import io.swagger.annotations.Api;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +29,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  * @author climber
  * @date 2023-10-18
  */
+@Api("房源分类")
 @RestController
 @RequestMapping("/residence/category")
 public class ResidenceCategoryController extends BaseController

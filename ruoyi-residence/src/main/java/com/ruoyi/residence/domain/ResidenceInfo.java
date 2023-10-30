@@ -2,6 +2,9 @@ package com.ruoyi.residence.domain;
 
 import java.math.BigDecimal;
 import java.util.List;
+
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -13,6 +16,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * @author climber
  * @date 2023-10-18
  */
+@ApiModel(description = "房源基本信息")
 public class ResidenceInfo extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
@@ -22,22 +26,27 @@ public class ResidenceInfo extends BaseEntity
 
     /** 房源分类id */
     @Excel(name = "房源分类id")
+    @ApiModelProperty(value = "房源分类Id",required = true)
     private Long categoryId;
 
     /** 房源品牌id */
     @Excel(name = "房源品牌id")
+    @ApiModelProperty(value = "房源品牌id",required = true)
     private Long brandId;
 
     /** 价格 */
     @Excel(name = "价格")
+    @ApiModelProperty(value = "价格",required = true)
     private BigDecimal price;
 
     /** 押金设置id */
     @Excel(name = "押金设置id")
+    @ApiModelProperty(value = "押金设置id",required = true)
     private Long depositId;
 
     /** 付款设置id */
     @Excel(name = "付款设置id")
+    @ApiModelProperty(value = "付款设置id",required = true)
     private Long payId;
 
     /** 押金金额(押一付一:deposite_mount = price * 1) */
@@ -51,53 +60,66 @@ public class ResidenceInfo extends BaseEntity
 
     /** 水费 */
     @Excel(name = "水费")
+    @ApiModelProperty(value = "水费",required = true)
     private BigDecimal waterBill;
 
     /** 电费 */
     @Excel(name = "电费")
+    @ApiModelProperty(value = "电费",required = true)
     private BigDecimal electricityBill;
 
     /** 户型设定id */
     @Excel(name = "户型设定id")
+    @ApiModelProperty(value = "户型设定id",required = true)
     private Long houseTypeId;
 
     /** 面积 */
     @Excel(name = "面积")
+    @ApiModelProperty(value = "面积",required = true)
     private BigDecimal square;
 
     /** 楼层 */
     @Excel(name = "楼层")
+    @ApiModelProperty(value = "楼层",required = true)
     private Long floor;
 
     /** 是否有电梯 */
     @Excel(name = "是否有电梯")
+    @ApiModelProperty(value = "是否有电梯(0:无电梯;1:有电梯)",required = true)
     private Long elevator;
 
     /** 装修 */
     @Excel(name = "装修")
+    @ApiModelProperty(value = "装修(0:简装;1:精装)",required = true)
     private String furnish;
 
     /** 房源简介 */
     @Excel(name = "房源简介")
+    @ApiModelProperty(value = "房源简介",required = true)
     private String introduction;
 
     /** 房源位置id */
     @Excel(name = "房源位置id")
+    @ApiModelProperty(value = "房源位置id",required = true)
     private Long addressId;
 
     @Excel(name = "房号")
+    @ApiModelProperty(value = "房号",required = true)
     private String roomNo;
 
     /** 详细地址 */
     @Excel(name = "详细地址")
+    @ApiModelProperty(value = "详细地址",required = true)
     private String addressDetail;
 
     /** 房源配置JSON(属性数组，JSON 格式, e.g.[{propertId: , valueId: }, {propertId: , valueId: }])  */
     @Excel(name = "房源配置")
+    @ApiModelProperty(value = "房源配置(配置Id)",required = true)
     private String facilities;
 
     /** 房源标签JSON */
     @Excel(name = "房源标签")
+    @ApiModelProperty(value = "房源标签(标签Id)",required = true)
     private String labels;
 
     /** 收藏量 */
@@ -110,19 +132,23 @@ public class ResidenceInfo extends BaseEntity
 
     /** 状态 */
     @Excel(name = "状态")
+    @ApiModelProperty(value = "状态(-2草稿;-1下架;1上架,0待审核;2已审核)",required = true)
     private String status;
 
     /** 是否删除 */
     private Long deleted;
 
     /** 权重 */
+    @ApiModelProperty(value = "权重")
     private BigDecimal weights;
 
     /** 排序 */
     @Excel(name = "排序")
+    @ApiModelProperty(value = "排序",required = true)
     private Long sort;
 
     /** 房源图片信息 */
+    @ApiModelProperty(value = "房源图片信息")
     private List<ResidencePicture> residencePictureList;
 
     public void setId(Long id) 

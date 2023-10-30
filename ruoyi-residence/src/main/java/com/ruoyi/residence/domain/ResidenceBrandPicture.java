@@ -1,5 +1,7 @@
 package com.ruoyi.residence.domain;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -11,23 +13,28 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * @author climber
  * @date 2023-10-18
  */
+@ApiModel(description = "房源品牌图片")
 public class ResidenceBrandPicture extends BaseEntity
 {
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 4558018970382792267L;
     /** Id */
+    @ApiModelProperty(value = "id")
     private Long id;
 
     /** 房源品牌Id */
     @Excel(name = "房源品牌Id")
+    @ApiModelProperty(value = "绑定的房源品牌Id")
     private Long residenceBrandId;
 
     /** 图片路径 */
     @Excel(name = "图片路径")
+    @ApiModelProperty(value = "图片路径")
     private String picUrl;
 
     /** 排序 */
     @Excel(name = "排序")
+    @ApiModelProperty(value = "排序")
     private Long sort;
 
     public void setId(Long id) 

@@ -41,7 +41,7 @@ public class ResidenceBrandController extends BaseController
     /**
      * 查询房源品牌列表
      */
-    @ApiOperation("查询房源品牌列表")
+    @ApiOperation("获取房源品牌列表")
     @PreAuthorize("@ss.hasPermi('residence:brand:list')")
     @GetMapping("/list")
     public TableDataInfo list(ResidenceBrand residenceBrand)
