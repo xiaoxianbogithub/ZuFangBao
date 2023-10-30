@@ -2,6 +2,9 @@ package com.ruoyi.residence.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +32,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  */
 @RestController
 @RequestMapping("/residence/brand")
+@Api("房源产品")
 public class ResidenceBrandController extends BaseController
 {
     @Autowired
@@ -37,6 +41,7 @@ public class ResidenceBrandController extends BaseController
     /**
      * 查询房源品牌列表
      */
+    @ApiOperation("查询房源品牌列表")
     @PreAuthorize("@ss.hasPermi('residence:brand:list')")
     @GetMapping("/list")
     public TableDataInfo list(ResidenceBrand residenceBrand)
@@ -62,6 +67,7 @@ public class ResidenceBrandController extends BaseController
     /**
      * 获取房源品牌详细信息
      */
+    @ApiOperation("查询房源品牌详细信息")
     @PreAuthorize("@ss.hasPermi('residence:brand:query')")
     @GetMapping(value = "/{id}")
     public AjaxResult getInfo(@PathVariable("id") Long id)
