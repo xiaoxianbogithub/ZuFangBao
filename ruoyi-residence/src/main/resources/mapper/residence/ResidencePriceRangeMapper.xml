@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.residence.mapper.ResidencePriceRangeMapper">
+    
+    <resultMap type="ResidencePriceRange" id="ResidencePriceRangeResult">
+        <result property="id"    column="id"    />
+        <result property="minPrice"    column="min_price"    />
+        <result property="maxPrice"    column="max_price"    />
+        <result property="sort"    column="sort"    />
+    </resultMap>
+
+    <sql id="selectResidencePriceRangeVo">
+        select id, min_price, max_price, sort from residence_price_range
+    </sql>
+
+    <select id="selectResidencePriceRangeList" parameterType="ResidencePriceRange" resultMap="ResidencePriceRangeResult">
+        <include refid="selectResidencePriceRangeVo"/>
+        <where>  
+            <if test="minPrice != null "> and min_price = #{minPrice}</if>
+            <if test="maxPrice != null "> and max_price = #{maxPrice}</if>
+            <if test="sort != null "> and sort = #{sort}</if>
+        </where>
+    </select>
+    
+    <select id="selectResidencePriceRangeById" parameterType="Long" resultMap="ResidencePriceRangeResult">
+        <include refid="selectResidencePriceRangeVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertResidencePriceRange" parameterType="ResidencePriceRange" useGeneratedKeys="true" keyProperty="id">
+        insert into residence_price_range
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="minPrice != null">min_price,</if>
+            <if test="maxPrice != null">max_price,</if>
+            <if test="sort != null">sort,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="minPrice != null">#{minPrice},</if>
+            <if test="maxPrice != null">#{maxPrice},</if>
+            <if test="sort != null">#{sort},</if>
+         </trim>
+    </insert>
+
+    <update id="updateResidencePriceRange" parameterType="ResidencePriceRange">
+        update residence_price_range
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="minPrice != null">min_price = #{minPrice},</if>
+            <if test="maxPrice != null">max_price = #{maxPrice},</if>
+            <if test="sort != null">sort = #{sort},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteResidencePriceRangeById" parameterType="Long">
+        delete from residence_price_range where id = #{id}
+    </delete>
+
+    <delete id="deleteResidencePriceRangeByIds" parameterType="String">
+        delete from residence_price_range where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

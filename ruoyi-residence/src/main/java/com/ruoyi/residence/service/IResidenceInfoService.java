@@ -20,7 +20,7 @@ public interface IResidenceInfoService
      * @param id 房屋基本信息主键
      * @return 房屋基本信息
      */
-    public ResidenceInfo selectResidenceInfoById(Long id);
+    public ResidenceInfoVO selectResidenceInfoById(Long id);
 
     /**
      * 查询房屋基本信息列表

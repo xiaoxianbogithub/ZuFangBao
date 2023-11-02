@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ruoyi.common.annotation.Anonymous;
+import com.ruoyi.common.domain.AjaxFile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,12 +86,12 @@ public class CommonController
             // 上传并返回新文件名称
             String fileName = FileUploadUtils.upload(filePath, file);
             String url = serverConfig.getUrl() + fileName;
-            AjaxResult ajax = AjaxResult.success();
-            ajax.put("url", url);
-            ajax.put("fileName", fileName);
-            ajax.put("newFileName", FileUtils.getName(fileName));
-            ajax.put("originalFilename", file.getOriginalFilename());
-            return ajax;
+            AjaxFile ajaxFile = new AjaxFile();
+            ajaxFile.setUrl(url);
+            ajaxFile.setFileName(fileName);
+            ajaxFile.setNewFileName(FileUtils.getName(fileName));
+            ajaxFile.setOriginalFilename(file.getOriginalFilename());
+            return AjaxResult.success(ajaxFile);
         }
         catch (Exception e)
         {
@@ -122,12 +123,12 @@ public class CommonController
                 newFileNames.add(FileUtils.getName(fileName));
                 originalFilenames.add(file.getOriginalFilename());
             }
-            AjaxResult ajax = AjaxResult.success();
-            ajax.put("urls", StringUtils.join(urls, FILE_DELIMETER));
-            ajax.put("fileNames", StringUtils.join(fileNames, FILE_DELIMETER));
-            ajax.put("newFileNames", StringUtils.join(newFileNames, FILE_DELIMETER));
-            ajax.put("originalFilenames", StringUtils.join(originalFilenames, FILE_DELIMETER));
-            return ajax;
+            AjaxFile ajaxFile = new AjaxFile();
+            ajaxFile.setUrl(StringUtils.join(urls, FILE_DELIMETER));
+            ajaxFile.setFileName(StringUtils.join(fileNames, FILE_DELIMETER));
+            ajaxFile.setNewFileName(StringUtils.join(newFileNames, FILE_DELIMETER));
+            ajaxFile.setOriginalFilename(StringUtils.join(originalFilenames, FILE_DELIMETER));
+            return AjaxResult.success(ajaxFile);
         }
         catch (Exception e)
         {

@@ -14,7 +14,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * @date 2023-10-18
  */
 @ApiModel(description = "房源户型设置")
-public class ResidenceHouseType extends BaseEntity
+public class ResidenceHouseType
 {
     private static final long serialVersionUID = 1L;
 

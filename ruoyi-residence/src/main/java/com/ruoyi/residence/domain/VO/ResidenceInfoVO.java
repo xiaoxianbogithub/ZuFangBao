@@ -3,6 +3,7 @@ package com.ruoyi.residence.domain.VO;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 import com.ruoyi.residence.domain.ResidencePicture;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -22,6 +23,11 @@ public class ResidenceInfoVO extends BaseEntity {
     private String categoryName;
 
     /** 房源品牌id */
+    @Excel(name = "房源品牌id")
+    @ApiModelProperty(value = "房源品牌id",required = true)
+    private Long brandId;
+
+    /** 房源品牌id */
     @Excel(name = "房源品牌")
     private String brandName;
 
@@ -32,8 +38,11 @@ public class ResidenceInfoVO extends BaseEntity {
     @Excel(name = "押金设置id")
     private Long depositId;
 
-    @Excel(name = "付款设置id")
+    private String depositName;
+
     private Long payId;
+
+    private String payName;
 
     /** 付款设置id */
     @Excel(name = "压几付几")
@@ -71,11 +80,16 @@ public class ResidenceInfoVO extends BaseEntity {
     @Excel(name = "楼层")
     private Long floor;
 
-    /** 是否有电梯 */
-    @Excel(name = "是否有电梯")
-    private Long elevator;
+    /** 朝向 */
+    @Excel(name = "朝向")
+    @ApiModelProperty(value = "朝向",required = true)
+    private String towards;
 
-    /** 装修 */
+    /** 是否有电梯 (0:无电梯;1:有电梯) */
+    @Excel(name = "是否有电梯")
+    private Byte elevator;
+
+    /** 装修 (0:简装;1:精装) */
     @Excel(name = "装修")
     private String furnish;
 
@@ -115,7 +129,7 @@ public class ResidenceInfoVO extends BaseEntity {
     private String status;
 
     /** 是否删除 */
-    private Long deleted;
+    private Byte deleted;
 
     /** 权重 */
     private BigDecimal weights;
@@ -123,6 +137,10 @@ public class ResidenceInfoVO extends BaseEntity {
     /** 排序 */
     @Excel(name = "排序")
     private Long sort;
+
+    private Long createUserId;
+
+    private Long updateUserId;
 
     /** 房源图片信息 */
     private List<ResidencePicture> residencePictureList;
@@ -263,11 +281,11 @@ public class ResidenceInfoVO extends BaseEntity {
         this.floor = floor;
     }
 
-    public Long getElevator() {
+    public Byte getElevator() {
         return elevator;
     }
 
-    public void setElevator(Long elevator) {
+    public void setElevator(Byte elevator) {
         this.elevator = elevator;
     }
 
@@ -351,11 +369,11 @@ public class ResidenceInfoVO extends BaseEntity {
         this.status = status;
     }
 
-    public Long getDeleted() {
+    public Byte getDeleted() {
         return deleted;
     }
 
-    public void setDeleted(Long deleted) {
+    public void setDeleted(Byte deleted) {
         this.deleted = deleted;
     }
 
@@ -371,8 +389,56 @@ public class ResidenceInfoVO extends BaseEntity {
         return sort;
     }
 
+    public Long getBrandId() {
+        return brandId;
+    }
+
+    public void setBrandId(Long brandId) {
+        this.brandId = brandId;
+    }
+
+    public String getDepositName() {
+        return depositName;
+    }
+
+    public void setDepositName(String depositName) {
+        this.depositName = depositName;
+    }
+
+    public String getPayName() {
+        return payName;
+    }
+
+    public void setPayName(String payName) {
+        this.payName = payName;
+    }
+
+    public String getTowards() {
+        return towards;
+    }
+
+    public void setTowards(String towards) {
+        this.towards = towards;
+    }
+
     public void setSort(Long sort) {
         this.sort = sort;
+    }
+
+    public Long getCreateUserId() {
+        return createUserId;
+    }
+
+    public void setCreateUserId(Long createUserId) {
+        this.createUserId = createUserId;
+    }
+
+    public Long getUpdateUserId() {
+        return updateUserId;
+    }
+
+    public void setUpdateUserId(Long updateUserId) {
+        this.updateUserId = updateUserId;
     }
 
     public List<ResidencePicture> getResidencePictureList() {
@@ -389,10 +455,13 @@ public class ResidenceInfoVO extends BaseEntity {
                 "id=" + id +
                 ", categoryId=" + categoryId +
                 ", categoryName='" + categoryName + '\'' +
+                ", brandId=" + brandId +
                 ", brandName='" + brandName + '\'' +
                 ", price=" + price +
                 ", depositId=" + depositId +
+                ", depositName='" + depositName + '\'' +
                 ", payId=" + payId +
+                ", payName='" + payName + '\'' +
                 ", depositPay='" + depositPay + '\'' +
                 ", depositeAmount=" + depositeAmount +
                 ", payAmount=" + payAmount +
@@ -403,6 +472,7 @@ public class ResidenceInfoVO extends BaseEntity {
                 ", houseTypeName='" + houseTypeName + '\'' +
                 ", square=" + square +
                 ", floor=" + floor +
+                ", towards='" + towards + '\'' +
                 ", elevator=" + elevator +
                 ", furnish='" + furnish + '\'' +
                 ", introduction='" + introduction + '\'' +
@@ -417,6 +487,8 @@ public class ResidenceInfoVO extends BaseEntity {
                 ", deleted=" + deleted +
                 ", weights=" + weights +
                 ", sort=" + sort +
+                ", createUserId=" + createUserId +
+                ", updateUserId=" + updateUserId +
                 ", residencePictureList=" + residencePictureList +
                 '}';
     }

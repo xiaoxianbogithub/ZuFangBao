@@ -14,7 +14,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * @date 2023-10-18
  */
 @ApiModel("房源标签")
-public class ResidenceLabel extends BaseEntity
+public class ResidenceLabel
 {
     private static final long serialVersionUID = 1L;
 

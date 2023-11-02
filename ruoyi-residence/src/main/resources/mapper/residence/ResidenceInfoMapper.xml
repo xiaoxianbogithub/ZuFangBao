@@ -19,6 +19,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="houseTypeId"    column="house_type_id"    />
         <result property="square"    column="square"    />
         <result property="floor"    column="floor"    />
+        <result property="towards"    column="towards"    />
         <result property="elevator"    column="elevator"    />
         <result property="furnish"    column="furnish"    />
         <result property="introduction"    column="introduction"    />
@@ -33,8 +34,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="deleted"    column="deleted"    />
         <result property="weights"    column="weights"    />
         <result property="sort"    column="sort"    />
+        <result property="createUserId"    column="create_user_id"    />
         <result property="createBy"    column="create_by"    />
         <result property="createTime"    column="create_time"    />
+        <result property="updateUserId"    column="update_user_id"    />
         <result property="updateBy"    column="update_by"    />
         <result property="updateTime"    column="update_time"    />
     </resultMap>
@@ -45,42 +48,72 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <resultMap type="ResidencePicture" id="ResidencePictureResult">
         <result property="id"    column="sub_id"    />
-        <result property="residenceId"    column="sub_residence_id"    />
         <result property="picUrl"    column="sub_pic_url"    />
         <result property="sort"    column="sub_sort"    />
     </resultMap>
 
-    <sql id="selectResidenceInfoVo">
-        select id, category_id, brand_id, price, deposit_id, pay_id, deposite_amount, pay_amount, total_amount, water_bill, electricity_bill, house_type_id, square, floor, elevator, furnish, introduction, address_id, room_no,address_detail, facilities, labels, favorite_count, browse_count, status, deleted, weights, sort, create_by, create_time, update_by, update_time from residence_info
-    </sql>
+    <resultMap id="ResidenceInfoVOResult" type="ResidenceInfoVO" extends="ResidenceInfoResult">
+        <result property="categoryName"    column="category_name"    />
+        <result property="brandName"    column="brand_name"    />
+        <result property="houseTypeName"    column="house_type_name"    />
+        <result property="depositName"    column="deposit_name"    />
+        <result property="payName"    column="pay_name"    />
+    </resultMap>
 
-    <select id="selectResidenceInfoList" parameterType="ResidenceInfo" resultMap="ResidenceInfoResult">
-        <include refid="selectResidenceInfoVo"/>
-        <where>  
-            <if test="categoryId != null "> and category_id = #{categoryId}</if>
-            <if test="brandId != null "> and brand_id = #{brandId}</if>
-            <if test="price != null "> and price = #{price}</if>
-            <if test="waterBill != null "> and water_bill = #{waterBill}</if>
-            <if test="electricityBill != null "> and electricity_bill = #{electricityBill}</if>
-            <if test="houseTypeId != null "> and house_type_id = #{houseTypeId}</if>
-            <if test="square != null "> and square = #{square}</if>
-            <if test="floor != null "> and floor = #{floor}</if>
-            <if test="elevator != null "> and elevator = #{elevator}</if>
-            <if test="furnish != null  and furnish != ''"> and furnish = #{furnish}</if>
-            <if test="addressId != null "> and address_id = #{addressId}</if>
-            <if test="roomNo != null and roomNo != '' "> and room_no like concat('%', #{roomNo}, '%')</if>
-            <if test="addressDetail != null  and addressDetail != ''"> and address_detail = #{addressDetail}</if>
-            <if test="status != null  and status != ''"> and status = #{status}</if>
-            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
+    <resultMap id="ResidenceInfoVOResidencePictureResult" type="ResidenceInfoVO" extends="ResidenceInfoVOResult">
+        <collection property="residencePictureList" notNullColumn="sub_id" javaType="java.util.List" resultMap="ResidencePictureResult" />
+    </resultMap>
+
+    <select id="selectResidenceInfoList" parameterType="ResidenceInfoVO" resultMap="ResidenceInfoVOResult">
+<!--        select ri.id, category_id, brand_id, price, deposit_id, pay_id, deposite_amount, pay_amount, total_amount, water_bill, electricity_bill, house_type_id,-->
+<!--        square, floor, towards, elevator, furnish, introduction, address_id, room_no,address_detail, facilities, labels, favorite_count, browse_count, status, deleted,-->
+<!--        weights, sort, create_by, create_time, update_by, update_time-->
+<!--        from residence_info ri-->
+        select  ri.id, ri.category_id, ri.brand_id, ri.price, ri.deposit_id, ri.pay_id, ri.deposite_amount, ri.pay_amount, ri.total_amount, ri.water_bill, ri.electricity_bill, ri.house_type_id,square, ri.floor, ri.towards, ri.elevator, ri.furnish, ri.introduction, ri.address_id, ri.room_no,ri.address_detail, ri.facilities, ri.labels, ri.favorite_count, ri.browse_count, ri.status, ri.deleted, ri.weights, ri.sort, ri.create_user_id, ri.create_by, ri.create_time, ri.update_user_id, ri.update_by, ri.update_time,
+                rb.`name` brand_name, rc.`name` category_name, rht.`name` house_type_name, rd.`name` deposit_name, rp.`name` pay_name
+        from residence_info ri
+        left join residence_brand rb on ri.brand_id = rb.id
+        left join residence_category rc on ri.category_id = rc.id
+        left join residence_house_type rht on ri.house_type_id = rht.id
+        left join residence_deposit rd on ri.deposit_id = rd.id
+        left join residence_pay rp on ri.pay_id = rp.id
+        <where>
+            <if test="id != null "> and ri.category_id = #{id}</if>
+            <if test="categoryId != null "> and ri.category_id = #{categoryId}</if>
+            <if test="brandId != null "> and ri.brand_id = #{brandId}</if>
+            <if test="price != null "> and ri.price = #{price}</if>
+            <if test="waterBill != null "> and ri.water_bill = #{waterBill}</if>
+            <if test="electricityBill != null "> and ri.electricity_bill = #{electricityBill}</if>
+            <if test="houseTypeId != null "> and ri.house_type_id = #{houseTypeId}</if>
+            <if test="square != null "> and ri.square = #{square}</if>
+            <if test="floor != null "> and ri.floor = #{floor}</if>
+            <if test="towards != null "> and ri.towards = #{towards}</if>
+            <if test="elevator != null "> and ri.elevator = #{elevator}</if>
+            <if test="furnish != null  and furnish != ''"> and ri.furnish = #{furnish}</if>
+            <if test="addressId != null "> and ri.address_id = #{addressId}</if>
+            <if test="roomNo != null and roomNo != '' "> and ri.room_no like concat('%', #{roomNo}, '%')</if>
+            <if test="addressDetail != null  and addressDetail != ''"> and ri.address_detail = #{addressDetail}</if>
+            <if test="status != null  and status != ''"> and ri.status = #{status}</if>
+            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and ri.create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
         </where>
     </select>
     
-    <select id="selectResidenceInfoById" parameterType="Long" resultMap="ResidenceInfoResidencePictureResult">
-        select a.id, a.category_id, a.brand_id, a.price, a.deposit_id, a.pay_id, a.deposite_amount, a.pay_amount, a.total_amount, a.water_bill, a.electricity_bill, a.house_type_id, a.square, a.floor, a.elevator, a.furnish, a.introduction, a.address_id, a.room_no,a.address_detail, a.facilities, a.labels, a.favorite_count, a.browse_count, a.status, a.deleted, a.weights, a.sort, a.create_by, a.create_time, a.update_by, a.update_time,
- b.id as sub_id, b.residence_id as sub_residence_id, b.pic_url as sub_pic_url, b.sort as sub_sort
-        from residence_info a
-        left join residence_picture b on b.residence_id = a.id
-        where a.id = #{id}
+    <select id="selectResidenceInfoById" parameterType="Long" resultMap="ResidenceInfoVOResidencePictureResult">
+<!--        select a.id, a.category_id, a.brand_id, a.price, a.deposit_id, a.pay_id, a.deposite_amount, a.pay_amount, a.total_amount, a.water_bill, a.electricity_bill, a.house_type_id, a.square, a.floor, a.towards, a.elevator, a.furnish, a.introduction, a.address_id, a.room_no,a.address_detail, a.facilities, a.labels, a.favorite_count, a.browse_count, a.status, a.deleted, a.weights, a.sort, a.create_by, a.create_time, a.update_by, a.update_time,-->
+<!--               b.id as sub_id, b.pic_url as sub_pic_url, b.sort as sub_sort-->
+<!--        from residence_info a-->
+<!--        left join residence_picture b on b.residence_id = a.id-->
+<!--        where a.id = #{id}-->
+
+        select  ri.id, ri.category_id, ri.brand_id, ri.price, ri.deposit_id, ri.pay_id, ri.deposite_amount, ri.pay_amount, ri.total_amount, ri.water_bill, ri.electricity_bill, ri.house_type_id,square, ri.floor, ri.towards, ri.elevator, ri.furnish, ri.introduction, ri.address_id, ri.room_no,ri.address_detail, ri.facilities, ri.labels, ri.favorite_count, ri.browse_count, ri.status, ri.deleted, ri.weights, ri.sort, ri.create_user_id, ri.create_by, ri.create_time, ri.update_user_id, ri.update_by, ri.update_time,
+                rb.`name` brand_name, rc.`name` category_name, rht.`name` house_type_name,
+                rp.id as sub_id, rp.pic_url as sub_pic_url, rp.sort as sub_sort
+        from residence_info ri
+        left join residence_brand rb on ri.brand_id = rb.id
+        left join residence_category rc on ri.category_id = rc.id
+        left join residence_house_type rht on ri.house_type_id = rht.id
+        left join residence_picture rp on rp.residence_id = ri.id
+        where ri.id = #{id}
     </select>
         
     <insert id="insertResidenceInfo" parameterType="ResidenceInfo" useGeneratedKeys="true" keyProperty="id">
@@ -99,6 +132,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="houseTypeId != null">house_type_id,</if>
             <if test="square != null">square,</if>
             <if test="floor != null">floor,</if>
+            <if test="towards != null">towards,</if>
             <if test="elevator != null">elevator,</if>
             <if test="furnish != null">furnish,</if>
             <if test="introduction != null">introduction,</if>
@@ -113,8 +147,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deleted != null">deleted,</if>
             <if test="weights != null">weights,</if>
             <if test="sort != null">sort,</if>
+            <if test="createUserId != null">create_user_id,</if>
             <if test="createBy != null">create_by,</if>
             <if test="createTime != null">create_time,</if>
+            <if test="updateUserId != null">update_user_id,</if>
             <if test="updateBy != null">update_by,</if>
             <if test="updateTime != null">update_time,</if>
          </trim>
@@ -132,6 +168,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="houseTypeId != null">#{houseTypeId},</if>
             <if test="square != null">#{square},</if>
             <if test="floor != null">#{floor},</if>
+            <if test="towards != null">#{towards},</if>
             <if test="elevator != null">#{elevator},</if>
             <if test="furnish != null">#{furnish},</if>
             <if test="introduction != null">#{introduction},</if>
@@ -146,8 +183,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deleted != null">#{deleted},</if>
             <if test="weights != null">#{weights},</if>
             <if test="sort != null">#{sort},</if>
+            <if test="createUserId != null">#{createUserId},</if>
             <if test="createBy != null">#{createBy},</if>
             <if test="createTime != null">#{createTime},</if>
+            <if test="updateUserId != null">#{updateUserId},</if>
             <if test="updateBy != null">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
          </trim>
@@ -169,6 +208,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="houseTypeId != null">house_type_id = #{houseTypeId},</if>
             <if test="square != null">square = #{square},</if>
             <if test="floor != null">floor = #{floor},</if>
+            <if test="towards != null">floor = #{towards},</if>
             <if test="elevator != null">elevator = #{elevator},</if>
             <if test="furnish != null">furnish = #{furnish},</if>
             <if test="introduction != null">introduction = #{introduction},</if>
@@ -183,8 +223,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deleted != null">deleted = #{deleted},</if>
             <if test="weights != null">weights = #{weights},</if>
             <if test="sort != null">sort = #{sort},</if>
+            <if test="createUserId != null">create_user_id = #{createUserId},</if>
             <if test="createBy != null">create_by = #{createBy},</if>
             <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateUserId != null">update_user_id = #{updateUserId},</if>
             <if test="updateBy != null">update_by = #{updateBy},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
         </trim>

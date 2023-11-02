@@ -36,7 +36,7 @@ public class ResidenceInfoServiceImpl implements IResidenceInfoService
      * @return 房屋基本信息
      */
     @Override
-    public ResidenceInfo selectResidenceInfoById(Long id)
+    public ResidenceInfoVO selectResidenceInfoById(Long id)
     {
         return residenceInfoMapper.selectResidenceInfoById(id);
     }
@@ -50,11 +50,12 @@ public class ResidenceInfoServiceImpl implements IResidenceInfoService
     @Override
     public List<ResidenceInfoVO> selectResidenceInfoList(ResidenceInfo residenceInfo)
     {
-        List<ResidenceInfo> residenceInfos = residenceInfoMapper.selectResidenceInfoList(residenceInfo);
+        List<ResidenceInfoVO> residenceInfos = residenceInfoMapper.selectResidenceInfoList(residenceInfo);
         List<ResidenceInfoVO> resultList = residenceInfos.stream().map(
             info -> {
                 ResidenceInfoVO residenceInfoVO = new ResidenceInfoVO();
                 BeanUtils.copyProperties(info,residenceInfoVO);
+                residenceInfoVO.setDepositPay(info.getDepositName().concat(info.getPayName()));
                 return residenceInfoVO;
             }
         ).collect(Collectors.toList());

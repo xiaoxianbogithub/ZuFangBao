@@ -1,38 +1,34 @@
 package com.ruoyi.residence.domain;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import java.math.BigDecimal;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
 /**
- * 房源图片对象 residence_picture
+ * 房源价格区间对象 residence_price_range
  * 
  * @author climber
- * @date 2023-10-18
+ * @date 2023-11-02
  */
-@ApiModel(description = "房源图片")
-public class ResidencePicture
+public class ResidencePriceRange extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
 
-    /** Id */
+    /** $column.columnComment */
     private Long id;
 
-    /** 房源Id */
-    @Excel(name = "房源Id")
-    @ApiModelProperty(value = "绑定的房源Id",required = true)
-    private Long residenceId;
+    /** 最小值 */
+    @Excel(name = "最小值")
+    private BigDecimal minPrice;
 
-    /** 图片路径 */
-    @ApiModelProperty(value = "图片路径地址",required = true)
-    private String picUrl;
+    /** 最大值 */
+    @Excel(name = "最大值")
+    private BigDecimal maxPrice;
 
     /** 排序 */
     @Excel(name = "排序")
-    @ApiModelProperty(value = "排序",required = true)
     private Long sort;
 
     public void setId(Long id) 
@@ -44,23 +40,23 @@ public class ResidencePicture
     {
         return id;
     }
-    public void setResidenceId(Long residenceId) 
+    public void setMinPrice(BigDecimal minPrice) 
     {
-        this.residenceId = residenceId;
+        this.minPrice = minPrice;
     }
 
-    public Long getResidenceId() 
+    public BigDecimal getMinPrice() 
     {
-        return residenceId;
+        return minPrice;
     }
-    public void setPicUrl(String picUrl) 
+    public void setMaxPrice(BigDecimal maxPrice) 
     {
-        this.picUrl = picUrl;
+        this.maxPrice = maxPrice;
     }
 
-    public String getPicUrl() 
+    public BigDecimal getMaxPrice() 
     {
-        return picUrl;
+        return maxPrice;
     }
     public void setSort(Long sort) 
     {
@@ -76,8 +72,8 @@ public class ResidencePicture
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("id", getId())
-            .append("residenceId", getResidenceId())
-            .append("picUrl", getPicUrl())
+            .append("minPrice", getMinPrice())
+            .append("maxPrice", getMaxPrice())
             .append("sort", getSort())
             .toString();
     }

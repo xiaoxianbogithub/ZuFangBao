@@ -14,7 +14,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * @date 2023-10-18
  */
 @ApiModel(description = "房源支付设置")
-public class ResidencePay extends BaseEntity
+public class ResidencePay
 {
     private static final long serialVersionUID = 1L;
 

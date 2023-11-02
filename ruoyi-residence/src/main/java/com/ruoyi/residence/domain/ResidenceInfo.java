@@ -83,10 +83,15 @@ public class ResidenceInfo extends BaseEntity
     @ApiModelProperty(value = "楼层",required = true)
     private Long floor;
 
+    /** 朝向 */
+    @Excel(name = "朝向")
+    @ApiModelProperty(value = "朝向",required = true)
+    private String towards;
+
     /** 是否有电梯 */
     @Excel(name = "是否有电梯")
     @ApiModelProperty(value = "是否有电梯(0:无电梯;1:有电梯)",required = true)
-    private Long elevator;
+    private Byte elevator;
 
     /** 装修 */
     @Excel(name = "装修")
@@ -136,7 +141,7 @@ public class ResidenceInfo extends BaseEntity
     private String status;
 
     /** 是否删除 */
-    private Long deleted;
+    private Byte deleted;
 
     /** 权重 */
     @ApiModelProperty(value = "权重")
@@ -150,6 +155,12 @@ public class ResidenceInfo extends BaseEntity
     /** 房源图片信息 */
     @ApiModelProperty(value = "房源图片信息")
     private List<ResidencePicture> residencePictureList;
+
+    @ApiModelProperty(value = "创建者用户Id")
+    private Long createUserId;
+
+    @ApiModelProperty(value = "更新者用户Id")
+    private Long updateUserId;
 
     public void setId(Long id) 
     {
@@ -277,12 +288,12 @@ public class ResidenceInfo extends BaseEntity
     {
         return floor;
     }
-    public void setElevator(Long elevator) 
+    public void setElevator(Byte elevator)
     {
         this.elevator = elevator;
     }
 
-    public Long getElevator() 
+    public Byte getElevator()
     {
         return elevator;
     }
@@ -375,15 +386,16 @@ public class ResidenceInfo extends BaseEntity
     {
         return status;
     }
-    public void setDeleted(Long deleted) 
+    public void setDeleted(Byte deleted)
     {
         this.deleted = deleted;
     }
 
-    public Long getDeleted() 
+    public Byte getDeleted()
     {
         return deleted;
     }
+
     public void setWeights(BigDecimal weights) 
     {
         this.weights = weights;
@@ -393,6 +405,7 @@ public class ResidenceInfo extends BaseEntity
     {
         return weights;
     }
+
     public void setSort(Long sort) 
     {
         this.sort = sort;
@@ -401,6 +414,30 @@ public class ResidenceInfo extends BaseEntity
     public Long getSort() 
     {
         return sort;
+    }
+
+    public String getTowards() {
+        return towards;
+    }
+
+    public void setTowards(String towards) {
+        this.towards = towards;
+    }
+
+    public Long getCreateUserId() {
+        return createUserId;
+    }
+
+    public void setCreateUserId(Long createUserId) {
+        this.createUserId = createUserId;
+    }
+
+    public Long getUpdateUserId() {
+        return updateUserId;
+    }
+
+    public void setUpdateUserId(Long updateUserId) {
+        this.updateUserId = updateUserId;
     }
 
     public List<ResidencePicture> getResidencePictureList()
@@ -413,42 +450,42 @@ public class ResidenceInfo extends BaseEntity
         this.residencePictureList = residencePictureList;
     }
 
+
     @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
-            .append("id", getId())
-            .append("categoryId", getCategoryId())
-            .append("brandId", getBrandId())
-            .append("price", getPrice())
-            .append("depositId", getDepositId())
-            .append("payId", getPayId())
-            .append("depositeAmount", getDepositeAmount())
-            .append("payAmount", getPayAmount())
-            .append("totalAmount", getTotalAmount())
-            .append("waterBill", getWaterBill())
-            .append("electricityBill", getElectricityBill())
-            .append("houseTypeId", getHouseTypeId())
-            .append("square", getSquare())
-            .append("floor", getFloor())
-            .append("elevator", getElevator())
-            .append("furnish", getFurnish())
-            .append("introduction", getIntroduction())
-            .append("addressId", getAddressId())
-            .append("roomNo", getRoomNo())
-            .append("addressDetail", getAddressDetail())
-            .append("facilities", getFacilities())
-            .append("labels", getLabels())
-            .append("favoriteCount", getFavoriteCount())
-            .append("browseCount", getBrowseCount())
-            .append("status", getStatus())
-            .append("deleted", getDeleted())
-            .append("weights", getWeights())
-            .append("sort", getSort())
-            .append("createBy", getCreateBy())
-            .append("createTime", getCreateTime())
-            .append("updateBy", getUpdateBy())
-            .append("updateTime", getUpdateTime())
-            .append("residencePictureList", getResidencePictureList())
-            .toString();
+        return "ResidenceInfo{" +
+                "id=" + id +
+                ", categoryId=" + categoryId +
+                ", brandId=" + brandId +
+                ", price=" + price +
+                ", depositId=" + depositId +
+                ", payId=" + payId +
+                ", depositeAmount=" + depositeAmount +
+                ", payAmount=" + payAmount +
+                ", totalAmount=" + totalAmount +
+                ", waterBill=" + waterBill +
+                ", electricityBill=" + electricityBill +
+                ", houseTypeId=" + houseTypeId +
+                ", square=" + square +
+                ", floor=" + floor +
+                ", towards='" + towards + '\'' +
+                ", elevator=" + elevator +
+                ", furnish='" + furnish + '\'' +
+                ", introduction='" + introduction + '\'' +
+                ", addressId=" + addressId +
+                ", roomNo='" + roomNo + '\'' +
+                ", addressDetail='" + addressDetail + '\'' +
+                ", facilities='" + facilities + '\'' +
+                ", labels='" + labels + '\'' +
+                ", favoriteCount=" + favoriteCount +
+                ", browseCount=" + browseCount +
+                ", status='" + status + '\'' +
+                ", deleted=" + deleted +
+                ", weights=" + weights +
+                ", sort=" + sort +
+                ", residencePictureList=" + residencePictureList +
+                ", createUserId=" + createUserId +
+                ", updateUserId=" + updateUserId +
+                '}';
     }
 }

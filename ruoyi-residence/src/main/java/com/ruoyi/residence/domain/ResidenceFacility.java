@@ -7,6 +7,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
+import java.io.Serializable;
+
 /**
  * 房源配置对象 residence_facility
  * 
@@ -14,9 +16,8 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * @date 2023-10-18
  */
 @ApiModel(description = "房源配置")
-public class ResidenceFacility extends BaseEntity
+public class ResidenceFacility
 {
-    private static final long serialVersionUID = 1L;
 
     /** Id */
     private Long id;

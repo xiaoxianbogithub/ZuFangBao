@@ -1,5 +1,8 @@
 package com.ruoyi.residence.domain;
 
+import java.io.Serializable;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 import io.swagger.annotations.ApiModel;
@@ -16,10 +19,9 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * @date 2023-10-18
  */
 @ApiModel(description = "房源品牌")
-public class ResidenceBrand extends BaseEntity
+public class ResidenceBrand implements Serializable
 {
-    private static final long serialVersionUID = 1L;
-
+    private static final long serialVersionUID = -5485332722705174281L;
     /** Id */
     @ApiModelProperty(value = "id")
     private Long id;
@@ -52,10 +54,12 @@ public class ResidenceBrand extends BaseEntity
     /** 是否可见 */
     @Excel(name = "是否可见")
     @ApiModelProperty(value = "是否可见 0: 隐藏;1:显示")
-    private Long display;
+    private Byte display;
 
     /** 是否删除 */
-    private Long deleted;
+    private Byte deleted;
+
+    private Date createTime;
 
     /** 房源品牌图片信息 */
     @ApiModelProperty(value = "房源品牌图片列表")
@@ -115,23 +119,31 @@ public class ResidenceBrand extends BaseEntity
     {
         return status;
     }
-    public void setDisplay(Long display) 
+    public void setDisplay(Byte display)
     {
         this.display = display;
     }
 
-    public Long getDisplay() 
+    public Byte getDisplay()
     {
         return display;
     }
-    public void setDeleted(Long deleted) 
+    public void setDeleted(Byte deleted)
     {
         this.deleted = deleted;
     }
 
-    public Long getDeleted() 
+    public Byte getDeleted()
     {
         return deleted;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
     public List<ResidenceBrandPicture> getResidenceBrandPictureList()

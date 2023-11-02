@@ -25,6 +25,7 @@ import com.ruoyi.residence.domain.ResidenceInfo;
 import com.ruoyi.residence.service.IResidenceInfoService;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.common.core.page.TableDataInfo;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 房屋基本信息Controller
@@ -98,7 +99,7 @@ public class ResidenceInfoController extends BaseController
     @Log(title = "房屋基本信息", businessType = BusinessType.UPDATE)
     @PutMapping
     @ApiOperation("修改房屋基本信息")
-    public AjaxResult edit(@RequestBody ResidenceInfo residenceInfo)
+    public AjaxResult edit(@RequestBody ResidenceInfo residenceInfo,List<MultipartFile> residencePictureList)
     {
         return toAjax(residenceInfoService.updateResidenceInfo(residenceInfo));
     }
