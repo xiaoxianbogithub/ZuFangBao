@@ -1,10 +1,12 @@
 package com.ruoyi.residence.domain;
 
-import java.math.BigDecimal;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
+import org.springframework.data.annotation.Transient;
+
+import java.math.BigDecimal;
 
 /**
  * 房源价格区间对象 residence_price_range
@@ -30,6 +32,11 @@ public class ResidencePriceRange extends BaseEntity
     /** 排序 */
     @Excel(name = "排序")
     private Long sort;
+
+    @Transient
+    private String name;
+
+
 
     public void setId(Long id) 
     {
@@ -68,10 +75,19 @@ public class ResidencePriceRange extends BaseEntity
         return sort;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("id", getId())
+            .append("name", getName())
             .append("minPrice", getMinPrice())
             .append("maxPrice", getMaxPrice())
             .append("sort", getSort())

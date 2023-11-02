@@ -93,6 +93,8 @@ public class ResidenceInfoVO extends BaseEntity {
     @Excel(name = "装修")
     private String furnish;
 
+    private String homePageImage;
+
     /** 房源简介 */
     @Excel(name = "房源简介")
     private String introduction;
@@ -297,6 +299,14 @@ public class ResidenceInfoVO extends BaseEntity {
         this.furnish = furnish;
     }
 
+    public String getHomePageImage() {
+        return homePageImage;
+    }
+
+    public void setHomePageImage(String homePageImage) {
+        this.homePageImage = homePageImage;
+    }
+
     public String getIntroduction() {
         return introduction;
     }
@@ -389,6 +399,10 @@ public class ResidenceInfoVO extends BaseEntity {
         return sort;
     }
 
+    public void setSort(Long sort) {
+        this.sort = sort;
+    }
+
     public Long getBrandId() {
         return brandId;
     }
@@ -421,9 +435,6 @@ public class ResidenceInfoVO extends BaseEntity {
         this.towards = towards;
     }
 
-    public void setSort(Long sort) {
-        this.sort = sort;
-    }
 
     public Long getCreateUserId() {
         return createUserId;
@@ -475,6 +486,7 @@ public class ResidenceInfoVO extends BaseEntity {
                 ", towards='" + towards + '\'' +
                 ", elevator=" + elevator +
                 ", furnish='" + furnish + '\'' +
+                ", homePageImage='" + homePageImage + '\'' +
                 ", introduction='" + introduction + '\'' +
                 ", addressId=" + addressId +
                 ", roomNo='" + roomNo + '\'' +

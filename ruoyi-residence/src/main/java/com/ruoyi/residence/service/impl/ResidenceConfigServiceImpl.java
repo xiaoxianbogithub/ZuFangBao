@@ -9,7 +9,6 @@ import com.ruoyi.system.service.ISysAreaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -37,6 +36,8 @@ public class ResidenceConfigServiceImpl  implements IResidenceConfigService {
     private IResidenceLabelService residenceLabelService;
     @Autowired
     private ISysAreaService sysAreaService;
+    @Autowired
+    private IResidencePriceRangeService residencePriceRangeService;
 
     @Override
     public Map<String, List> getResidenceConfig() {
@@ -76,6 +77,9 @@ public class ResidenceConfigServiceImpl  implements IResidenceConfigService {
         sysArea.setPid(UserConstants.XIAMEN_AREA_CODE);
         List<SysAreaVO> sysAreaVOList = sysAreaService.selectSysAreaListCombo(sysArea);
         resultMap.put("area",sysAreaVOList);
+        // 价格区间
+        List<ResidencePriceRange> residencePriceRangesList = residencePriceRangeService.selectResidencePriceRangeList(new ResidencePriceRange());
+        resultMap.put("priceRange",residencePriceRangesList);
         return resultMap;
     }
 }

@@ -1,11 +1,12 @@
 package com.ruoyi.residence.service.impl;
 
-import java.util.List;
+import com.ruoyi.residence.domain.ResidenceLabel;
+import com.ruoyi.residence.mapper.ResidenceLabelMapper;
+import com.ruoyi.residence.service.IResidenceLabelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.residence.mapper.ResidenceLabelMapper;
-import com.ruoyi.residence.domain.ResidenceLabel;
-import com.ruoyi.residence.service.IResidenceLabelService;
+
+import java.util.List;
 
 /**
  * 房源标签Service业务层处理

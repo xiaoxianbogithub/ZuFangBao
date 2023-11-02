@@ -9,6 +9,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
+import org.apache.ibatis.annotations.Insert;
 
 /**
  * 房屋基本信息对象 residence_info
@@ -97,6 +98,9 @@ public class ResidenceInfo extends BaseEntity
     @Excel(name = "装修")
     @ApiModelProperty(value = "装修(0:简装;1:精装)",required = true)
     private String furnish;
+
+    @Excel(name = "首页图片")
+    private String homePageImage;
 
     /** 房源简介 */
     @Excel(name = "房源简介")
@@ -306,7 +310,16 @@ public class ResidenceInfo extends BaseEntity
     {
         return furnish;
     }
-    public void setIntroduction(String introduction) 
+
+    public String getHomePageImage() {
+        return homePageImage;
+    }
+
+    public void setHomePageImage(String homePageImage) {
+        this.homePageImage = homePageImage;
+    }
+
+    public void setIntroduction(String introduction)
     {
         this.introduction = introduction;
     }
@@ -471,6 +484,7 @@ public class ResidenceInfo extends BaseEntity
                 ", towards='" + towards + '\'' +
                 ", elevator=" + elevator +
                 ", furnish='" + furnish + '\'' +
+                ", homePageImage='" + homePageImage + '\'' +
                 ", introduction='" + introduction + '\'' +
                 ", addressId=" + addressId +
                 ", roomNo='" + roomNo + '\'' +

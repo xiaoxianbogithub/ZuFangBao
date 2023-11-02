@@ -1,11 +1,13 @@
 package com.ruoyi.residence.service.impl;
 
-import java.util.List;
+import com.ruoyi.residence.domain.ResidencePriceRange;
+import com.ruoyi.residence.mapper.ResidencePriceRangeMapper;
+import com.ruoyi.residence.service.IResidencePriceRangeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.residence.mapper.ResidencePriceRangeMapper;
-import com.ruoyi.residence.domain.ResidencePriceRange;
-import com.ruoyi.residence.service.IResidencePriceRangeService;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * 房源价格区间Service业务层处理
@@ -40,7 +42,34 @@ public class ResidencePriceRangeServiceImpl implements IResidencePriceRangeServi
     @Override
     public List<ResidencePriceRange> selectResidencePriceRangeList(ResidencePriceRange residencePriceRange)
     {
-        return residencePriceRangeMapper.selectResidencePriceRangeList(residencePriceRange);
+        List<ResidencePriceRange> residencePriceRangeList = residencePriceRangeMapper.selectResidencePriceRangeList(residencePriceRange);
+
+        for(ResidencePriceRange priceRange: residencePriceRangeList) {
+            // 最小金额
+            BigDecimal minPrice = priceRange.getMinPrice();
+            // 最大金额
+            BigDecimal maxPrice = priceRange.getMaxPrice();
+            // true 金额大于零
+            boolean minPriceFlag = 0 > BigDecimal.ZERO.compareTo(minPrice);
+            boolean maxPriceFlag = 0 > BigDecimal.ZERO.compareTo(maxPrice);
+            // true 最大金额大于最小金额
+            boolean minMaxPriceFlag = 0 > minPrice.compareTo(maxPrice);
+            // 最大与最小金额都大于零,且最大金额大于最小金额
+            if (minPriceFlag && minMaxPriceFlag) {
+                priceRange.setName(minPrice.toString().concat("-").concat(maxPrice.toString()));
+                continue;
+            }
+            // 最小金额为零,最大金额大于零
+            if(!minPriceFlag && maxPriceFlag){
+                priceRange.setName(maxPrice.toString().concat("以下"));
+                continue;
+            }
+            // 最大金额为零,最小金额大于零
+            if(minPriceFlag && !maxPriceFlag){
+                priceRange.setName(minPrice.toString().concat("以上"));
+            }
+        }
+        return residencePriceRangeList;
     }
 
     /**

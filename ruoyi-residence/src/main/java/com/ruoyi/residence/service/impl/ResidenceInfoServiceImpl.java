@@ -1,21 +1,24 @@
 package com.ruoyi.residence.service.impl;
 
-import java.util.List;
+import com.ruoyi.common.core.redis.RedisCache;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.residence.domain.ResidenceInfo;
+import com.ruoyi.residence.domain.ResidencePicture;
+import com.ruoyi.residence.domain.ResidencePriceRange;
 import com.ruoyi.residence.domain.VO.ResidenceInfoVO;
+import com.ruoyi.residence.mapper.ResidenceInfoMapper;
+import com.ruoyi.residence.service.IResidenceInfoService;
+import com.ruoyi.residence.service.IResidencePriceRangeService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import com.ruoyi.common.utils.StringUtils;
-import org.springframework.transaction.annotation.Transactional;
-import com.ruoyi.residence.domain.ResidencePicture;
-import com.ruoyi.residence.mapper.ResidenceInfoMapper;
-import com.ruoyi.residence.domain.ResidenceInfo;
-import com.ruoyi.residence.service.IResidenceInfoService;
 
 /**
  * 房屋基本信息Service业务层处理
@@ -28,6 +31,12 @@ public class ResidenceInfoServiceImpl implements IResidenceInfoService
 {
     @Autowired
     private ResidenceInfoMapper residenceInfoMapper;
+
+    @Autowired
+    private RedisCache redisCache;
+
+    @Autowired
+    private IResidencePriceRangeService residencePriceRangeService;
 
     /**
      * 查询房屋基本信息
@@ -50,6 +59,15 @@ public class ResidenceInfoServiceImpl implements IResidenceInfoService
     @Override
     public List<ResidenceInfoVO> selectResidenceInfoList(ResidenceInfo residenceInfo)
     {
+        Map<String, Object> params = residenceInfo.getParams();
+        if(StringUtils.isNotEmpty(params)){
+            long priceRangeId = Long.parseLong(params.get("priceRangeId").toString());
+            if(0 < priceRangeId){
+                ResidencePriceRange residencePriceRange = residencePriceRangeService.selectResidencePriceRangeById(priceRangeId);
+                params.put("minPrice",residencePriceRange.getMinPrice());
+                params.put("maxPrice",residencePriceRange.getMaxPrice());
+            }
+        }
         List<ResidenceInfoVO> residenceInfos = residenceInfoMapper.selectResidenceInfoList(residenceInfo);
         List<ResidenceInfoVO> resultList = residenceInfos.stream().map(
             info -> {

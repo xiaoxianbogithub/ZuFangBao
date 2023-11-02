@@ -22,6 +22,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="towards"    column="towards"    />
         <result property="elevator"    column="elevator"    />
         <result property="furnish"    column="furnish"    />
+        <result property="homePageImage"    column="home_page_image"    />
         <result property="introduction"    column="introduction"    />
         <result property="addressId"    column="address_id"    />
         <result property="roomNo"    column="room_no"    />
@@ -69,7 +70,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!--        square, floor, towards, elevator, furnish, introduction, address_id, room_no,address_detail, facilities, labels, favorite_count, browse_count, status, deleted,-->
 <!--        weights, sort, create_by, create_time, update_by, update_time-->
 <!--        from residence_info ri-->
-        select  ri.id, ri.category_id, ri.brand_id, ri.price, ri.deposit_id, ri.pay_id, ri.deposite_amount, ri.pay_amount, ri.total_amount, ri.water_bill, ri.electricity_bill, ri.house_type_id,square, ri.floor, ri.towards, ri.elevator, ri.furnish, ri.introduction, ri.address_id, ri.room_no,ri.address_detail, ri.facilities, ri.labels, ri.favorite_count, ri.browse_count, ri.status, ri.deleted, ri.weights, ri.sort, ri.create_user_id, ri.create_by, ri.create_time, ri.update_user_id, ri.update_by, ri.update_time,
+        select  ri.id, ri.category_id, ri.brand_id, ri.price, ri.deposit_id, ri.pay_id, ri.deposite_amount, ri.pay_amount, ri.total_amount, ri.water_bill, ri.electricity_bill, ri.house_type_id,square, ri.floor, ri.towards, ri.elevator, ri.furnish, ri.home_page_image, ri.introduction, ri.address_id, ri.room_no,ri.address_detail, ri.facilities, ri.labels, ri.favorite_count, ri.browse_count, ri.status, ri.deleted, ri.weights, ri.sort, ri.create_user_id, ri.create_by, ri.create_time, ri.update_user_id, ri.update_by, ri.update_time,
                 rb.`name` brand_name, rc.`name` category_name, rht.`name` house_type_name, rd.`name` deposit_name, rp.`name` pay_name
         from residence_info ri
         left join residence_brand rb on ri.brand_id = rb.id
@@ -82,6 +83,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="categoryId != null "> and ri.category_id = #{categoryId}</if>
             <if test="brandId != null "> and ri.brand_id = #{brandId}</if>
             <if test="price != null "> and ri.price = #{price}</if>
+            <if test="params.minPrice != null and params.minPrice > 0"> and ri.price &gt;= #{params.minPrice}</if>
+            <if test="params.maxPrice != null and params.maxPrice > 0"> and ri.price &lt;= #{params.maxPrice}</if>
             <if test="waterBill != null "> and ri.water_bill = #{waterBill}</if>
             <if test="electricityBill != null "> and ri.electricity_bill = #{electricityBill}</if>
             <if test="houseTypeId != null "> and ri.house_type_id = #{houseTypeId}</if>
@@ -96,6 +99,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="status != null  and status != ''"> and ri.status = #{status}</if>
             <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and ri.create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
         </where>
+        <choose>
+            <when test="params.sortSql != null">
+                order by ${params.sortSql}
+            </when>
+            <otherwise>
+                order by sort desc, ri.create_time desc
+            </otherwise>
+        </choose>
     </select>
     
     <select id="selectResidenceInfoById" parameterType="Long" resultMap="ResidenceInfoVOResidencePictureResult">
@@ -105,7 +116,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <!--        left join residence_picture b on b.residence_id = a.id-->
 <!--        where a.id = #{id}-->
 
-        select  ri.id, ri.category_id, ri.brand_id, ri.price, ri.deposit_id, ri.pay_id, ri.deposite_amount, ri.pay_amount, ri.total_amount, ri.water_bill, ri.electricity_bill, ri.house_type_id,square, ri.floor, ri.towards, ri.elevator, ri.furnish, ri.introduction, ri.address_id, ri.room_no,ri.address_detail, ri.facilities, ri.labels, ri.favorite_count, ri.browse_count, ri.status, ri.deleted, ri.weights, ri.sort, ri.create_user_id, ri.create_by, ri.create_time, ri.update_user_id, ri.update_by, ri.update_time,
+        select  ri.id, ri.category_id, ri.brand_id, ri.price, ri.deposit_id, ri.pay_id, ri.deposite_amount, ri.pay_amount, ri.total_amount, ri.water_bill, ri.electricity_bill, ri.house_type_id,square, ri.floor, ri.towards, ri.elevator, ri.furnish, ri.home_page_image,ri.introduction, ri.address_id, ri.room_no,ri.address_detail, ri.facilities, ri.labels, ri.favorite_count, ri.browse_count, ri.status, ri.deleted, ri.weights, ri.sort, ri.create_user_id, ri.create_by, ri.create_time, ri.update_user_id, ri.update_by, ri.update_time,
                 rb.`name` brand_name, rc.`name` category_name, rht.`name` house_type_name,
                 rp.id as sub_id, rp.pic_url as sub_pic_url, rp.sort as sub_sort
         from residence_info ri
@@ -135,6 +146,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="towards != null">towards,</if>
             <if test="elevator != null">elevator,</if>
             <if test="furnish != null">furnish,</if>
+            <if test="homePageImage != null">home_page_image,</if>
             <if test="introduction != null">introduction,</if>
             <if test="addressId != null">address_id,</if>
             <if test="roomNo != null">room_no,</if>
@@ -171,6 +183,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="towards != null">#{towards},</if>
             <if test="elevator != null">#{elevator},</if>
             <if test="furnish != null">#{furnish},</if>
+            <if test="homePageImage != null">#{homePageImage},</if>
             <if test="introduction != null">#{introduction},</if>
             <if test="addressId != null">#{addressId},</if>
             <if test="roomNo != null">#{roomNo},</if>
@@ -211,6 +224,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="towards != null">floor = #{towards},</if>
             <if test="elevator != null">elevator = #{elevator},</if>
             <if test="furnish != null">furnish = #{furnish},</if>
+            <if test="homePageImage != null">home_page_image = #{homePageImage},</if>
             <if test="introduction != null">introduction = #{introduction},</if>
             <if test="addressId != null">address_id = #{addressId},</if>
             <if test="roomNo != null">room_no = #{roomNo},</if>

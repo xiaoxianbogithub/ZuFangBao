@@ -1,9 +1,10 @@
 package com.ruoyi.residence.mapper;
 
-import java.util.List;
 import com.ruoyi.residence.domain.ResidenceInfo;
 import com.ruoyi.residence.domain.ResidencePicture;
 import com.ruoyi.residence.domain.VO.ResidenceInfoVO;
+
+import java.util.List;
 
 /**
  * 房屋基本信息Mapper接口
