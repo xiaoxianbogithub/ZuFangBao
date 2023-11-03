@@ -1,7 +1,9 @@
 package com.ruoyi.residence.mapper;
 
-import java.util.List;
 import com.ruoyi.residence.domain.ResidencePriceRange;
+import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 /**
  * 房源价格区间Mapper接口
@@ -9,6 +11,7 @@ import com.ruoyi.residence.domain.ResidencePriceRange;
  * @author climber
  * @date 2023-11-02
  */
+@Mapper
 public interface ResidencePriceRangeMapper 
 {
     /**

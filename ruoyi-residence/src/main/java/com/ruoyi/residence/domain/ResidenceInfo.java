@@ -1,313 +1,353 @@
 package com.ruoyi.residence.domain;
 
+import com.ruoyi.common.annotation.Excel;
+import com.ruoyi.common.core.domain.BaseEntity;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.math.BigDecimal;
 import java.util.List;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
-import com.ruoyi.common.annotation.Excel;
-import com.ruoyi.common.core.domain.BaseEntity;
-import org.apache.ibatis.annotations.Insert;
-
 /**
  * 房屋基本信息对象 residence_info
- * 
+ *
  * @author climber
  * @date 2023-10-18
  */
 @ApiModel(description = "房源基本信息")
-public class ResidenceInfo extends BaseEntity
-{
+public class ResidenceInfo extends BaseEntity {
     private static final long serialVersionUID = 1L;
 
     /** ID */
     private Long id;
 
-    /** 房源分类id */
+    /**
+     * 房源分类id
+     */
     @Excel(name = "房源分类id")
-    @ApiModelProperty(value = "房源分类Id",required = true)
+    @ApiModelProperty(value = "房源分类Id", required = true)
     private Long categoryId;
 
-    /** 房源品牌id */
+    /**
+     * 房源品牌id
+     */
     @Excel(name = "房源品牌id")
-    @ApiModelProperty(value = "房源品牌id",required = true)
+    @ApiModelProperty(value = "房源品牌id", required = true)
     private Long brandId;
 
-    /** 价格 */
+    /**
+     * 价格
+     */
     @Excel(name = "价格")
-    @ApiModelProperty(value = "价格",required = true)
+    @ApiModelProperty(value = "价格", required = true)
     private BigDecimal price;
 
-    /** 押金设置id */
+    /**
+     * 押金设置id
+     */
     @Excel(name = "押金设置id")
-    @ApiModelProperty(value = "押金设置id",required = true)
+    @ApiModelProperty(value = "押金设置id", required = true)
     private Long depositId;
 
-    /** 付款设置id */
+    /**
+     * 付款设置id
+     */
     @Excel(name = "付款设置id")
-    @ApiModelProperty(value = "付款设置id",required = true)
+    @ApiModelProperty(value = "付款设置id", required = true)
     private Long payId;
 
-    /** 押金金额(押一付一:deposite_mount = price * 1) */
+    /**
+     * 押金金额(押一付一:deposite_mount = price * 1)
+     */
+    @ApiModelProperty(hidden = true)
     private BigDecimal depositeAmount;
 
-    /** 需付房租金额(押一付一:pay_mount = price * 1) */
+    /**
+     * 需付房租金额(押一付一:pay_mount = price * 1)
+     */
+    @ApiModelProperty(hidden = true)
     private BigDecimal payAmount;
 
-    /** 总金额(押一付一:total_mount = price * 2) */
+    /**
+     * 总金额(押一付一:total_mount = price * 2)
+     */
+    @ApiModelProperty(hidden = true)
     private BigDecimal totalAmount;
 
-    /** 水费 */
+    /**
+     * 水费
+     */
     @Excel(name = "水费")
-    @ApiModelProperty(value = "水费",required = true)
+    @ApiModelProperty(value = "水费", required = true)
     private BigDecimal waterBill;
 
-    /** 电费 */
+    /**
+     * 电费
+     */
     @Excel(name = "电费")
-    @ApiModelProperty(value = "电费",required = true)
+    @ApiModelProperty(value = "电费", required = true)
     private BigDecimal electricityBill;
 
-    /** 户型设定id */
+    /**
+     * 户型设定id
+     */
     @Excel(name = "户型设定id")
-    @ApiModelProperty(value = "户型设定id",required = true)
+    @ApiModelProperty(value = "户型设定id", required = true)
     private Long houseTypeId;
 
-    /** 面积 */
+    /**
+     * 面积
+     */
     @Excel(name = "面积")
-    @ApiModelProperty(value = "面积",required = true)
+    @ApiModelProperty(value = "面积", required = true)
     private BigDecimal square;
 
-    /** 楼层 */
+    /**
+     * 楼层
+     */
     @Excel(name = "楼层")
-    @ApiModelProperty(value = "楼层",required = true)
+    @ApiModelProperty(value = "楼层", required = true)
     private Long floor;
 
-    /** 朝向 */
+    /**
+     * 朝向
+     */
     @Excel(name = "朝向")
-    @ApiModelProperty(value = "朝向",required = true)
+    @ApiModelProperty(value = "朝向", required = true)
     private String towards;
 
-    /** 是否有电梯 */
+    /**
+     * 是否有电梯
+     */
     @Excel(name = "是否有电梯")
-    @ApiModelProperty(value = "是否有电梯(0:无电梯;1:有电梯)",required = true)
+    @ApiModelProperty(value = "是否有电梯(0:无电梯;1:有电梯)", required = true)
     private Byte elevator;
 
-    /** 装修 */
+    /**
+     * 装修
+     */
     @Excel(name = "装修")
-    @ApiModelProperty(value = "装修(0:简装;1:精装)",required = true)
+    @ApiModelProperty(value = "装修(0:简装;1:精装)", required = true)
     private String furnish;
 
     @Excel(name = "首页图片")
+    @ApiModelProperty(value = "首页图片")
     private String homePageImage;
 
-    /** 房源简介 */
+    /**
+     * 房源简介
+     */
     @Excel(name = "房源简介")
-    @ApiModelProperty(value = "房源简介",required = true)
+    @ApiModelProperty(value = "房源简介")
     private String introduction;
 
-    /** 房源位置id */
+    /**
+     * 房源位置id
+     */
     @Excel(name = "房源位置id")
-    @ApiModelProperty(value = "房源位置id",required = true)
+    @ApiModelProperty(value = "房源位置id", required = true)
     private Long addressId;
 
     @Excel(name = "房号")
-    @ApiModelProperty(value = "房号",required = true)
+    @ApiModelProperty(value = "房号", required = true)
     private String roomNo;
 
-    /** 详细地址 */
+    /**
+     * 详细地址
+     */
     @Excel(name = "详细地址")
-    @ApiModelProperty(value = "详细地址",required = true)
+    @ApiModelProperty(value = "详细地址")
     private String addressDetail;
 
-    /** 房源配置JSON(属性数组，JSON 格式, e.g.[{propertId: , valueId: }, {propertId: , valueId: }])  */
+    /**
+     * 房源配置JSON(属性数组，JSON 格式, e.g.[{propertId: , valueId: }, {propertId: , valueId: }])
+     */
     @Excel(name = "房源配置")
-    @ApiModelProperty(value = "房源配置(配置Id)",required = true)
+    @ApiModelProperty(value = "房源配置(配置Id)")
     private String facilities;
 
-    /** 房源标签JSON */
+    /**
+     * 房源标签JSON
+     */
     @Excel(name = "房源标签")
-    @ApiModelProperty(value = "房源标签(标签Id)",required = true)
+    @ApiModelProperty(value = "房源标签(标签Id)")
     private String labels;
 
-    /** 收藏量 */
+    /**
+     * 收藏量
+     */
     @Excel(name = "收藏量")
+    @ApiModelProperty(hidden = true)
     private Long favoriteCount;
 
-    /** 浏览量 */
+    /**
+     * 浏览量
+     */
     @Excel(name = "浏览量")
+    @ApiModelProperty(hidden = true)
     private Long browseCount;
 
-    /** 状态 */
+    /**
+     * 状态
+     */
     @Excel(name = "状态")
-    @ApiModelProperty(value = "状态(-2草稿;-1下架;1上架,0待审核;2已审核)",required = true)
+    @ApiModelProperty(value = "状态(-2草稿;-1下架;1上架,0待审核;2已审核)", required = true)
     private String status;
 
-    /** 是否删除 */
+    /**
+     * 是否删除
+     */
+    @ApiModelProperty(hidden = true)
     private Byte deleted;
 
-    /** 权重 */
-    @ApiModelProperty(value = "权重")
+    /**
+     * 权重
+     */
+    @ApiModelProperty(hidden = true)
     private BigDecimal weights;
 
-    /** 排序 */
+    /**
+     * 排序
+     */
     @Excel(name = "排序")
-    @ApiModelProperty(value = "排序",required = true)
+    @ApiModelProperty(value = "排序", required = true)
     private Long sort;
 
-    /** 房源图片信息 */
-    @ApiModelProperty(value = "房源图片信息")
+    /**
+     * 房源图片信息
+     */
+    @ApiModelProperty(hidden = true)
     private List<ResidencePicture> residencePictureList;
 
-    @ApiModelProperty(value = "创建者用户Id")
+    @ApiModelProperty(hidden = true)
     private Long createUserId;
 
-    @ApiModelProperty(value = "更新者用户Id")
+    @ApiModelProperty(hidden = true)
     private Long updateUserId;
 
-    public void setId(Long id) 
-    {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public Long getId() 
-    {
+    public Long getId() {
         return id;
     }
-    public void setCategoryId(Long categoryId) 
-    {
+
+    public void setCategoryId(Long categoryId) {
         this.categoryId = categoryId;
     }
 
-    public Long getCategoryId() 
-    {
+    public Long getCategoryId() {
         return categoryId;
     }
-    public void setBrandId(Long brandId) 
-    {
+
+    public void setBrandId(Long brandId) {
         this.brandId = brandId;
     }
 
-    public Long getBrandId() 
-    {
+    public Long getBrandId() {
         return brandId;
     }
-    public void setPrice(BigDecimal price) 
-    {
+
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 
-    public BigDecimal getPrice() 
-    {
+    public BigDecimal getPrice() {
         return price;
     }
-    public void setDepositId(Long depositId) 
-    {
+
+    public void setDepositId(Long depositId) {
         this.depositId = depositId;
     }
 
-    public Long getDepositId() 
-    {
+    public Long getDepositId() {
         return depositId;
     }
-    public void setPayId(Long payId) 
-    {
+
+    public void setPayId(Long payId) {
         this.payId = payId;
     }
 
-    public Long getPayId() 
-    {
+    public Long getPayId() {
         return payId;
     }
-    public void setDepositeAmount(BigDecimal depositeAmount) 
-    {
+
+    public void setDepositeAmount(BigDecimal depositeAmount) {
         this.depositeAmount = depositeAmount;
     }
 
-    public BigDecimal getDepositeAmount() 
-    {
+    public BigDecimal getDepositeAmount() {
         return depositeAmount;
     }
-    public void setPayAmount(BigDecimal payAmount) 
-    {
+
+    public void setPayAmount(BigDecimal payAmount) {
         this.payAmount = payAmount;
     }
 
-    public BigDecimal getPayAmount() 
-    {
+    public BigDecimal getPayAmount() {
         return payAmount;
     }
-    public void setTotalAmount(BigDecimal totalAmount) 
-    {
+
+    public void setTotalAmount(BigDecimal totalAmount) {
         this.totalAmount = totalAmount;
     }
 
-    public BigDecimal getTotalAmount() 
-    {
+    public BigDecimal getTotalAmount() {
         return totalAmount;
     }
-    public void setWaterBill(BigDecimal waterBill) 
-    {
-        this.waterBill = waterBill;
-    }
 
-    public BigDecimal getWaterBill() 
-    {
+    public void setWaterBill(BigDecimal waterBill) { this.waterBill = waterBill; }
+
+    public BigDecimal getWaterBill() {
         return waterBill;
     }
-    public void setElectricityBill(BigDecimal electricityBill) 
-    {
+
+    public void setElectricityBill(BigDecimal electricityBill) {
         this.electricityBill = electricityBill;
     }
 
-    public BigDecimal getElectricityBill() 
-    {
+    public BigDecimal getElectricityBill() {
         return electricityBill;
     }
-    public void setHouseTypeId(Long houseTypeId) 
-    {
+
+    public void setHouseTypeId(Long houseTypeId) {
         this.houseTypeId = houseTypeId;
     }
 
-    public Long getHouseTypeId() 
-    {
+    public Long getHouseTypeId() {
         return houseTypeId;
     }
-    public void setSquare(BigDecimal square) 
-    {
+
+    public void setSquare(BigDecimal square) {
         this.square = square;
     }
 
-    public BigDecimal getSquare() 
-    {
+    public BigDecimal getSquare() {
         return square;
     }
-    public void setFloor(Long floor) 
-    {
+
+    public void setFloor(Long floor) {
         this.floor = floor;
     }
 
-    public Long getFloor() 
-    {
+    public Long getFloor() {
         return floor;
     }
-    public void setElevator(Byte elevator)
-    {
+
+    public void setElevator(Byte elevator) {
         this.elevator = elevator;
     }
 
-    public Byte getElevator()
-    {
+    public Byte getElevator() {
         return elevator;
     }
-    public void setFurnish(String furnish) 
-    {
+
+    public void setFurnish(String furnish) {
         this.furnish = furnish;
     }
 
-    public String getFurnish() 
-    {
+    public String getFurnish() {
         return furnish;
     }
 
@@ -319,26 +359,23 @@ public class ResidenceInfo extends BaseEntity
         this.homePageImage = homePageImage;
     }
 
-    public void setIntroduction(String introduction)
-    {
+    public void setIntroduction(String introduction) {
         this.introduction = introduction;
     }
 
-    public String getIntroduction() 
-    {
+    public String getIntroduction() {
         return introduction;
     }
-    public void setAddressId(Long addressId) 
-    {
+
+    public void setAddressId(Long addressId) {
         this.addressId = addressId;
     }
 
-    public Long getAddressId() 
-    {
+    public Long getAddressId() {
         return addressId;
     }
-    public void setAddressDetail(String addressDetail) 
-    {
+
+    public void setAddressDetail(String addressDetail) {
         this.addressDetail = addressDetail;
     }
 
@@ -350,82 +387,69 @@ public class ResidenceInfo extends BaseEntity
         this.roomNo = roomNo;
     }
 
-    public String getAddressDetail() 
-    {
-        return addressDetail;
-    }
-    public void setFacilities(String facilities) 
-    {
+    public String getAddressDetail() { return addressDetail; }
+
+    public void setFacilities(String facilities) {
         this.facilities = facilities;
     }
 
-    public String getFacilities() 
-    {
+    public String getFacilities() {
         return facilities;
     }
-    public void setLabels(String labels) 
-    {
+
+    public void setLabels(String labels) {
         this.labels = labels;
     }
 
-    public String getLabels() 
-    {
+    public String getLabels() {
         return labels;
     }
-    public void setFavoriteCount(Long favoriteCount) 
-    {
+
+    public void setFavoriteCount(Long favoriteCount) {
         this.favoriteCount = favoriteCount;
     }
 
-    public Long getFavoriteCount() 
-    {
+    public Long getFavoriteCount() {
         return favoriteCount;
     }
-    public void setBrowseCount(Long browseCount) 
-    {
+
+    public void setBrowseCount(Long browseCount) {
         this.browseCount = browseCount;
     }
 
-    public Long getBrowseCount() 
-    {
+    public Long getBrowseCount() {
         return browseCount;
     }
-    public void setStatus(String status) 
-    {
+
+    public void setStatus(String status) {
         this.status = status;
     }
 
-    public String getStatus() 
-    {
+    public String getStatus() {
         return status;
     }
-    public void setDeleted(Byte deleted)
-    {
+
+    public void setDeleted(Byte deleted) {
         this.deleted = deleted;
     }
 
-    public Byte getDeleted()
-    {
+    public Byte getDeleted() {
         return deleted;
     }
 
-    public void setWeights(BigDecimal weights) 
-    {
+    public void setWeights(BigDecimal weights) {
         this.weights = weights;
     }
 
-    public BigDecimal getWeights() 
-    {
+    public BigDecimal getWeights() {
         return weights;
     }
 
-    public void setSort(Long sort) 
-    {
+    public void setSort(Long sort) {
         this.sort = sort;
     }
 
-    public Long getSort() 
-    {
+    public Long getSort() {
         return sort;
     }
 
@@ -453,13 +477,11 @@ public class ResidenceInfo extends BaseEntity
         this.updateUserId = updateUserId;
     }
 
-    public List<ResidencePicture> getResidencePictureList()
-    {
+    public List<ResidencePicture> getResidencePictureList() {
         return residencePictureList;
     }
 
-    public void setResidencePictureList(List<ResidencePicture> residencePictureList)
-    {
+    public void setResidencePictureList(List<ResidencePicture> residencePictureList) {
         this.residencePictureList = residencePictureList;
     }
 

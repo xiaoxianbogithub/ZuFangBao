@@ -1,20 +1,21 @@
 ruoyi:
   # 文件路径 示例（ Windows配置D:/ruoyi/uploadPath，Linux配置 /home/ruoyi/uploadPath）
   profile: D:/program/projects/java/ZuFangBao/uploadPath
+#  profile: D:/xiao/Project/uploadPath
 
 # 数据源配置
 spring:
   datasource:
     druid:
       # 主库数据源
-#      master:
-#        url: jdbc:mysql://211.149.182.210:3306/zfb?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
-#        username: root
-#        password: hxm921114
       master:
-        url: jdbc:mysql://localhost:3306/zfb?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+        url: jdbc:mysql://211.149.182.210:3306/zfb?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
         username: root
-        password: root
+        password: hxm921114
+#      master:
+#        url: jdbc:mysql://localhost:3306/zfb?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+#        username: root
+#        password: root
       # 从库数据源
       slave:
         # 从数据源开关/默认关闭

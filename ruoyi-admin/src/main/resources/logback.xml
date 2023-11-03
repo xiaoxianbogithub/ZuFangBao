@@ -3,6 +3,7 @@
     <!-- 日志存放路径 -->
 	<property name="log.path" value="/projects/zufangbao/logs" />
 <!--	<property name="log.path" value="D:/program/projects/java/ZuFangBaoLog" />-->
+<!--	<property name="log.path" value="D:/xiao/Project" />-->
     <!-- 日志输出格式 -->
 	<property name="log.pattern" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{20} - [%method,%line] - %msg%n" />
 

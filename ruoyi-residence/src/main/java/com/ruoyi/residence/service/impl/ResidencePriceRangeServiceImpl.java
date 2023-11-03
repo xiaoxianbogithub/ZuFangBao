@@ -56,17 +56,17 @@ public class ResidencePriceRangeServiceImpl implements IResidencePriceRangeServi
             boolean minMaxPriceFlag = 0 > minPrice.compareTo(maxPrice);
             // 最大与最小金额都大于零,且最大金额大于最小金额
             if (minPriceFlag && minMaxPriceFlag) {
-                priceRange.setName(minPrice.toString().concat("-").concat(maxPrice.toString()));
+                priceRange.setName(minPrice.intValue() + "-" + maxPrice.intValue());
                 continue;
             }
             // 最小金额为零,最大金额大于零
             if(!minPriceFlag && maxPriceFlag){
-                priceRange.setName(maxPrice.toString().concat("以下"));
+                priceRange.setName(maxPrice.intValue()+"以下");
                 continue;
             }
             // 最大金额为零,最小金额大于零
             if(minPriceFlag && !maxPriceFlag){
-                priceRange.setName(minPrice.toString().concat("以上"));
+                priceRange.setName(minPrice.intValue()+"以上");
             }
         }
         return residencePriceRangeList;
