@@ -55,6 +55,13 @@
             <artifactId>ruoyi-quartz</artifactId>
         </dependency>
 
+        <!--hutool工具-->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.8.18</version>
+        </dependency>
+
         <!-- 代码生成-->
         <dependency>
             <groupId>com.ruoyi</groupId>
