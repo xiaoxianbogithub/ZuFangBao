@@ -35,10 +35,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="deleted"    column="deleted"    />
         <result property="weights"    column="weights"    />
         <result property="sort"    column="sort"    />
-        <result property="createUserId"    column="create_user_id"    />
         <result property="createBy"    column="create_by"    />
         <result property="createTime"    column="create_time"    />
-        <result property="updateUserId"    column="update_user_id"    />
         <result property="updateBy"    column="update_by"    />
         <result property="updateTime"    column="update_time"    />
     </resultMap>
@@ -66,11 +64,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <select id="selectResidenceInfoList" parameterType="ResidenceInfoVO" resultMap="ResidenceInfoVOResult">
-<!--        select ri.id, category_id, brand_id, price, deposit_id, pay_id, deposite_amount, pay_amount, total_amount, water_bill, electricity_bill, house_type_id,-->
-<!--        square, floor, towards, elevator, furnish, introduction, address_id, room_no,address_detail, facilities, labels, favorite_count, browse_count, status, deleted,-->
-<!--        weights, sort, create_by, create_time, update_by, update_time-->
-<!--        from residence_info ri-->
-        select  ri.id, ri.category_id, ri.brand_id, ri.price, ri.deposit_id, ri.pay_id, ri.deposite_amount, ri.pay_amount, ri.total_amount, ri.water_bill, ri.electricity_bill, ri.house_type_id,square, ri.floor, ri.towards, ri.elevator, ri.furnish, ri.home_page_image, ri.introduction, ri.address_id, ri.room_no,ri.address_detail, ri.facilities, ri.labels, ri.favorite_count, ri.browse_count, ri.status, ri.deleted, ri.weights, ri.sort, ri.create_user_id, ri.create_by, ri.create_time, ri.update_user_id, ri.update_by, ri.update_time,
+        select  ri.id, ri.category_id, ri.brand_id, ri.price, ri.deposit_id, ri.pay_id, ri.deposite_amount, ri.pay_amount, ri.total_amount, ri.water_bill, ri.electricity_bill, ri.house_type_id,square, ri.floor, ri.towards, ri.elevator, ri.furnish, ri.home_page_image, ri.introduction, ri.address_id, ri.room_no,ri.address_detail, ri.facilities, ri.labels, ri.favorite_count, ri.browse_count, ri.status, ri.deleted, ri.weights, ri.sort, ri.create_by, ri.create_time, ri.update_by, ri.update_time,
                 rb.`name` brand_name, rc.`name` category_name, rht.`name` house_type_name, rd.`name` deposit_name, rp.`name` pay_name
         from residence_info ri
         left join residence_brand rb on ri.brand_id = rb.id
@@ -110,19 +104,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     
     <select id="selectResidenceInfoById" parameterType="Long" resultMap="ResidenceInfoVOResidencePictureResult">
-<!--        select a.id, a.category_id, a.brand_id, a.price, a.deposit_id, a.pay_id, a.deposite_amount, a.pay_amount, a.total_amount, a.water_bill, a.electricity_bill, a.house_type_id, a.square, a.floor, a.towards, a.elevator, a.furnish, a.introduction, a.address_id, a.room_no,a.address_detail, a.facilities, a.labels, a.favorite_count, a.browse_count, a.status, a.deleted, a.weights, a.sort, a.create_by, a.create_time, a.update_by, a.update_time,-->
-<!--               b.id as sub_id, b.pic_url as sub_pic_url, b.sort as sub_sort-->
-<!--        from residence_info a-->
-<!--        left join residence_picture b on b.residence_id = a.id-->
-<!--        where a.id = #{id}-->
-
-        select  ri.id, ri.category_id, ri.brand_id, ri.price, ri.deposit_id, ri.pay_id, ri.deposite_amount, ri.pay_amount, ri.total_amount, ri.water_bill, ri.electricity_bill, ri.house_type_id,square, ri.floor, ri.towards, ri.elevator, ri.furnish, ri.home_page_image,ri.introduction, ri.address_id, ri.room_no,ri.address_detail, ri.facilities, ri.labels, ri.favorite_count, ri.browse_count, ri.status, ri.deleted, ri.weights, ri.sort, ri.create_user_id, ri.create_by, ri.create_time, ri.update_user_id, ri.update_by, ri.update_time,
-                rb.`name` brand_name, rc.`name` category_name, rht.`name` house_type_name,
+        select  ri.id, ri.category_id, ri.brand_id, ri.price, ri.deposit_id, ri.pay_id, ri.deposite_amount, ri.pay_amount, ri.total_amount, ri.water_bill, ri.electricity_bill, ri.house_type_id,square, ri.floor, ri.towards, ri.elevator, ri.furnish, ri.home_page_image,ri.introduction, ri.address_id, ri.room_no,ri.address_detail, ri.facilities, ri.labels, ri.favorite_count, ri.browse_count, ri.status, ri.deleted, ri.weights, ri.sort, ri.create_by, ri.create_time, ri.update_by, ri.update_time,
+                rb.`name` brand_name, rc.`name` category_name, rht.`name` house_type_name,rd.`name` deposit_name, rp.`name` pay_name,
                 rp.id as sub_id, rp.pic_url as sub_pic_url, rp.sort as sub_sort
         from residence_info ri
         left join residence_brand rb on ri.brand_id = rb.id
         left join residence_category rc on ri.category_id = rc.id
         left join residence_house_type rht on ri.house_type_id = rht.id
+        left join residence_deposit rd on ri.deposit_id = rd.id
+        left join residence_pay rp on ri.pay_id = rp.id
         left join residence_picture rp on rp.residence_id = ri.id
         where ri.id = #{id}
     </select>
@@ -159,12 +149,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deleted != null">deleted,</if>
             <if test="weights != null">weights,</if>
             <if test="sort != null">sort,</if>
-            <if test="createUserId != null">create_user_id,</if>
             <if test="createBy != null">create_by,</if>
             <if test="createTime != null">create_time,</if>
-            <if test="updateUserId != null">update_user_id,</if>
-            <if test="updateBy != null">update_by,</if>
-            <if test="updateTime != null">update_time,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="categoryId != null">#{categoryId},</if>
@@ -196,12 +182,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deleted != null">#{deleted},</if>
             <if test="weights != null">#{weights},</if>
             <if test="sort != null">#{sort},</if>
-            <if test="createUserId != null">#{createUserId},</if>
             <if test="createBy != null">#{createBy},</if>
             <if test="createTime != null">#{createTime},</if>
-            <if test="updateUserId != null">#{updateUserId},</if>
-            <if test="updateBy != null">#{updateBy},</if>
-            <if test="updateTime != null">#{updateTime},</if>
          </trim>
     </insert>
 
@@ -237,10 +219,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="deleted != null">deleted = #{deleted},</if>
             <if test="weights != null">weights = #{weights},</if>
             <if test="sort != null">sort = #{sort},</if>
-            <if test="createUserId != null">create_user_id = #{createUserId},</if>
-            <if test="createBy != null">create_by = #{createBy},</if>
-            <if test="createTime != null">create_time = #{createTime},</if>
-            <if test="updateUserId != null">update_user_id = #{updateUserId},</if>
             <if test="updateBy != null">update_by = #{updateBy},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
         </trim>
@@ -275,4 +253,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             ( #{item.id}, #{item.residenceId}, #{item.picUrl}, #{item.sort})
         </foreach>
     </insert>
+
+    <update id="verifyInfoByIds">
+        update residence_info set `status` = #{status},update_by = #{updateBy},update_time = #{updateTime} where id in
+        <foreach item="id" collection="ids" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+
+    <update id="verifyInfoById" parameterType="ResidenceInfo">
+        update residence_info set `status` = #{status},update_by = #{updateBy},update_time = #{updateTime} where id = #{id}
+    </update>
 </mapper>

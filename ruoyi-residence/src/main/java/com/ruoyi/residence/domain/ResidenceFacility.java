@@ -1,11 +1,11 @@
 package com.ruoyi.residence.domain;
 
+import com.ruoyi.common.annotation.Excel;
+import com.ruoyi.common.core.domain.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import com.ruoyi.common.annotation.Excel;
-import com.ruoyi.common.core.domain.BaseEntity;
 
 import java.io.Serializable;
 
@@ -16,9 +16,9 @@ import java.io.Serializable;
  * @date 2023-10-18
  */
 @ApiModel(description = "房源配置")
-public class ResidenceFacility
+public class ResidenceFacility extends BaseEntity implements Serializable
 {
-
+    private static final long serialVersionUID = -3693253880603107185L;
     /** Id */
     private Long id;
 

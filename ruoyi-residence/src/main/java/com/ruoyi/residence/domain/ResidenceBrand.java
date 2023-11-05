@@ -1,16 +1,15 @@
 package com.ruoyi.residence.domain;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.List;
-
+import com.ruoyi.common.annotation.Excel;
+import com.ruoyi.common.core.domain.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import com.ruoyi.common.annotation.Excel;
-import com.ruoyi.common.core.domain.BaseEntity;
+
+import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 房源品牌对象 residence_brand
@@ -19,7 +18,7 @@ import com.ruoyi.common.core.domain.BaseEntity;
  * @date 2023-10-18
  */
 @ApiModel(description = "房源品牌")
-public class ResidenceBrand implements Serializable
+public class ResidenceBrand  extends BaseEntity implements Serializable
 {
     private static final long serialVersionUID = -5485332722705174281L;
     /** Id */

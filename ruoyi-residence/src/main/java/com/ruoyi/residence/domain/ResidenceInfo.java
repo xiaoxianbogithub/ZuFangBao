@@ -219,12 +219,6 @@ public class ResidenceInfo extends BaseEntity {
     @ApiModelProperty(hidden = true)
     private List<ResidencePicture> residencePictureList;
 
-    @ApiModelProperty(hidden = true)
-    private Long createUserId;
-
-    @ApiModelProperty(hidden = true)
-    private Long updateUserId;
-
     public void setId(Long id) {
         this.id = id;
     }
@@ -461,22 +455,6 @@ public class ResidenceInfo extends BaseEntity {
         this.towards = towards;
     }
 
-    public Long getCreateUserId() {
-        return createUserId;
-    }
-
-    public void setCreateUserId(Long createUserId) {
-        this.createUserId = createUserId;
-    }
-
-    public Long getUpdateUserId() {
-        return updateUserId;
-    }
-
-    public void setUpdateUserId(Long updateUserId) {
-        this.updateUserId = updateUserId;
-    }
-
     public List<ResidencePicture> getResidencePictureList() {
         return residencePictureList;
     }
@@ -520,8 +498,6 @@ public class ResidenceInfo extends BaseEntity {
                 ", weights=" + weights +
                 ", sort=" + sort +
                 ", residencePictureList=" + residencePictureList +
-                ", createUserId=" + createUserId +
-                ", updateUserId=" + updateUserId +
                 '}';
     }
 }

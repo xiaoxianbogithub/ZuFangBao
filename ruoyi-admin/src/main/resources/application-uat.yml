@@ -1,6 +1,5 @@
 ruoyi:
     # 文件路径 示例（ Windows配置D:/ruoyi/uploadPath，Linux配置 /home/ruoyi/uploadPath）
-    # profile: D:/program/projects/java/ZuFangBao/uploadPath
     profile: /projects/zufangbao/uploadPath
 # 数据源配置
 spring:

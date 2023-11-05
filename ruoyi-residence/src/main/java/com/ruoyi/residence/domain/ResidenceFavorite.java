@@ -5,16 +5,17 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
 
+import java.io.Serializable;
+
 /**
  * 房源收藏对象 residence_favorite
  * 
  * @author climber
  * @date 2023-10-18
  */
-public class ResidenceFavorite extends BaseEntity
+public class ResidenceFavorite extends BaseEntity implements Serializable
 {
-    private static final long serialVersionUID = 1L;
-
+    private static final long serialVersionUID = -3499623116477986856L;
     /** Id */
     @Excel(name = "Id")
     private Long id;

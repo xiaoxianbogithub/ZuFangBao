@@ -47,7 +47,10 @@ public class ResidenceInfoServiceImpl implements IResidenceInfoService
     @Override
     public ResidenceInfoVO selectResidenceInfoById(Long id)
     {
-        return residenceInfoMapper.selectResidenceInfoById(id);
+        ResidenceInfoVO residenceInfoVO = residenceInfoMapper.selectResidenceInfoById(id);
+        residenceInfoVO.setDepositPay(residenceInfoVO.getDepositName().concat(residenceInfoVO
+                .getPayName()));
+        return residenceInfoVO;
     }
 
     /**
@@ -162,5 +165,10 @@ public class ResidenceInfoServiceImpl implements IResidenceInfoService
                 residenceInfoMapper.batchResidencePicture(list);
             }
         }
+    }
+
+    @Override
+    public int verifyInfo(ResidenceInfo residenceInfo) {
+        return residenceInfoMapper.verifyInfoById(residenceInfo);
     }
 }

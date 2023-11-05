@@ -8,6 +8,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.data.annotation.Transient;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 
 /**
@@ -17,9 +18,9 @@ import java.math.BigDecimal;
  * @date 2023-11-02
  */
 @ApiModel(description = "房源价格区间实体")
-public class ResidencePriceRange extends BaseEntity {
-    private static final long serialVersionUID = 1L;
+public class ResidencePriceRange extends BaseEntity implements Serializable {
 
+    private static final long serialVersionUID = -4360605868796400563L;
     /**
      * $column.columnComment
      */
