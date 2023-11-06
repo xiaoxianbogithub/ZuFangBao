@@ -1,16 +1,5 @@
 package com.ruoyi.web.controller.system;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import javax.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
 import com.alibaba.fastjson2.JSONObject;
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.core.controller.BaseController;
@@ -34,6 +23,13 @@ import me.zhyd.oauth.model.AuthResponse;
 import me.zhyd.oauth.model.AuthUser;
 import me.zhyd.oauth.request.AuthRequest;
 import me.zhyd.oauth.utils.AuthStateUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 第三方认证授权处理
@@ -60,9 +56,7 @@ public class SysAuthController extends BaseController
 
     private final static Map<String, String> auths = new HashMap<String, String>();
     {
-        auths.put("gitee", "{\"clientId\":\"d83265831bf1b09765c27a9fd9860a9fbb2d939b13460454e85d3d551eebb157\",\"clientSecret\":\"23e3d066c85fc5ee6eaad91067ad006bb5475796f9b9c024eaf5bd26acadd7a3\",\"redirectUri\":\"https://xmzfb.com/social-login?source=gitee\"}");
-        auths.put("github", "{\"clientId\":\"Iv1.1be0cdcd71aca63b\",\"clientSecret\":\"0d59d28b43152bc8906011624db37b0fed88d154\",\"redirectUri\":\"https://xmzfb.com//social-login?source=github\"}");
-        auths.put("github", "{\"clientId\":\"wx4e7581640648099e\",\"clientSecret\":\"0940f7982d0d1ab7c7da1952f0828b07\",\"redirectUri\":\"https://xmzfb.com//social-login?source=weixin_open\"}");
+        auths.put("wechat_mp", "{\"clientId\":\"wx4e7581640648099e\",\"clientSecret\":\"0940f7982d0d1ab7c7da1952f0828b07\",\"redirectUri\":\"https://xmzfb.com/system/auth/social-login?source=wechat_mp\"}");
         authStateCache = AuthDefaultStateCache.INSTANCE;
     }
 

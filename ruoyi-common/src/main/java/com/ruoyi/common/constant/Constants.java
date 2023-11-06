@@ -144,4 +144,13 @@ public class Constants
      */
     public static final String[] JOB_ERROR_STR = { "java.net.URL", "javax.naming.InitialContext", "org.yaml.snakeyaml",
             "org.springframework", "org.apache", "com.ruoyi.common.utils.file", "com.ruoyi.common.config" };
+
+    // 厦门地区code
+    public static final long XIAMEN_AREA_CODE = 350200000000L;
+
+    /// 格式化数字,取整数部分
+    public static final String INTEGER_FORMAT = "###";
+
+    // 连接符-短横杠
+    public static final String HYPHEN_SHORT_HORIZONTAL = "-";
 }

@@ -163,3 +163,13 @@ xss:
   excludes: /system/notice,/system/area
   # 匹配链接
   urlPatterns: /system/*,/monitor/*,/tool/*
+
+wx:
+  miniapp:
+      configs:
+        appid: wx4e7581640648099e
+        secret: 0940f7982d0d1ab7c7da1952f0828b07
+        token:
+        aesKey:
+        msgDataFormat: JSON
+

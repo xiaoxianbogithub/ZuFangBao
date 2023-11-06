@@ -75,6 +75,4 @@ public class UserConstants
      */
     public static final int PASSWORD_MIN_LENGTH = 5;
     public static final int PASSWORD_MAX_LENGTH = 20;
-
-    public static final long XIAMEN_AREA_CODE = 350200000000L;
 }

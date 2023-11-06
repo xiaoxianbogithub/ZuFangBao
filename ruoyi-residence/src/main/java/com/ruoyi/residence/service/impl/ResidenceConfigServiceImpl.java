@@ -1,6 +1,6 @@
 package com.ruoyi.residence.service.impl;
 
-import com.ruoyi.common.constant.UserConstants;
+import com.ruoyi.common.constant.Constants;
 import com.ruoyi.residence.domain.*;
 import com.ruoyi.residence.service.*;
 import com.ruoyi.system.domain.SysArea;
@@ -74,7 +74,7 @@ public class ResidenceConfigServiceImpl  implements IResidenceConfigService {
         resultMap.put("label",residenceLabelList);
         // 地区
         SysArea sysArea = new SysArea();
-        sysArea.setPid(UserConstants.XIAMEN_AREA_CODE);
+        sysArea.setPid(Constants.XIAMEN_AREA_CODE);
         List<SysAreaVO> sysAreaVOList = sysAreaService.selectSysAreaListCombo(sysArea);
         resultMap.put("area",sysAreaVOList);
         // 价格区间
