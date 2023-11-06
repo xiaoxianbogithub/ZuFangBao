@@ -106,14 +106,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <select id="selectResidenceInfoById" parameterType="Long" resultMap="ResidenceInfoVOResidencePictureResult">
         select  ri.id, ri.category_id, ri.brand_id, ri.price, ri.deposit_id, ri.pay_id, ri.deposite_amount, ri.pay_amount, ri.total_amount, ri.water_bill, ri.electricity_bill, ri.house_type_id,square, ri.floor, ri.towards, ri.elevator, ri.furnish, ri.home_page_image,ri.introduction, ri.address_id, ri.room_no,ri.address_detail, ri.facilities, ri.labels, ri.favorite_count, ri.browse_count, ri.status, ri.deleted, ri.weights, ri.sort, ri.create_by, ri.create_time, ri.update_by, ri.update_time,
                 rb.`name` brand_name, rc.`name` category_name, rht.`name` house_type_name,rd.`name` deposit_name, rp.`name` pay_name,
-                rp.id as sub_id, rp.pic_url as sub_pic_url, rp.sort as sub_sort
+                rpic.id as sub_id, rpic.pic_url as sub_pic_url, rpic.sort as sub_sort
         from residence_info ri
         left join residence_brand rb on ri.brand_id = rb.id
         left join residence_category rc on ri.category_id = rc.id
         left join residence_house_type rht on ri.house_type_id = rht.id
         left join residence_deposit rd on ri.deposit_id = rd.id
         left join residence_pay rp on ri.pay_id = rp.id
-        left join residence_picture rp on rp.residence_id = ri.id
+        left join residence_picture rpic on rpic.residence_id = ri.id
         where ri.id = #{id}
     </select>
         
