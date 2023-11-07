@@ -90,4 +90,18 @@ public class SysLoginController
         List<SysMenu> menus = menuService.selectMenuTreeByUserId(userId);
         return AjaxResult.success(menuService.buildMenus(menus));
     }
+
+
+    @ApiOperation("登录")
+    @PostMapping("/wxLogin")
+    public AjaxResult login(String code)
+    {
+
+        AjaxResult ajax = AjaxResult.success();
+        // 生成令牌
+        String token = loginService.login(loginBody.getUsername(), loginBody.getPassword(), loginBody.getCode(),
+                loginBody.getUuid());
+        ajax.put(Constants.TOKEN, token);
+        return ajax;
+    }
 }
