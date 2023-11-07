@@ -110,7 +110,7 @@ spring:
     # 国际化资源文件路径
     basename: i18n/messages
   profiles:
-    active: uat
+    active: dev
   # 文件上传
   servlet:
     multipart:
@@ -164,12 +164,8 @@ xss:
   # 匹配链接
   urlPatterns: /system/*,/monitor/*,/tool/*
 
+
 wx:
-  miniapp:
-      configs:
-        appid: wx4e7581640648099e
-        secret: 0940f7982d0d1ab7c7da1952f0828b07
-        token:
-        aesKey:
-        msgDataFormat: JSON
+  appId: wx4e7581640648099e
+  secret: 0940f7982d0d1ab7c7da1952f0828b07
 

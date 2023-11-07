@@ -1,5 +1,6 @@
 package com.ruoyi.common.utils;
 
+import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.ruoyi.common.core.page.PageDomain;
 import com.ruoyi.common.core.page.TableSupport;
@@ -12,6 +13,8 @@ import com.ruoyi.common.utils.sql.SqlUtil;
  */
 public class PageUtils extends PageHelper
 {
+
+    private static Page page;
     /**
      * 设置请求分页数据
      */
@@ -20,10 +23,31 @@ public class PageUtils extends PageHelper
         PageDomain pageDomain = TableSupport.buildPageRequest();
         Integer pageNum = pageDomain.getPageNum();
         Integer pageSize = pageDomain.getPageSize();
-        String orderBy = SqlUtil.escapeOrderBySql(pageDomain.getOrderBy());
-        Boolean reasonable = pageDomain.getReasonable();
-        PageHelper.startPage(pageNum, pageSize, orderBy).setReasonable(reasonable);
+        if (StringUtils.isNotNull(pageNum) && StringUtils.isNotNull(pageSize)) {
+            String orderBy = SqlUtil.escapeOrderBySql(pageDomain.getOrderBy());
+            Boolean reasonable = pageDomain.getReasonable();
+            page = PageHelper.startPage(pageNum, pageSize, orderBy).setReasonable(reasonable);
+        }
     }
+
+    /**
+     * 设置请求分页数据
+     */
+    public static void startPage(Integer pageNum, Integer pageSize) {
+        PageDomain pageDomain = TableSupport.buildPageRequest();
+        pageDomain.setPageSize(pageSize);
+        pageDomain.setPageNum(pageNum);
+        if (StringUtils.isNotNull(pageNum) && StringUtils.isNotNull(pageSize)) {
+            String orderBy = SqlUtil.escapeOrderBySql(pageDomain.getOrderBy());
+            Boolean reasonable = pageDomain.getReasonable();
+            page = PageHelper.startPage(pageNum, pageSize, orderBy).setReasonable(reasonable);
+        }
+    }
+
+    public static long getDataTotal() {
+        return page.getTotal();
+    }
+
 
     /**
      * 清理分页的线程变量

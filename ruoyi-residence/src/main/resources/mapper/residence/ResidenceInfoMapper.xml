@@ -98,7 +98,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 order by ${params.sortSql}
             </when>
             <otherwise>
-                order by sort desc, ri.create_time desc
+                order by ri.sort desc, ri.create_time desc
             </otherwise>
         </choose>
     </select>
