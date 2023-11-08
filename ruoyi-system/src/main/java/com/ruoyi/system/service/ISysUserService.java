@@ -1,6 +1,7 @@
 package com.ruoyi.system.service;
 
 import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.system.domain.SysAuthUser;
 
 import java.util.List;
 
@@ -204,4 +205,13 @@ public interface ISysUserService
      * @return 结果
      */
     public String importUser(List<SysUser> userList, Boolean isUpdateSupport, String operName);
+
+    /**
+     * 根据唯一Id查询第三方授权表信息
+     * @param uuid
+     * @return
+     */
+    SysAuthUser selectAuthUserByUuid(String uuid);
+
+    int insertAuthUser(SysAuthUser insertAuthUser);
 }

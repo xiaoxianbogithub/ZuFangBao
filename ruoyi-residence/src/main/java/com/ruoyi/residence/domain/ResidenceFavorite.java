@@ -13,7 +13,7 @@ import java.io.Serializable;
  * @author climber
  * @date 2023-10-18
  */
-public class ResidenceFavorite extends BaseEntity implements Serializable
+public class ResidenceFavorite extends BaseEntity
 {
     private static final long serialVersionUID = -3499623116477986856L;
     /** Id */

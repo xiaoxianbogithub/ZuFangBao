@@ -18,7 +18,7 @@ import java.math.BigDecimal;
  * @date 2023-11-02
  */
 @ApiModel(description = "房源价格区间实体")
-public class ResidencePriceRange extends BaseEntity implements Serializable {
+public class ResidencePriceRange extends BaseEntity {
 
     private static final long serialVersionUID = -4360605868796400563L;
     /**

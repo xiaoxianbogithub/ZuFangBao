@@ -16,7 +16,7 @@ import java.io.Serializable;
  * @date 2023-10-18
  */
 @ApiModel(description = "房源支付设置")
-public class ResidencePay extends BaseEntity implements Serializable
+public class ResidencePay extends BaseEntity
 {
     private static final long serialVersionUID = -4745461101839430334L;
     /** Id */

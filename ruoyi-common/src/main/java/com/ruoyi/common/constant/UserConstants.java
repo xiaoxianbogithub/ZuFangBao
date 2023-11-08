@@ -75,4 +75,10 @@ public class UserConstants
      */
     public static final int PASSWORD_MIN_LENGTH = 5;
     public static final int PASSWORD_MAX_LENGTH = 20;
+
+    /**
+     * 用户来源
+     */
+    // 微信
+    public static final String WE_CHAT = "WeChat";
 }
