@@ -168,4 +168,5 @@ xss:
 wx:
   appId: wx4e7581640648099e
   secret: 0940f7982d0d1ab7c7da1952f0828b07
+  jscode2sessionUrl: https://api.weixin.qq.com/sns/jscode2session
 

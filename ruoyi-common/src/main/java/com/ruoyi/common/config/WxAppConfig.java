@@ -12,10 +12,22 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties(prefix = "wx")
 public class WxAppConfig {
 
-    private String appId;
-    private String secret;
+    /**
+     * 小程序appId
+     */
+    private static String appId;
 
-    public String getAppId() {
+    /**
+     * 小程序appSecret
+     */
+    private static String secret;
+
+    /**
+     * 登录凭证校验请求地址
+     */
+    private static String jscode2sessionUrl;
+
+    public static String getAppId() {
         return appId;
     }
 
@@ -23,11 +35,19 @@ public class WxAppConfig {
         this.appId = appId;
     }
 
-    public String getSecret() {
+    public static String getSecret() {
         return secret;
     }
 
     public void setSecret(String appSecret) {
         this.secret = appSecret;
+    }
+
+    public static String getJscode2sessionUrl() {
+        return jscode2sessionUrl;
+    }
+
+    public void setJscode2sessionUrl(String jscode2sessionUrl) {
+        this.jscode2sessionUrl = jscode2sessionUrl;
     }
 }

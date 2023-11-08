@@ -2,19 +2,18 @@ package com.ruoyi.common.domain;
 
 import io.swagger.annotations.ApiModelProperty;
 
+import java.io.Serializable;
+
 /**
  * @Author climber
  * @Date 2023/11/7 21:39
  * @Description TODO
  **/
-public class WechatLoginRequest {
+public class WechatLoginRequest implements Serializable {
     private static final long serialVersionUID = 7560038210342801817L;
     //临时登入凭证
     @ApiModelProperty(value = "微信code", required = true)
     private String code;
-    //用户非敏感信息，头像和昵称之类的
-    @ApiModelProperty(value = "用户非敏感字段")
-    private String rawData;
 
     //签名
     @ApiModelProperty(value = "签名")
@@ -34,14 +33,6 @@ public class WechatLoginRequest {
 
     public void setCode(String code) {
         this.code = code;
-    }
-
-    public String getRawData() {
-        return rawData;
-    }
-
-    public void setRawData(String rawData) {
-        this.rawData = rawData;
     }
 
     public String getSignature() {

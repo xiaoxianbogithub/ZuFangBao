@@ -1,8 +1,16 @@
 package com.ruoyi.web.controller.system;
 
-import java.util.List;
-import java.util.Set;
-
+import com.ruoyi.common.config.WxAppConfig;
+import com.ruoyi.common.constant.Constants;
+import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.domain.entity.SysMenu;
+import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.common.core.domain.model.LoginBody;
+import com.ruoyi.common.domain.WechatLoginRequest;
+import com.ruoyi.common.utils.SecurityUtils;
+import com.ruoyi.framework.web.service.SysLoginService;
+import com.ruoyi.framework.web.service.SysPermissionService;
+import com.ruoyi.system.service.ISysMenuService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,15 +18,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import com.ruoyi.common.constant.Constants;
-import com.ruoyi.common.core.domain.AjaxResult;
-import com.ruoyi.common.core.domain.entity.SysMenu;
-import com.ruoyi.common.core.domain.entity.SysUser;
-import com.ruoyi.common.core.domain.model.LoginBody;
-import com.ruoyi.common.utils.SecurityUtils;
-import com.ruoyi.framework.web.service.SysLoginService;
-import com.ruoyi.framework.web.service.SysPermissionService;
-import com.ruoyi.system.service.ISysMenuService;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * 登录验证
@@ -94,14 +96,17 @@ public class SysLoginController
 
     @ApiOperation("登录")
     @PostMapping("/wxLogin")
-    public AjaxResult login(String code)
+    public AjaxResult login(@RequestBody WechatLoginRequest wechatLoginRequest)
     {
-
+        System.out.println(wechatLoginRequest.getCode());
+        String a = WxAppConfig.getJscode2sessionUrl()+"?appid="+WxAppConfig.getAppId()+"&secret="+WxAppConfig.getSecret()
+                +"&js_code="+ wechatLoginRequest.getCode() +"&grant_type=authorization_code";;
         AjaxResult ajax = AjaxResult.success();
+
         // 生成令牌
-        String token = loginService.login(loginBody.getUsername(), loginBody.getPassword(), loginBody.getCode(),
-                loginBody.getUuid());
-        ajax.put(Constants.TOKEN, token);
+        //String token = loginService.login(loginBody.getUsername(), loginBody.getPassword(), loginBody.getCode(),
+        //        loginBody.getUuid());
+        //ajax.put(Constants.TOKEN, token);
         return ajax;
     }
 }
