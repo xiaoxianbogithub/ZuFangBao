@@ -1,6 +1,5 @@
 package com.ruoyi.web.controller.system;
 
-import cn.hutool.core.lang.ObjectId;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
@@ -20,6 +19,7 @@ import com.ruoyi.framework.web.service.SysLoginService;
 import com.ruoyi.framework.web.service.SysPermissionService;
 import com.ruoyi.framework.web.service.TokenService;
 import com.ruoyi.system.domain.SysAuthUser;
+import com.ruoyi.system.service.ISysConfigService;
 import com.ruoyi.system.service.ISysMenuService;
 import com.ruoyi.system.service.ISysUserService;
 import io.swagger.annotations.Api;
@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 /**
@@ -56,6 +57,9 @@ public class SysLoginController
 
     @Autowired
     private ISysUserService userService;
+
+    @Autowired
+    private ISysConfigService configService;
 
     /**
      * 登录方法
@@ -128,34 +132,64 @@ public class SysLoginController
         //获取object中openid字段的值;
         String openid = jsonObject.get("openid").toString();
         String uuid = UserConstants.WE_CHAT + openid;
-        SysAuthUser authUser = userService.selectAuthUserByUuid(uuid);
+        //组装token信息
+        LoginUser loginUser = new LoginUser();
+        SysUser user = userService.selectAuthUserByUuid(uuid);
+        String password = configService.selectConfigByKey("sys.user.initPassword");
         // 若已经登录则直接绑定系统账号
-        if (StringUtils.isNotNull(authUser))
+        if (StringUtils.isNotNull(user))
         {
-            String token = tokenService.createToken(SecurityUtils.getLoginUser());
+            loginUser.setUserId(user.getUserId());
+            loginUser.setUser(user);
+            String token = tokenService.createToken(loginUser);
             return AjaxResult.success().put(Constants.TOKEN, token);
         }
 
-        //Snowflake snowflake = Singleton.get(Snowflake.class, 1, 1, true);
-        //long nickName = snowflake.nextId();
-        String nickName = ObjectId.next();
+        String random = getStringRandom(6);
 
         SysUser sysUser = new SysUser();
-        sysUser.setRoleId(2L);
-        sysUser.setUserName("userName-"+1);
-        sysUser.setNickName("nickName-"+2);
+        sysUser.setRoleIds(new Long[]{2L});
+        sysUser.setUserName(random);
+        sysUser.setNickName(random);
+        sysUser.setPassword(SecurityUtils.encryptPassword(password));
         userService.insertUser(sysUser);
 
         SysAuthUser insertAuthUser = new SysAuthUser();
         insertAuthUser.setUuid(uuid);
         insertAuthUser.setUserId(sysUser.getUserId());
-        insertAuthUser.setUserName("userName-"+1);
-        insertAuthUser.setNickName("nickName-"+2);
+        insertAuthUser.setUserName(random);
+        insertAuthUser.setNickName(random);
         insertAuthUser.setSource(UserConstants.WE_CHAT);
         userService.insertAuthUser(insertAuthUser);
-        LoginUser loginUser = new LoginUser();
-        loginUser.setUserId(sysUser.getUserId());
-        String token = tokenService.createToken(loginUser);
+
+        String token = loginService.login(sysUser.getUserName(), sysUser.getPassword(), null,openid);
         return AjaxResult.success().put(Constants.TOKEN, token);
+        //loginUser.setOpenId(openId);
+        //假如有的话设置
+        //loginUser.setUser(sysUser);
+        //loginUser.setUserId(sysUser.getUserId());
+        //// 生成token
+        //loginUser.setUserId(sysUser.getUserId());
+        //String token = tokenService.createToken(loginUser);
+        //return AjaxResult.success().put(Constants.TOKEN, token);
+    }
+
+    //生成随机用户名，数字和字母组成,
+    public static String getStringRandom(int length) {
+        String val = "";
+        Random random = new Random();
+        //参数length，表明生成几位随机数
+        for (int i = 0; i < length; i++) {
+            String charOrNum = random.nextInt(2) % 2 == 0 ? "char" : "num";
+            //输出字母仍是数字
+            if ("char".equalsIgnoreCase(charOrNum)) {
+                //输出是大写字母仍是小写字母
+                int temp = random.nextInt(2) % 2 == 0 ? 65 : 97;
+                val += (char) (random.nextInt(26) + temp);
+            } else if ("num".equalsIgnoreCase(charOrNum)) {
+                val += String.valueOf(random.nextInt(10));
+            }
+        }
+        return val;
     }
 }

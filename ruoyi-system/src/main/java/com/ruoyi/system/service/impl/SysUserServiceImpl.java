@@ -541,7 +541,7 @@ public class SysUserServiceImpl implements ISysUserService
     }
 
     @Override
-    public SysAuthUser selectAuthUserByUuid(String uuid) {
+    public SysUser selectAuthUserByUuid(String uuid) {
         return userMapper.selectAuthUserByUuid(uuid);
     }
 

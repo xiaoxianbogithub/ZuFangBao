@@ -230,8 +230,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach> 
  	</delete>
 
-	<select id="selectAuthUserByUuid" parameterType="String" resultMap="SysAuthUserResult">
-		select auth_id, uuid, user_id, user_name, nick_name, avatar, email, source, create_time from sys_auth_user where uuid = #{uuid}
+	<select id="selectAuthUserByUuid" parameterType="String" resultMap="SysUserResult">
+		select b.user_id as user_id, b.user_name as user_name, b.password as password
+		from sys_auth_user a
+		left join sys_user b on a.user_id = b.user_id
+		where a.uuid = #{uuid} and b.del_flag = '0'
 	</select>
 
 	<insert id="insertAuthUser" parameterType="SysAuthUser">

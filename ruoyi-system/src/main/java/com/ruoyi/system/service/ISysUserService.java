@@ -211,7 +211,7 @@ public interface ISysUserService
      * @param uuid
      * @return
      */
-    SysAuthUser selectAuthUserByUuid(String uuid);
+    SysUser selectAuthUserByUuid(String uuid);
 
     int insertAuthUser(SysAuthUser insertAuthUser);
 }
