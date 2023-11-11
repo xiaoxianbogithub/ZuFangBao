@@ -10,10 +10,8 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.domain.entity.SysMenu;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.core.domain.model.LoginBody;
-import com.ruoyi.common.core.domain.model.LoginUser;
 import com.ruoyi.common.domain.WechatLoginRequest;
 import com.ruoyi.common.utils.SecurityUtils;
-import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.http.HttpUtils;
 import com.ruoyi.framework.web.service.SysLoginService;
 import com.ruoyi.framework.web.service.SysPermissionService;
@@ -30,6 +28,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -117,7 +116,7 @@ public class SysLoginController
 
     @ApiOperation("微信登录")
     @PostMapping("/wxLogin")
-    public AjaxResult login(@RequestBody WechatLoginRequest wechatLoginRequest)
+    public AjaxResult wxLogin(@RequestBody WechatLoginRequest wechatLoginRequest, HttpServletRequest request)
     {
         //拼接发送请求的URL
         String jscode2sessionUrl = WxAppConfig.getJscode2sessionUrl()+"?appid="+WxAppConfig.getAppId()+"&secret="+WxAppConfig.getSecret()
@@ -131,47 +130,32 @@ public class SysLoginController
         JSONObject jsonObject= JSON.parseObject(httpResult);
         //获取object中openid字段的值;
         String openid = jsonObject.get("openid").toString();
+        String sessionKey = jsonObject.get("session_key").toString();
         String uuid = UserConstants.WE_CHAT + openid;
-        //组装token信息
-        LoginUser loginUser = new LoginUser();
+
         SysUser user = userService.selectAuthUserByUuid(uuid);
         String password = configService.selectConfigByKey("sys.user.initPassword");
-        // 若已经登录则直接绑定系统账号
-        if (StringUtils.isNotNull(user))
-        {
-            loginUser.setUserId(user.getUserId());
-            loginUser.setUser(user);
-            String token = tokenService.createToken(loginUser);
-            return AjaxResult.success().put(Constants.TOKEN, token);
+
+        if(null == user){
+            user = new SysUser();
+            String random = getStringRandom(6);
+            String userName = "user"+random;
+            user.setRoleIds(new Long[]{2L});
+            user.setUserName(userName);
+            user.setNickName(userName);
+            user.setPassword(SecurityUtils.encryptPassword(password));
+            userService.insertUser(user);
+
+            SysAuthUser insertAuthUser = new SysAuthUser();
+            insertAuthUser.setUuid(uuid);
+            insertAuthUser.setUserId(user.getUserId());
+            insertAuthUser.setUserName(userName);
+            insertAuthUser.setNickName(userName);
+            insertAuthUser.setSource(UserConstants.WE_CHAT);
+            userService.insertAuthUser(insertAuthUser);
         }
-
-        String random = getStringRandom(6);
-
-        SysUser sysUser = new SysUser();
-        sysUser.setRoleIds(new Long[]{2L});
-        sysUser.setUserName(random);
-        sysUser.setNickName(random);
-        sysUser.setPassword(SecurityUtils.encryptPassword(password));
-        userService.insertUser(sysUser);
-
-        SysAuthUser insertAuthUser = new SysAuthUser();
-        insertAuthUser.setUuid(uuid);
-        insertAuthUser.setUserId(sysUser.getUserId());
-        insertAuthUser.setUserName(random);
-        insertAuthUser.setNickName(random);
-        insertAuthUser.setSource(UserConstants.WE_CHAT);
-        userService.insertAuthUser(insertAuthUser);
-
-        String token = loginService.login(sysUser.getUserName(), sysUser.getPassword(), null,openid);
+        String token = loginService.wxLogin(openid, sessionKey);
         return AjaxResult.success().put(Constants.TOKEN, token);
-        //loginUser.setOpenId(openId);
-        //假如有的话设置
-        //loginUser.setUser(sysUser);
-        //loginUser.setUserId(sysUser.getUserId());
-        //// 生成token
-        //loginUser.setUserId(sysUser.getUserId());
-        //String token = tokenService.createToken(loginUser);
-        //return AjaxResult.success().put(Constants.TOKEN, token);
     }
 
     //生成随机用户名，数字和字母组成,

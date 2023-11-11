@@ -11,8 +11,7 @@ import java.util.Set;
  * 登录用户身份权限
  * 
  * @author ruoyi
- */
-public class LoginUser implements UserDetails
+ */public class LoginUser implements UserDetails
 {
     private static final long serialVersionUID = 1L;
 
@@ -71,6 +70,11 @@ public class LoginUser implements UserDetails
      */
     private SysUser user;
 
+    /**
+     * 微信用户
+     */
+    private WxUser wxUser;
+
     public LoginUser()
     {
     }
@@ -86,6 +90,25 @@ public class LoginUser implements UserDetails
         this.userId = userId;
         this.deptId = deptId;
         this.user = user;
+        this.permissions = permissions;
+    }
+
+    public LoginUser(WxUser wxUser)
+    {
+        this.wxUser = wxUser;
+    }
+
+    public LoginUser(WxUser wxUser, Set<String> permissions)
+    {
+        this.wxUser = wxUser;
+        this.permissions = permissions;
+    }
+
+    public LoginUser(Long userId, Long deptId, WxUser wxUser, Set<String> permissions)
+    {
+        this.userId = userId;
+        this.deptId = deptId;
+        this.wxUser = wxUser;
         this.permissions = permissions;
     }
 
@@ -123,13 +146,13 @@ public class LoginUser implements UserDetails
     @Override
     public String getPassword()
     {
-        return user.getPassword();
+        return null != user ? user.getPassword() : wxUser.getSessionKey();
     }
 
     @Override
     public String getUsername()
     {
-        return user.getUserName();
+        return user != null ? user.getUserName() : wxUser.getSessionKey();
     }
 
     /**
@@ -256,6 +279,14 @@ public class LoginUser implements UserDetails
     public void setUser(SysUser user)
     {
         this.user = user;
+    }
+
+    public WxUser getWxUser() {
+        return wxUser;
+    }
+
+    public void setWxUser(WxUser wxUser) {
+        this.wxUser = wxUser;
     }
 
     @Override
