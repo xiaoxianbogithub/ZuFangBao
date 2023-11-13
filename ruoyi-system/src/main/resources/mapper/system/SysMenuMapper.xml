@@ -199,4 +199,13 @@
 	    delete from sys_menu where menu_id = #{menuId}
 	</delete>
 
-</mapper> 
+	<select id="selectMenuPermsByUuId" parameterType="String" resultType="String">
+		select distinct m.perms
+		from sys_menu m
+		left join sys_role_menu rm on m.menu_id = rm.menu_id
+		left join sys_user_role ur on rm.role_id = ur.role_id
+		left join sys_role r on r.role_id = ur.role_id
+		left join sys_auth_user au on au.user_id = ur.user_id
+		where m.status = '0' and r.status = '0' and au.uuid = #{uuid}
+    </select>
+</mapper>

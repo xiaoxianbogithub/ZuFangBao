@@ -4,6 +4,8 @@ import com.ruoyi.common.core.domain.model.BaseUser;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.data.annotation.Transient;
 
+import java.util.List;
+
 /**
  * @Author climber
  * @Date 2023/11/8 23:40
@@ -35,6 +37,9 @@ public class SysAuthUser extends BaseUser {
 
     /** 用户来源 */
     private String source;
+
+    /** 角色对象 */
+    private List<SysRole> roles;
 
     @Transient
     @ApiModelProperty(hidden = true)
@@ -110,6 +115,15 @@ public class SysAuthUser extends BaseUser {
 
     public void setSessionKey(String sessionKey) {
         this.sessionKey = sessionKey;
+    }
+
+    @Override
+    public List<SysRole> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<SysRole> roles) {
+        this.roles = roles;
     }
 
     @Override

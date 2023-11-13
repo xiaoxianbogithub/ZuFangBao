@@ -131,13 +131,23 @@ import java.util.Set;
     @Override
     public String getPassword()
     {
-        return (this.baseUser instanceof SysUser) ? (SysUser)this.baseUser.getPassword() : sysAuthUser.getSessionKey();
+        if(this.baseUser instanceof SysUser){
+            return ((SysUser)this.baseUser).getPassword();
+        } else if(this.baseUser instanceof SysAuthUser) {
+            return ((SysAuthUser)this.baseUser).getSessionKey();
+        }
+        return null;
     }
 
     @Override
     public String getUsername()
     {
-        return (this.baseUser instanceof SysUser) ? user.getUserName() : sysAuthUser.getUuid();
+        if(this.baseUser instanceof SysUser){
+            return ((SysUser)this.baseUser).getUserName();
+        } else if(this.baseUser instanceof SysAuthUser) {
+            return ((SysAuthUser)this.baseUser).getUuid();
+        }
+        return null;
     }
 
     /**

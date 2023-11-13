@@ -41,13 +41,14 @@ public class SysPermissionService
         if (user.isAdmin())
         {
             roles.add("admin");
+            return roles;
         }
         // 后台用户
         if(user instanceof SysUser){
             SysUser sysUser = (SysUser)user;
             roles.addAll(roleService.selectRolePermissionByUserId(sysUser.getUserId()));
         }
-        // 小程序用户
+        // 第三方用户
         else if (user instanceof SysAuthUser){
             SysAuthUser sysAuthUser = (SysAuthUser)user;
             roles.addAll(roleService.selectAuthRolePermissionByUuId(sysAuthUser.getUuid()));
@@ -61,31 +62,38 @@ public class SysPermissionService
      * @param user 用户信息
      * @return 菜单权限信息
      */
-    public Set<String> getMenuPermission(SysUser user)
+    public Set<String> getMenuPermission(BaseUser user)
     {
         Set<String> perms = new HashSet<String>();
         // 管理员拥有所有权限
         if (user.isAdmin())
         {
             perms.add("*:*:*");
+            return perms;
         }
-        else
+
+        List<SysRole> roles = user.getRoles();
+        if (!CollectionUtils.isEmpty(roles))
         {
-            List<SysRole> roles = user.getRoles();
-            if (!CollectionUtils.isEmpty(roles))
+            // 多角色设置permissions属性，以便数据权限匹配权限
+            for (SysRole role : roles)
             {
-                // 多角色设置permissions属性，以便数据权限匹配权限
-                for (SysRole role : roles)
-                {
-                    Set<String> rolePerms = menuService.selectMenuPermsByRoleId(role.getRoleId());
-                    role.setPermissions(rolePerms);
-                    perms.addAll(rolePerms);
-                }
+                Set<String> rolePerms = menuService.selectMenuPermsByRoleId(role.getRoleId());
+                role.setPermissions(rolePerms);
+                perms.addAll(rolePerms);
             }
-            else
-            {
-                perms.addAll(menuService.selectMenuPermsByUserId(user.getUserId()));
-            }
+            return perms;
+        }
+
+        // 后台用户
+        if(user instanceof SysUser){
+            SysUser sysUser = (SysUser)user;
+            perms.addAll(menuService.selectMenuPermsByUserId(sysUser.getUserId()));
+        }
+        // 第三方用户
+        else if (user instanceof SysAuthUser){
+            SysAuthUser sysAuthUser = (SysAuthUser)user;
+            perms.addAll(menuService.selectMenuPermsByUuId(sysAuthUser.getUuid()));
         }
         return perms;
     }

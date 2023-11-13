@@ -105,7 +105,7 @@
 
     <select id="selectAuthRolePermissionByUuId" parameterType="String" resultMap="SysRoleResult">
         <include refid="selectRoleVo"/>
-        WHERE r.del_flag = '0' and ur.user_id = #{userId}
+        WHERE r.del_flag = '0' and au.uuid = #{uuid}
     </select>
 
     <insert id="insertRole" parameterType="SysRole" useGeneratedKeys="true" keyProperty="roleId">
