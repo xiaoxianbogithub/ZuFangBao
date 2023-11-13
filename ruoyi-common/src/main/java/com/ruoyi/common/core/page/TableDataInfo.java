@@ -12,7 +12,7 @@ public class TableDataInfo implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
-    /** 总记录数 */
+    /** 当前页的条数 */
     private long total;
 
     /** 列表数据 */

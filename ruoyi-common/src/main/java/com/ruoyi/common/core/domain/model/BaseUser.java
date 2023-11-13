@@ -17,4 +17,6 @@ public class BaseUser extends BaseEntity {
     public boolean isAdmin(){ return false; }
 
     public List<SysRole> getRoles(){return null;}
+
+    public Long getUserId(){ return -1L;}
 }

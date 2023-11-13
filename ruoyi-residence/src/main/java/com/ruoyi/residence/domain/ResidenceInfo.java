@@ -22,6 +22,13 @@ public class ResidenceInfo extends BaseEntity {
     private Long id;
 
     /**
+     * 房源名称
+     */
+    @Excel(name = "房源名称")
+    @ApiModelProperty(value = "房源名称", required = true)
+    private String name;
+
+    /**
      * 房源分类id
      */
     @Excel(name = "房源分类id")
@@ -225,6 +232,14 @@ public class ResidenceInfo extends BaseEntity {
 
     public Long getId() {
         return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setCategoryId(Long categoryId) {

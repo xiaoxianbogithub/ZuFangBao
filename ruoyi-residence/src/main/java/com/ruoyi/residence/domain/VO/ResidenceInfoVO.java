@@ -1,6 +1,5 @@
 package com.ruoyi.residence.domain.VO;
 
-import cn.hutool.core.util.StrUtil;
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.residence.domain.ResidenceInfo;
 
@@ -25,6 +24,9 @@ public class ResidenceInfoVO extends ResidenceInfo {
 
     @Excel(name = "户型名")
     private String houseTypeName;
+
+    @Excel(name = "地区名")
+    private String areaName;
 
     public String getCategoryName() {
         return categoryName;
@@ -74,15 +76,24 @@ public class ResidenceInfoVO extends ResidenceInfo {
         this.payName = payName;
     }
 
+    public String getAreaName() {
+        return areaName;
+    }
+
+    public void setAreaName(String areaName) {
+        this.areaName = areaName;
+    }
+
     @Override
     public String toString() {
-        return StrUtil.sub(super.toString(),0,-1) +
-                ", categoryName='" + categoryName + '\'' +
+        return "ResidenceInfoVO{" +
+                "categoryName='" + categoryName + '\'' +
                 ", brandName='" + brandName + '\'' +
                 ", depositName='" + depositName + '\'' +
                 ", payName='" + payName + '\'' +
                 ", depositPay='" + depositPay + '\'' +
                 ", houseTypeName='" + houseTypeName + '\'' +
+                ", areaName='" + areaName + '\'' +
                 '}';
     }
 }

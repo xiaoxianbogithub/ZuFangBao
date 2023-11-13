@@ -2,6 +2,7 @@ package com.ruoyi.residence.service.impl;
 
 import com.ruoyi.common.core.redis.RedisCache;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.residence.domain.ResidenceInfo;
 import com.ruoyi.residence.domain.ResidencePicture;
@@ -169,6 +170,8 @@ public class ResidenceInfoServiceImpl implements IResidenceInfoService
 
     @Override
     public int verifyInfo(ResidenceInfo residenceInfo) {
+        Long userId = SecurityUtils.getLoginUser().getBaseUser().getUserId();
+        residenceInfo.setUpdateBy(userId.toString());
         return residenceInfoMapper.verifyInfoById(residenceInfo);
     }
 }

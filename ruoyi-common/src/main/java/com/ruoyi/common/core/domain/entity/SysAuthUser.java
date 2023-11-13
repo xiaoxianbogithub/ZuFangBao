@@ -61,6 +61,7 @@ public class SysAuthUser extends BaseUser {
         this.uuid = uuid;
     }
 
+    @Override
     public Long getUserId() {
         return userId;
     }

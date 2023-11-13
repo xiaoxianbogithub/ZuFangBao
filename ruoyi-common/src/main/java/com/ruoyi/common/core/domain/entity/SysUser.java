@@ -102,6 +102,7 @@ public class SysUser extends BaseUser
         this.userId = userId;
     }
 
+    @Override
     public Long getUserId()
     {
         return userId;

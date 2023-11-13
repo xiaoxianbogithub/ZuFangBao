@@ -6,6 +6,7 @@ import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
+import com.ruoyi.common.utils.PageUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.residence.domain.ResidenceInfo;
 import com.ruoyi.residence.domain.VO.ResidenceInfoVO;
@@ -43,7 +44,8 @@ public class ResidenceInfoController extends BaseController
     {
         startPage();
         List<ResidenceInfoVO> list = residenceInfoService.selectResidenceInfoList(residenceInfo);
-        return getDataTable(list);
+        //return getDataTable(list);
+        return PageUtils.getDataTable(list);
     }
 
     /**
