@@ -1,7 +1,7 @@
 package com.ruoyi.system.mapper;
 
 import com.ruoyi.common.core.domain.entity.SysUser;
-import com.ruoyi.system.domain.SysAuthUser;
+import com.ruoyi.common.core.domain.entity.SysAuthUser;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -127,12 +127,13 @@ public interface SysUserMapper
      */
     public SysUser checkEmailUnique(String email);
 
+    int insertAuthUser(SysAuthUser authUser);
+
     /**
-     * 根据唯一Id查询第三方授权表信息
+     * 根据唯一Id及来源查询第三方授权表信息
      * @param uuid
+     * @param source
      * @return
      */
-    SysUser selectAuthUserByUuid(String uuid);
-
-    int insertAuthUser(SysAuthUser authUser);
+    SysAuthUser selectAuthUserByUuidAndSource(@Param("uuid") String uuid, @Param("source") String source);
 }

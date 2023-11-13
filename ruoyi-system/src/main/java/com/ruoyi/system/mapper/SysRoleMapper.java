@@ -1,7 +1,8 @@
 package com.ruoyi.system.mapper;
 
-import java.util.List;
 import com.ruoyi.common.core.domain.entity.SysRole;
+
+import java.util.List;
 
 /**
  * 角色表 数据层
@@ -104,4 +105,11 @@ public interface SysRoleMapper
      * @return 结果
      */
     public int deleteRoleByIds(Long[] roleIds);
+
+    /**
+     * 根据uuid查询权限
+     * @param uuid 唯一Id
+     * @return 结果
+     */
+    List<SysRole> selectAuthRolePermissionByUuId(String uuid);
 }

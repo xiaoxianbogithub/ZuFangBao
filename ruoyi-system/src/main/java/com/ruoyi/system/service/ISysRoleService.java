@@ -1,9 +1,10 @@
 package com.ruoyi.system.service;
 
-import java.util.List;
-import java.util.Set;
 import com.ruoyi.common.core.domain.entity.SysRole;
 import com.ruoyi.system.domain.SysUserRole;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * 角色业务层
@@ -170,4 +171,11 @@ public interface ISysRoleService
      * @return 结果
      */
     public int insertAuthUsers(Long roleId, Long[] userIds);
+
+    /**
+     * 根据uuid查询权限
+     * @param uuid 唯一Id
+     * @return 权限
+     */
+    Set<String> selectAuthRolePermissionByUuId(String uuid);
 }

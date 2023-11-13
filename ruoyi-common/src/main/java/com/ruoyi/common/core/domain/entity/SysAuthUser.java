@@ -1,13 +1,15 @@
-package com.ruoyi.system.domain;
+package com.ruoyi.common.core.domain.entity;
 
-import com.ruoyi.common.core.domain.BaseEntity;
+import com.ruoyi.common.core.domain.model.BaseUser;
+import io.swagger.annotations.ApiModelProperty;
+import org.springframework.data.annotation.Transient;
 
 /**
  * @Author climber
  * @Date 2023/11/8 23:40
  * @Description TODO
  **/
-public class SysAuthUser extends BaseEntity {
+public class SysAuthUser extends BaseUser {
     private static final long serialVersionUID = -7690463575962633350L;
 
     /** 授权ID */
@@ -34,15 +36,9 @@ public class SysAuthUser extends BaseEntity {
     /** 用户来源 */
     private String source;
 
-    /**
-     * 微信open_id
-     */
-    private String openId;
-
-    /**
-     * 微信union_id
-     */
-    private String unionId;
+    @Transient
+    @ApiModelProperty(hidden = true)
+    private String sessionKey;
 
     public Long getAuthId() {
         return authId;
@@ -108,19 +104,38 @@ public class SysAuthUser extends BaseEntity {
         this.source = source;
     }
 
-    public String getOpenId() {
-        return openId;
+    public String getSessionKey() {
+        return sessionKey;
     }
 
-    public void setOpenId(String openId) {
-        this.openId = openId;
+    public void setSessionKey(String sessionKey) {
+        this.sessionKey = sessionKey;
     }
 
-    public String getUnionId() {
-        return unionId;
+    @Override
+    public boolean isAdmin()
+    {
+        return isAdmin(this.userId);
     }
 
-    public void setUnionId(String unionId) {
-        this.unionId = unionId;
+    public static boolean isAdmin(Long userId)
+    {
+        return userId != null && 1L == userId;
+    }
+
+
+    @Override
+    public String toString() {
+        return "SysAuthUser{" +
+                "authId=" + authId +
+                ", uuid='" + uuid + '\'' +
+                ", userId=" + userId +
+                ", userName='" + userName + '\'' +
+                ", nickName='" + nickName + '\'' +
+                ", avatar='" + avatar + '\'' +
+                ", email='" + email + '\'' +
+                ", source='" + source + '\'' +
+                //", sessionKey='" + sessionKey + '\'' +
+                '}';
     }
 }

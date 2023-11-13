@@ -1,6 +1,7 @@
 package com.ruoyi.common.core.domain.model;
 
 import com.alibaba.fastjson2.annotation.JSONField;
+import com.ruoyi.common.core.domain.entity.SysAuthUser;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -70,46 +71,30 @@ import java.util.Set;
      */
     private SysUser user;
 
-    /**
-     * 微信用户
-     */
-    private WxUser wxUser;
+    private BaseUser baseUser;
 
     public LoginUser()
     {
     }
 
-    public LoginUser(SysUser user, Set<String> permissions)
+    public LoginUser(BaseUser baseUser, Set<String> permissions)
     {
-        this.user = user;
+        this.baseUser = baseUser;
         this.permissions = permissions;
+
     }
 
-    public LoginUser(Long userId, Long deptId, SysUser user, Set<String> permissions)
+    public LoginUser(Long userId, Long deptId, SysUser baseUser, Set<String> permissions)
     {
         this.userId = userId;
         this.deptId = deptId;
-        this.user = user;
+        this.baseUser = baseUser;
         this.permissions = permissions;
     }
 
-    public LoginUser(WxUser wxUser)
+    public LoginUser(BaseUser baseUser)
     {
-        this.wxUser = wxUser;
-    }
-
-    public LoginUser(WxUser wxUser, Set<String> permissions)
-    {
-        this.wxUser = wxUser;
-        this.permissions = permissions;
-    }
-
-    public LoginUser(Long userId, Long deptId, WxUser wxUser, Set<String> permissions)
-    {
-        this.userId = userId;
-        this.deptId = deptId;
-        this.wxUser = wxUser;
-        this.permissions = permissions;
+        this.baseUser = baseUser;
     }
 
     public Long getUserId()
@@ -146,13 +131,13 @@ import java.util.Set;
     @Override
     public String getPassword()
     {
-        return null != user ? user.getPassword() : wxUser.getSessionKey();
+        return (this.baseUser instanceof SysUser) ? (SysUser)this.baseUser.getPassword() : sysAuthUser.getSessionKey();
     }
 
     @Override
     public String getUsername()
     {
-        return user != null ? user.getUserName() : wxUser.getSessionKey();
+        return (this.baseUser instanceof SysUser) ? user.getUserName() : sysAuthUser.getUuid();
     }
 
     /**
@@ -281,12 +266,12 @@ import java.util.Set;
         this.user = user;
     }
 
-    public WxUser getWxUser() {
-        return wxUser;
+    public BaseUser getBaseUser() {
+        return baseUser;
     }
 
-    public void setWxUser(WxUser wxUser) {
-        this.wxUser = wxUser;
+    public void setBaseUser(BaseUser baseUser) {
+        this.baseUser = baseUser;
     }
 
     @Override

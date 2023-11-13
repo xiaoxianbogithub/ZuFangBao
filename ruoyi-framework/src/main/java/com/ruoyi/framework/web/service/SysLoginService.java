@@ -3,9 +3,9 @@ package com.ruoyi.framework.web.service;
 import com.ruoyi.common.constant.CacheConstants;
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.constant.UserConstants;
+import com.ruoyi.common.core.domain.entity.SysAuthUser;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.core.domain.model.LoginUser;
-import com.ruoyi.common.core.domain.model.WxUser;
 import com.ruoyi.common.core.redis.RedisCache;
 import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.exception.user.*;
@@ -182,14 +182,13 @@ public class SysLoginService
     /**
      * 微信登录验证
      *
-     * @param openId 微信唯一标识
-     * @param sessionKey 微信会话**
+     * @param authUser 第三方登录对象
      * @return 结果
      */
-    public String wxLogin(String openId, String sessionKey)
+    public String wxLogin(SysAuthUser authUser)
     {
-        LoginUser loginUser = new LoginUser(new WxUser(openId, sessionKey));
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(openId, sessionKey);
+        LoginUser loginUser = new LoginUser(authUser);
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(authUser.getUuid(), authUser.getSessionKey());
         authenticationToken.setDetails(loginUser);
         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
         // 生成token

@@ -9,14 +9,16 @@ import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.domain.entity.SysMenu;
 import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.common.core.domain.model.BaseUser;
 import com.ruoyi.common.core.domain.model.LoginBody;
+import com.ruoyi.common.core.domain.model.LoginUser;
 import com.ruoyi.common.domain.WechatLoginRequest;
 import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.common.utils.http.HttpUtils;
 import com.ruoyi.framework.web.service.SysLoginService;
 import com.ruoyi.framework.web.service.SysPermissionService;
 import com.ruoyi.framework.web.service.TokenService;
-import com.ruoyi.system.domain.SysAuthUser;
+import com.ruoyi.common.core.domain.entity.SysAuthUser;
 import com.ruoyi.system.service.ISysConfigService;
 import com.ruoyi.system.service.ISysMenuService;
 import com.ruoyi.system.service.ISysUserService;
@@ -87,7 +89,8 @@ public class SysLoginController
     @GetMapping("getInfo")
     public AjaxResult getInfo()
     {
-        SysUser user = SecurityUtils.getLoginUser().getUser();
+        LoginUser loginUser = SecurityUtils.getLoginUser();
+        BaseUser user = SecurityUtils.getLoginUser().getB();
         // 角色集合
         Set<String> roles = permissionService.getRolePermission(user);
         // 权限集合
@@ -131,13 +134,15 @@ public class SysLoginController
         //获取object中openid字段的值;
         String openid = jsonObject.get("openid").toString();
         String sessionKey = jsonObject.get("session_key").toString();
+        // 拼接source + openid 组成uuid
         String uuid = UserConstants.WE_CHAT + openid;
-
-        SysUser user = userService.selectAuthUserByUuid(uuid);
+        // 根据uuid及来源平台查询第三方登录表信息
+        SysAuthUser authUser = userService.selectAuthUserByUuid(uuid,UserConstants.WE_CHAT);
+        // 查询初始密码
         String password = configService.selectConfigByKey("sys.user.initPassword");
-
-        if(null == user){
-            user = new SysUser();
+        // 用户不存在时,新建用户
+        if(null == authUser){
+            SysUser user = new SysUser();
             String random = getStringRandom(6);
             String userName = "user"+random;
             user.setRoleIds(new Long[]{2L});
@@ -146,21 +151,22 @@ public class SysLoginController
             user.setPassword(SecurityUtils.encryptPassword(password));
             userService.insertUser(user);
 
-            SysAuthUser insertAuthUser = new SysAuthUser();
-            insertAuthUser.setUuid(uuid);
-            insertAuthUser.setUserId(user.getUserId());
-            insertAuthUser.setUserName(userName);
-            insertAuthUser.setNickName(userName);
-            insertAuthUser.setSource(UserConstants.WE_CHAT);
-            userService.insertAuthUser(insertAuthUser);
+            authUser = new SysAuthUser();
+            authUser.setUuid(uuid);
+            authUser.setUserId(user.getUserId());
+            authUser.setUserName(userName);
+            authUser.setNickName(userName);
+            authUser.setSource(UserConstants.WE_CHAT);
+            userService.insertAuthUser(authUser);
         }
-        String token = loginService.wxLogin(openid, sessionKey);
+        authUser.setSessionKey(sessionKey);
+        String token = loginService.wxLogin(authUser);
         return AjaxResult.success().put(Constants.TOKEN, token);
     }
 
     //生成随机用户名，数字和字母组成,
     public static String getStringRandom(int length) {
-        String val = "";
+        StringBuilder val = new StringBuilder();
         Random random = new Random();
         //参数length，表明生成几位随机数
         for (int i = 0; i < length; i++) {
@@ -169,11 +175,11 @@ public class SysLoginController
             if ("char".equalsIgnoreCase(charOrNum)) {
                 //输出是大写字母仍是小写字母
                 int temp = random.nextInt(2) % 2 == 0 ? 65 : 97;
-                val += (char) (random.nextInt(26) + temp);
-            } else if ("num".equalsIgnoreCase(charOrNum)) {
-                val += String.valueOf(random.nextInt(10));
+                val.append((char) (random.nextInt(26) + temp));
+            } else {
+                val.append(String.valueOf(random.nextInt(10)));
             }
         }
-        return val;
+        return val.toString();
     }
 }

@@ -1,15 +1,18 @@
 package com.ruoyi.framework.web.service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import com.ruoyi.common.core.domain.entity.SysAuthUser;
+import com.ruoyi.common.core.domain.entity.SysRole;
+import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.common.core.domain.model.BaseUser;
+import com.ruoyi.system.service.ISysMenuService;
+import com.ruoyi.system.service.ISysRoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
-import com.ruoyi.common.core.domain.entity.SysRole;
-import com.ruoyi.common.core.domain.entity.SysUser;
-import com.ruoyi.system.service.ISysMenuService;
-import com.ruoyi.system.service.ISysRoleService;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 用户权限处理
@@ -31,7 +34,7 @@ public class SysPermissionService
      * @param user 用户信息
      * @return 角色权限信息
      */
-    public Set<String> getRolePermission(SysUser user)
+    public Set<String> getRolePermission(BaseUser user)
     {
         Set<String> roles = new HashSet<String>();
         // 管理员拥有所有权限
@@ -39,9 +42,15 @@ public class SysPermissionService
         {
             roles.add("admin");
         }
-        else
-        {
-            roles.addAll(roleService.selectRolePermissionByUserId(user.getUserId()));
+        // 后台用户
+        if(user instanceof SysUser){
+            SysUser sysUser = (SysUser)user;
+            roles.addAll(roleService.selectRolePermissionByUserId(sysUser.getUserId()));
+        }
+        // 小程序用户
+        else if (user instanceof SysAuthUser){
+            SysAuthUser sysAuthUser = (SysAuthUser)user;
+            roles.addAll(roleService.selectAuthRolePermissionByUuId(sysAuthUser.getUuid()));
         }
         return roles;
     }

@@ -9,7 +9,7 @@ import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.bean.BeanValidators;
 import com.ruoyi.common.utils.spring.SpringUtils;
-import com.ruoyi.system.domain.SysAuthUser;
+import com.ruoyi.common.core.domain.entity.SysAuthUser;
 import com.ruoyi.system.domain.SysPost;
 import com.ruoyi.system.domain.SysUserPost;
 import com.ruoyi.system.domain.SysUserRole;
@@ -541,8 +541,8 @@ public class SysUserServiceImpl implements ISysUserService
     }
 
     @Override
-    public SysUser selectAuthUserByUuid(String uuid) {
-        return userMapper.selectAuthUserByUuid(uuid);
+    public SysAuthUser selectAuthUserByUuid(String uuid, String source) {
+        return userMapper.selectAuthUserByUuidAndSource(uuid,source);
     }
 
     @Override

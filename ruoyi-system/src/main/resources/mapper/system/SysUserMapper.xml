@@ -66,6 +66,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		left join sys_dept d on u.dept_id = d.dept_id
 		left join sys_user_role ur on u.user_id = ur.user_id
 		left join sys_role r on r.role_id = ur.role_id
+		left join sys_auth_user au on au.user_id = u.user_id
     </sql>
     
     <select id="selectUserList" parameterType="SysUser" resultMap="SysUserResult">
@@ -230,11 +231,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach> 
  	</delete>
 
-	<select id="selectAuthUserByUuid" parameterType="String" resultMap="SysUserResult">
-		select b.user_id as user_id, b.user_name as user_name, b.password as password
+	<select id="selectAuthUserByUuidAndSource" resultMap="SysAuthUserResult">
+		select a.auth_id, a.uuid, a.user_id, a.user_name, a.nick_name, a.avatar, a.email, a.source, a.create_time
 		from sys_auth_user a
 		left join sys_user b on a.user_id = b.user_id
-		where a.uuid = #{uuid} and b.del_flag = '0'
+		where a.uuid = #{uuid} and a.source = #{source} and b.del_flag = '0'
 	</select>
 
 	<insert id="insertAuthUser" parameterType="SysAuthUser">
@@ -246,8 +247,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="avatar != null and avatar != ''">avatar,</if>
 		<if test="email != null and email != ''">email,</if>
 		<if test="source != null and source != ''">source,</if>
-		<if test="openId != null and openId != ''">open_id,</if>
-		<if test="unionId != null and unionId != ''">union_id,</if>
 		create_time
 		)values(
 		<if test="uuid != null and uuid != ''">#{uuid},</if>
@@ -257,8 +256,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<if test="avatar != null and avatar != ''">#{avatar},</if>
 		<if test="email != null and email != ''">#{email},</if>
 		<if test="source != null and source != ''">#{source},</if>
-		<if test="openId != null and openId != ''">#{openId},</if>
-		<if test="unionId != null and unionId != ''">#{unionId},</if>
 		sysdate()
 		)
 	</insert>
