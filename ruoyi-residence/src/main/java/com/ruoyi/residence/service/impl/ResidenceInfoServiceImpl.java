@@ -94,6 +94,8 @@ public class ResidenceInfoServiceImpl implements IResidenceInfoService
     @Override
     public int insertResidenceInfo(ResidenceInfo residenceInfo)
     {
+        Long userId = SecurityUtils.getLoginUser().getBaseUser().getUserId();
+        residenceInfo.setCreateBy(userId.toString());
         residenceInfo.setCreateTime(DateUtils.getNowDate());
         int rows = residenceInfoMapper.insertResidenceInfo(residenceInfo);
         insertResidencePicture(residenceInfo);
@@ -110,6 +112,8 @@ public class ResidenceInfoServiceImpl implements IResidenceInfoService
     @Override
     public int updateResidenceInfo(ResidenceInfo residenceInfo)
     {
+        Long userId = SecurityUtils.getLoginUser().getBaseUser().getUserId();
+        residenceInfo.setUpdateBy(userId.toString());
         residenceInfo.setUpdateTime(DateUtils.getNowDate());
         residenceInfoMapper.deleteResidencePictureByResidenceId(residenceInfo.getId());
         insertResidencePicture(residenceInfo);
@@ -161,7 +165,7 @@ public class ResidenceInfoServiceImpl implements IResidenceInfoService
                 residencePicture.setResidenceId(id);
                 list.add(residencePicture);
             }
-            if (list.size() > 0)
+            if (!list.isEmpty())
             {
                 residenceInfoMapper.batchResidencePicture(list);
             }
@@ -172,6 +176,7 @@ public class ResidenceInfoServiceImpl implements IResidenceInfoService
     public int verifyInfo(ResidenceInfo residenceInfo) {
         Long userId = SecurityUtils.getLoginUser().getBaseUser().getUserId();
         residenceInfo.setUpdateBy(userId.toString());
+        residenceInfo.setUpdateTime(DateUtils.getNowDate());
         return residenceInfoMapper.verifyInfoById(residenceInfo);
     }
 }

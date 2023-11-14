@@ -200,7 +200,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <trim prefix="SET" suffixOverrides=",">
             <if test="name != null">`name` = #{name},</if>
             <if test="categoryId != null">category_id = #{categoryId},</if>
-            <if test="brandId != null">brand_id = #{brandId},</if>
+            <if test="brandId != null and brandId > 0">brand_id = #{brandId},</if>
             <if test="price != null">price = #{price},</if>
             <if test="depositId != null">deposit_id = #{depositId},</if>
             <if test="payId != null">pay_id = #{payId},</if>
@@ -212,7 +212,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="houseTypeId != null">house_type_id = #{houseTypeId},</if>
             <if test="square != null">square = #{square},</if>
             <if test="floor != null">floor = #{floor},</if>
-            <if test="towards != null">floor = #{towards},</if>
+            <if test="towards != null">towards = #{towards},</if>
             <if test="elevator != null">elevator = #{elevator},</if>
             <if test="furnish != null">furnish = #{furnish},</if>
             <if test="homePageImage != null">home_page_image = #{homePageImage},</if>

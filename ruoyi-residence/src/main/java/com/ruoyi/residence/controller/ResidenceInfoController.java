@@ -89,7 +89,8 @@ public class ResidenceInfoController extends BaseController
     /**
      * 修改房屋基本信息
      */
-    @PreAuthorize("@ss.hasPermi('residence:info:edit')")
+    //@PreAuthorize("@ss.hasPermi('residence:info:edit')")
+    @Anonymous
     @Log(title = "房屋基本信息", businessType = BusinessType.UPDATE)
     @PutMapping
     @ApiOperation("修改房屋基本信息")
@@ -98,7 +99,8 @@ public class ResidenceInfoController extends BaseController
         return toAjax(residenceInfoService.updateResidenceInfo(residenceInfo));
     }
 
-    @PreAuthorize("@ss.hasPermi('residence:info:verify')")
+    //@PreAuthorize("@ss.hasPermi('residence:info:verify')")
+    @Anonymous
     @Log(title = "房屋基本信息", businessType = BusinessType.UPDATE)
     @PostMapping("/verifyInfo")
     @ApiOperation("房源审核")
@@ -110,7 +112,8 @@ public class ResidenceInfoController extends BaseController
     /**
      * 删除房屋基本信息
      */
-    @PreAuthorize("@ss.hasPermi('residence:info:remove')")
+    //@PreAuthorize("@ss.hasPermi('residence:info:remove')")
+    @Anonymous
     @Log(title = "房屋基本信息", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     @ApiOperation("删除房屋基本信息")

@@ -198,7 +198,7 @@ public class ResidenceInfo extends BaseEntity {
      * 状态
      */
     @Excel(name = "状态")
-    @ApiModelProperty(value = "状态(-2草稿;-1下架;1上架,0待审核;2已审核)", required = true)
+    @ApiModelProperty(value = "状态(0草稿;1待审核;2上架;3下架)", required = true)
     private String status;
 
     /**
