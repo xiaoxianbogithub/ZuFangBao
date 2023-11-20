@@ -215,4 +215,10 @@ public interface ISysUserService
     SysAuthUser selectAuthUserByUuid(String uuid,String source);
 
     int insertAuthUser(SysAuthUser insertAuthUser);
+
+    /**
+     * 实名认证
+     * @param params 参数
+     */
+    void certification(String params);
 }

@@ -40,6 +40,9 @@ public class SysUser extends BaseUser
     @Excel(name = "用户名称")
     private String nickName;
 
+    @Excel(name = "身份证号")
+    private String idNumber;
+
     /** 用户邮箱 */
     @Excel(name = "用户邮箱")
     private String email;
@@ -61,6 +64,9 @@ public class SysUser extends BaseUser
     /** 帐号状态（0正常 1停用） */
     @Excel(name = "帐号状态", readConverterExp = "0=正常,1=停用")
     private String status;
+
+    @Excel(name = "是否实名认证", readConverterExp = "0=未实名,1=已实名")
+    private Boolean certification;
 
     /** 删除标志（0代表存在 2代表删除） */
     private String delFlag;
@@ -146,6 +152,14 @@ public class SysUser extends BaseUser
         this.nickName = nickName;
     }
 
+    public String getIdNumber() {
+        return idNumber;
+    }
+
+    public void setIdNumber(String idNumber) {
+        this.idNumber = idNumber;
+    }
+
     @Xss(message = "用户账号不能包含脚本字符")
     @NotBlank(message = "用户账号不能为空")
     @Size(min = 0, max = 30, message = "用户账号长度不能超过30个字符")
@@ -222,6 +236,14 @@ public class SysUser extends BaseUser
         this.status = status;
     }
 
+    public Boolean getCertification() {
+        return certification;
+    }
+
+    public void setCertification(Boolean certification) {
+        this.certification = certification;
+    }
+
     public String getDelFlag()
     {
         return delFlag;
@@ -262,6 +284,7 @@ public class SysUser extends BaseUser
         this.dept = dept;
     }
 
+    @Override
     public List<SysRole> getRoles()
     {
         return roles;
@@ -302,19 +325,22 @@ public class SysUser extends BaseUser
         this.roleId = roleId;
     }
 
+
     @Override
     public String toString() {
-        return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
+        return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
             .append("userId", getUserId())
             .append("deptId", getDeptId())
             .append("userName", getUserName())
             .append("nickName", getNickName())
+            .append("idNumber", getIdNumber())
             .append("email", getEmail())
             .append("phonenumber", getPhonenumber())
             .append("sex", getSex())
             .append("avatar", getAvatar())
             .append("password", getPassword())
             .append("status", getStatus())
+            .append("certification", getCertification())
             .append("delFlag", getDelFlag())
             .append("loginIp", getLoginIp())
             .append("loginDate", getLoginDate())

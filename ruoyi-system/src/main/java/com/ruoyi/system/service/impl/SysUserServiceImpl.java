@@ -549,4 +549,9 @@ public class SysUserServiceImpl implements ISysUserService
     public int insertAuthUser(SysAuthUser authUser) {
         return userMapper.insertAuthUser(authUser);
     }
+
+    @Override
+    public void certification(String params) {
+
+    }
 }
