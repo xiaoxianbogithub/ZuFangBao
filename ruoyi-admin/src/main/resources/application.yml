@@ -170,3 +170,14 @@ wx:
   secret: 0940f7982d0d1ab7c7da1952f0828b07
   jscode2sessionUrl: https://api.weixin.qq.com/sns/jscode2session
 
+
+authentication:
+  appKey: 204485288
+  appSecret: u1ycg4SGZ1yervqT2rrmsAcmJ9lxvFtU
+  appCode: 8b099998695448ae805de8ecd1d77e48
+  # 【阿里官方】身份证OCR文字识别
+  cardNumberHost: https://cardnumber.market.alicloudapi.com
+  cardNumberPath: /rest/160601/ocr/ocr_idcard.json
+  # 【公安直连】实名认证-实名认证接口-身份证实名认证接口-身份证认证-二要素实名认证-实名认证api-身份证实名认证【实名认证】
+  checkOneHost: http://checkone.market.alicloudapi.com
+  checkOnePath: /chinadatapay/1882

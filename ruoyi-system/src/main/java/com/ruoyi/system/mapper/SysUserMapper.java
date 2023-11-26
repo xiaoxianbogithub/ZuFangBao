@@ -136,4 +136,10 @@ public interface SysUserMapper
      * @return
      */
     SysAuthUser selectAuthUserByUuidAndSource(@Param("uuid") String uuid, @Param("source") String source);
+
+    /**
+     * 修改user "id_number", "real_name", "id_card_start_date", "id_card_end_date", "certification" 字段
+     * @param sysUser user对象
+     */
+    void updateCertification(SysUser sysUser);
 }
