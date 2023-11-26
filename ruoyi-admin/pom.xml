@@ -67,6 +67,11 @@
             <artifactId>ruoyi-residence</artifactId>
         </dependency>
 
+        <!--租房模块-->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-vip</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
