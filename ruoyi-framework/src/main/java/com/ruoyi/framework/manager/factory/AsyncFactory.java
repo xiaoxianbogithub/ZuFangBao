@@ -22,6 +22,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.util.TimerTask;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 /**
  * 异步工厂（产生任务用）
@@ -114,19 +116,37 @@ public class AsyncFactory
                 // 修改数据库sys_user信息
                 SysUser sysUser = new SysUser(verifiedBody.getUserId());
                 sysUser.setCertification("3");
-
-                // 获取身份证人像面信息
-                JSONObject faceRJsonResult = AliYunOcrUtil.idCardOcr(verifiedBody.getFaceImg(), "face", false);
-                // 识别成功后提交公安验证
-                if(AliYunOcrUtil.isOcrSuccessful(faceRJsonResult)){
-                    // 提取身份证的姓名和身份证号码，并设置到 SysUser 对象中
-                    SpringUtils.getBean(ISysUserService.class).extractAndSetUserInfo(sysUser,faceRJsonResult);
-                    // 提交信息至公安实名认证
-                    JSONObject verifiedJson = VerifiedUtil.verified(sysUser.getRealName(), sysUser.getIdNumber());
-                    // 是否成功
-                    if("10000".equals(verifiedJson.get("code"))){
-                        sysUser.setCertification("2");
+                CompletableFuture<Void> faceAndIdFuture = CompletableFuture.runAsync(() -> {
+                    // 获取身份证人像面信息
+                    JSONObject faceRJsonResult = AliYunOcrUtil.idCardOcr(verifiedBody.getFaceImg(), "face", false);
+                    // 识别成功后提交公安验证
+                    if (AliYunOcrUtil.isOcrSuccessful(faceRJsonResult)) {
+                        // 提取身份证的姓名和身份证号码，并设置到 SysUser 对象中
+                        SpringUtils.getBean(ISysUserService.class).extractAndSetUserInfo(sysUser, faceRJsonResult);
+                        // 提交信息至公安实名认证
+                        JSONObject verifiedJson = VerifiedUtil.verified(sysUser.getRealName(), sysUser.getIdNumber());
+                        // 是否成功
+                        if ("10000".equals(verifiedJson.get("code"))) {
+                            sysUser.setCertification("2");
+                        }
                     }
+                });
+                CompletableFuture<Void> backFuture = CompletableFuture.runAsync(() -> {
+                    // 获取身份证人像面信息
+                    JSONObject backRJsonResult = AliYunOcrUtil.idCardOcr(verifiedBody.getBackImg(), "back", false);
+                    // 识别成功后提交公安验证
+                    if (AliYunOcrUtil.isOcrSuccessful(backRJsonResult)) {
+                        // 提取身份证的姓名和身份证号码，并设置到 SysUser 对象中
+                        SpringUtils.getBean(ISysUserService.class).extractAndSetUserInfo(sysUser, backRJsonResult);
+                    }
+                });
+                // 使用CompletableFuture.allOf()等待两个任务都完成
+                CompletableFuture<Void> allFuture = CompletableFuture.allOf(faceAndIdFuture, backFuture);
+                try {
+                    // 主线程等待所有异步任务完成
+                    allFuture.get();
+                } catch (InterruptedException | ExecutionException e) {
+                    sys_user_logger.error("实名认证获取结果错误: {}", e);
                 }
                 SpringUtils.getBean(ISysUserService.class).updateUserCertification(sysUser);
             }

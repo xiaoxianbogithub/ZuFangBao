@@ -581,18 +581,13 @@ public class SysUserServiceImpl implements ISysUserService
         if(json.containsKey("num")){
             sysUser.setIdNumber(json.getStr("num"));
         }
-        // 身份证有效期
-        if(json.containsKey("validPeriod")){
-            sysUser.setIdCardStartDate(DateUtils.getNowDate());
-            sysUser.setIdCardEndDate(DateUtils.getNowDate());
-        }
         // 有效期起始时间
         if(json.containsKey("start_date")){
-            sysUser.setIdCardEndDate(DateUtils.dateTime(DateUtils.YYYY_MM_DD, json.getStr("start_date")));
+            sysUser.setIdCardStartDate(DateUtils.dateTime(DateUtils.YYYYMMDD, json.getStr("start_date")));
         }
         // 有效期结束时间
         if(json.containsKey("end_date")){
-            sysUser.setIdCardEndDate(DateUtils.dateTime(DateUtils.YYYY_MM_DD, json.getStr("end_date")));
+            sysUser.setIdCardEndDate(DateUtils.dateTime(DateUtils.YYYYMMDD, json.getStr("end_date")));
         }
 
     }
