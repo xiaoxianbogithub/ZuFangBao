@@ -10,6 +10,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import springfox.documentation.spring.web.json.Json;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,10 +41,9 @@ public class AliYunOcrUtil {
     public static JSONObject idCardOcr(String imgPath,String side, boolean qualityInfo){
         log.info("进入ALiYun OCR");
         //configure配置
-        String configStr = JSONUtil.createObj()
+        JSONObject configStr = JSONUtil.createObj()
                 .set("side", side)
-                .set("quality_info", qualityInfo)
-                .toString();
+                .set("quality_info", qualityInfo);
         // 拼装请求body的json字符串
         String params = JSONUtil.createObj()
                 .set("image",imgPath)

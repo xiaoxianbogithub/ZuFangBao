@@ -25,7 +25,9 @@ public class CertificationService {
     public void certification(VerifiedBody verifiedBody) {
         SysUser sysUser = new SysUser(verifiedBody.getUserId());
         sysUser.setCertification("1");
+        // 修改实名状态为"审核中"
         SpringUtils.getBean(ISysUserService.class).updateUserCertification(sysUser);
+        // 将实名接口请求提交到线程池异步处理
         AsyncManager.me().execute(AsyncFactory.certification(verifiedBody));
     }
 }

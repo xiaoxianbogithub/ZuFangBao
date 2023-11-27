@@ -235,8 +235,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		<set>
 			<if test="realName != null and realName != ''">real_name = #{realName},</if>
 			<if test="idNumber != null and idNumber != ''">id_number = #{idNumber},</if>
-			<if test="idCardStartDate != null and idCardStartDate != ''">id_card_start_date = #{idCardStartDate},</if>
-			<if test="idCardEndDate != null and idCardEndDate != ''">id_card_end_date = #{idCardEndDate},</if>
+			<if test="idCardStartDate != null">id_card_start_date = #{idCardStartDate},</if>
+			<if test="idCardEndDate != null">id_card_end_date = #{idCardEndDate},</if>
 			<if test="certification != null and certification != ''">certification = #{certification},</if>
 			update_time = sysdate()
 		</set>
