@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 
 @Component
 public class qurzty {
+
     private static final Logger log = LoggerFactory.getLogger(qurzty.class);
     @Autowired
     private IVipTradeOrderService vipTradeOrderService;

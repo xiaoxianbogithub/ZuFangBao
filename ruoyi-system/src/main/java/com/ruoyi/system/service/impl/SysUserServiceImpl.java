@@ -1,15 +1,17 @@
 package com.ruoyi.system.service.impl;
 
+import cn.hutool.json.JSONObject;
 import com.ruoyi.common.annotation.DataScope;
 import com.ruoyi.common.constant.UserConstants;
+import com.ruoyi.common.core.domain.entity.SysAuthUser;
 import com.ruoyi.common.core.domain.entity.SysRole;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.exception.ServiceException;
+import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.bean.BeanValidators;
 import com.ruoyi.common.utils.spring.SpringUtils;
-import com.ruoyi.common.core.domain.entity.SysAuthUser;
 import com.ruoyi.system.domain.SysPost;
 import com.ruoyi.system.domain.SysUserPost;
 import com.ruoyi.system.domain.SysUserRole;
@@ -545,13 +547,53 @@ public class SysUserServiceImpl implements ISysUserService
         return userMapper.selectAuthUserByUuidAndSource(uuid,source);
     }
 
+    /**
+     * 插入第三方登录表
+     * @param authUser 第三方登录用户实体
+     * @return
+     */
     @Override
     public int insertAuthUser(SysAuthUser authUser) {
         return userMapper.insertAuthUser(authUser);
     }
 
+    /**
+     * 修改user "id_number", "real_name", "id_card_start_date", "id_card_end_date", "certification" 字段
+     * @param sysUser user对象
+     */
     @Override
-    public void certification(String params) {
+    public void updateUserCertification(SysUser sysUser) {
+        userMapper.updateCertification(sysUser);
+    }
+
+    /**
+     * 提取身份证的姓名和身份证号码，并设置到 SysUser 对象中
+     * @param sysUser user对象
+     * @param json json对象
+     */
+    @Override
+    public void extractAndSetUserInfo(SysUser sysUser, JSONObject json) {
+        // 真实姓名
+        if(json.containsKey("name")){
+            sysUser.setRealName(json.getStr("name"));
+        }
+        // 身份证号
+        if(json.containsKey("num")){
+            sysUser.setIdNumber(json.getStr("num"));
+        }
+        // 身份证有效期
+        if(json.containsKey("validPeriod")){
+            sysUser.setIdCardStartDate(DateUtils.getNowDate());
+            sysUser.setIdCardEndDate(DateUtils.getNowDate());
+        }
+        // 有效期起始时间
+        if(json.containsKey("start_date")){
+            sysUser.setIdCardEndDate(DateUtils.dateTime(DateUtils.YYYY_MM_DD, json.getStr("start_date")));
+        }
+        // 有效期结束时间
+        if(json.containsKey("end_date")){
+            sysUser.setIdCardEndDate(DateUtils.dateTime(DateUtils.YYYY_MM_DD, json.getStr("end_date")));
+        }
 
     }
 }

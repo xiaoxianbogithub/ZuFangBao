@@ -1,7 +1,8 @@
 package com.ruoyi.system.service;
 
-import com.ruoyi.common.core.domain.entity.SysUser;
+import cn.hutool.json.JSONObject;
 import com.ruoyi.common.core.domain.entity.SysAuthUser;
+import com.ruoyi.common.core.domain.entity.SysUser;
 
 import java.util.List;
 
@@ -214,11 +215,23 @@ public interface ISysUserService
      */
     SysAuthUser selectAuthUserByUuid(String uuid,String source);
 
+    /**
+     * 插入第三方登录表信息
+     * @param insertAuthUser 用户信息
+     * @return 行数
+     */
     int insertAuthUser(SysAuthUser insertAuthUser);
 
     /**
-     * 实名认证
-     * @param params 参数
+     * 修改user "id_number", "real_name", "id_card_start_date", "id_card_end_date", "certification" 字段
+     * @param sysUser user对象
      */
-    void certification(String params);
+    void updateUserCertification(SysUser sysUser);
+
+    /**
+     * 提取身份证的姓名和身份证号码，并设置到 SysUser 对象中
+     * @param sysUser user对象
+     * @param json json对象
+     */
+    void extractAndSetUserInfo(SysUser sysUser, JSONObject json);
 }

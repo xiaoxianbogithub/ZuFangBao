@@ -40,8 +40,17 @@ public class SysUser extends BaseUser
     @Excel(name = "用户名称")
     private String nickName;
 
+    @Excel(name = "真实姓名")
+    private String realName;
+
     @Excel(name = "身份证号")
     private String idNumber;
+
+    @Excel(name = "身份证开始日期")
+    private Date idCardStartDate;
+
+    @Excel(name = "身份证结束日期")
+    private Date idCardEndDate;
 
     /** 用户邮箱 */
     @Excel(name = "用户邮箱")
@@ -65,8 +74,8 @@ public class SysUser extends BaseUser
     @Excel(name = "帐号状态", readConverterExp = "0=正常,1=停用")
     private String status;
 
-    @Excel(name = "是否实名认证", readConverterExp = "0=未实名,1=已实名")
-    private Boolean certification;
+    @Excel(name = "是否实名认证", readConverterExp = "0:未实名认证;1:认证中;2:已实名认证;3:认证失败")
+    private String certification;
 
     /** 删除标志（0代表存在 2代表删除） */
     private String delFlag;
@@ -160,6 +169,30 @@ public class SysUser extends BaseUser
         this.idNumber = idNumber;
     }
 
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
+
+    public Date getIdCardStartDate() {
+        return idCardStartDate;
+    }
+
+    public void setIdCardStartDate(Date idCardStartDate) {
+        this.idCardStartDate = idCardStartDate;
+    }
+
+    public Date getIdCardEndDate() {
+        return idCardEndDate;
+    }
+
+    public void setIdCardEndDate(Date idCardEndDate) {
+        this.idCardEndDate = idCardEndDate;
+    }
+
     @Xss(message = "用户账号不能包含脚本字符")
     @NotBlank(message = "用户账号不能为空")
     @Size(min = 0, max = 30, message = "用户账号长度不能超过30个字符")
@@ -236,11 +269,11 @@ public class SysUser extends BaseUser
         this.status = status;
     }
 
-    public Boolean getCertification() {
+    public String getCertification() {
         return certification;
     }
 
-    public void setCertification(Boolean certification) {
+    public void setCertification(String certification) {
         this.certification = certification;
     }
 

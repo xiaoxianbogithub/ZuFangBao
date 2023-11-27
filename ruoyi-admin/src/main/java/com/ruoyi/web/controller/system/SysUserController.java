@@ -6,11 +6,13 @@ import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.domain.entity.SysDept;
 import com.ruoyi.common.core.domain.entity.SysRole;
 import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.common.core.domain.model.VerifiedBody;
 import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.framework.web.service.CertificationService;
 import com.ruoyi.system.service.ISysDeptService;
 import com.ruoyi.system.service.ISysPostService;
 import com.ruoyi.system.service.ISysRoleService;
@@ -244,9 +246,10 @@ public class SysUserController extends BaseController
     }
 
     @PostMapping("/certification")
-    public AjaxResult certification(String params)
+    public AjaxResult certification(@RequestBody VerifiedBody verifiedBody)
     {
-        userService.certification(params);
+        CertificationService certificationService = new CertificationService();
+        certificationService.certification(verifiedBody);
         return success();
     }
 

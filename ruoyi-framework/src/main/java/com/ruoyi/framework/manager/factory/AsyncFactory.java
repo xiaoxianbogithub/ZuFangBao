@@ -1,9 +1,11 @@
 package com.ruoyi.framework.manager.factory;
 
-import java.util.TimerTask;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import cn.hutool.json.JSONObject;
 import com.ruoyi.common.constant.Constants;
+import com.ruoyi.common.core.domain.entity.SysUser;
+import com.ruoyi.common.core.domain.model.VerifiedBody;
+import com.ruoyi.common.utils.identityVerification.AliYunOcrUtil;
+import com.ruoyi.common.utils.identityVerification.VerifiedUtil;
 import com.ruoyi.common.utils.LogUtils;
 import com.ruoyi.common.utils.ServletUtils;
 import com.ruoyi.common.utils.StringUtils;
@@ -14,7 +16,12 @@ import com.ruoyi.system.domain.SysLogininfor;
 import com.ruoyi.system.domain.SysOperLog;
 import com.ruoyi.system.service.ISysLogininforService;
 import com.ruoyi.system.service.ISysOperLogService;
+import com.ruoyi.system.service.ISysUserService;
 import eu.bitwalker.useragentutils.UserAgent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.util.TimerTask;
 
 /**
  * 异步工厂（产生任务用）
@@ -98,5 +105,32 @@ public class AsyncFactory
                 SpringUtils.getBean(ISysOperLogService.class).insertOperlog(operLog);
             }
         };
+    }
+
+    public static TimerTask certification(final VerifiedBody verifiedBody){
+        return new TimerTask() {
+            @Override
+            public void run() {
+                // 修改数据库sys_user信息
+                SysUser sysUser = new SysUser(verifiedBody.getUserId());
+                sysUser.setCertification("3");
+
+                // 获取身份证人像面信息
+                JSONObject faceRJsonResult = AliYunOcrUtil.idCardOcr(verifiedBody.getFaceImg(), "face", false);
+                // 识别成功后提交公安验证
+                if(AliYunOcrUtil.isOcrSuccessful(faceRJsonResult)){
+                    // 提取身份证的姓名和身份证号码，并设置到 SysUser 对象中
+                    SpringUtils.getBean(ISysUserService.class).extractAndSetUserInfo(sysUser,faceRJsonResult);
+                    // 提交信息至公安实名认证
+                    JSONObject verifiedJson = VerifiedUtil.verified(sysUser.getRealName(), sysUser.getIdNumber());
+                    // 是否成功
+                    if("10000".equals(verifiedJson.get("code"))){
+                        sysUser.setCertification("2");
+                    }
+                }
+                SpringUtils.getBean(ISysUserService.class).updateUserCertification(sysUser);
+            }
+        };
+
     }
 }
