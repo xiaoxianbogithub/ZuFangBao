@@ -21,7 +21,7 @@ public class WxPayAutoCertificateConfig {
      * 初始化商户配置
      * @return
      */
-    @Bean
+//    @Bean
     public RSAAutoCertificateConfig rsaAutoCertificateConfig() {
         RSAAutoCertificateConfig config = new RSAAutoCertificateConfig.Builder()
                 .merchantId(wxPayConfig.getMerchantId())

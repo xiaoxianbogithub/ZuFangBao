@@ -1,6 +1,7 @@
 package com.ruoyi.vip.commonutil;
 
 
+import com.ruoyi.vip.domain.VipTradeOrder;
 import com.ruoyi.vip.service.IVipTradeOrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +15,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-@EnableScheduling
 public class qurzty {
 
     private static final Logger log = LoggerFactory.getLogger(qurzty.class);
@@ -25,6 +25,9 @@ public class qurzty {
     public void startTask(){
         Date date=new Date();
         List<VipTradeOrder> vipTradeOrderList=vipTradeOrderService.selectAll();
+        if(vipTradeOrderList.isEmpty()){
+            return;
+        }
         List<VipTradeOrder> vList=vipTradeOrderList.stream().filter(s->{
            return date.after(s.getExpireTime());
         }).collect(Collectors.toList());
