@@ -12,17 +12,17 @@ import java.io.Serializable;
  * @data 23/11/2023 17:52
  * @description
  */
-@ApiModel(description = "实名认证参数")
+@ApiModel(value ="VerifiedBody", description = "实名认证参数")
 public class VerifiedBody implements Serializable {
     private static final long serialVersionUID = -5310653243327054130L;
 
-    @ApiModelProperty(name = "用户Id")
+    @ApiModelProperty(value = "用户Id",required = true)
     private Long userId;
 
-    @ApiModelProperty(name = "人像面身份证图片地址")
+    @ApiModelProperty(value = "人像面身份证图片地址",required = true)
     private String faceImg;
 
-    @ApiModelProperty(name = "国徽面身份证图片地址")
+    @ApiModelProperty(value = "国徽面身份证图片地址",required = true)
     private String backImg;
 
     public Long getUserId() {

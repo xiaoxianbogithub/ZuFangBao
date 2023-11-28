@@ -3,6 +3,7 @@ package com.ruoyi.vip.config;
 
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Component;
  * @date 2023/7/26 09:30
  */
 @Data
+@EqualsAndHashCode(callSuper = false)
 @Component
 //@ConfigurationProperties(prefix = "wx.pay")
 public class WxPayConfig {

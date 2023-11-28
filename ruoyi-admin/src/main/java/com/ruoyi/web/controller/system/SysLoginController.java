@@ -129,7 +129,7 @@ public class SysLoginController
         }
         // 转换成Object
         JSONObject jsonObject= JSON.parseObject(httpResult);
-        //获取object中openid字段的值;
+        // 获取object中openid字段的值
         String openid = jsonObject.get("openid").toString();
         String sessionKey = jsonObject.get("session_key").toString();
         // 拼接source + openid 组成uuid

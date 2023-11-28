@@ -17,6 +17,8 @@ import com.ruoyi.system.service.ISysDeptService;
 import com.ruoyi.system.service.ISysPostService;
 import com.ruoyi.system.service.ISysRoleService;
 import com.ruoyi.system.service.ISysUserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,6 +35,7 @@ import java.util.stream.Collectors;
  * 
  * @author ruoyi
  */
+@Api("用户信息")
 @RestController
 @RequestMapping("/system/user")
 public class SysUserController extends BaseController
@@ -245,6 +248,7 @@ public class SysUserController extends BaseController
         return success(deptService.selectDeptTreeList(dept));
     }
 
+    @ApiOperation(value = "实名认证")
     @PostMapping("/certification")
     public AjaxResult certification(@RequestBody VerifiedBody verifiedBody)
     {

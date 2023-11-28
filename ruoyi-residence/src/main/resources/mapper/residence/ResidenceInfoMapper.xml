@@ -95,6 +95,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="roomNo != null and roomNo != '' "> and ri.room_no like concat('%', #{roomNo}, '%')</if>
             <if test="addressDetail != null  and addressDetail != ''"> and ri.address_detail = #{addressDetail}</if>
             <if test="status != null  and status != ''"> and ri.status = #{status}</if>
+            <if test="createBy != null  and createBy > 0"> and ri.create_by = #{createBy}</if>
             <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and ri.create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
         </where>
         <choose>
