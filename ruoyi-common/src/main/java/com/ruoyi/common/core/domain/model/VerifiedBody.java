@@ -25,6 +25,15 @@ public class VerifiedBody implements Serializable {
     @ApiModelProperty(value = "国徽面身份证图片地址",required = true)
     private String backImg;
 
+    @ApiModelProperty(value = "经纪人头像",required = true)
+    private String brokerAvatar;
+
+    @ApiModelProperty(value = "经纪人姓名",required = true)
+    private String brokerName;
+
+    @ApiModelProperty(value = "经纪人电话",required = true)
+    private String brokerPhone;
+
     public Long getUserId() {
         return userId;
     }
@@ -47,5 +56,29 @@ public class VerifiedBody implements Serializable {
 
     public void setBackImg(String backImg) {
         this.backImg = backImg;
+    }
+
+    public String getBrokerAvatar() {
+        return brokerAvatar;
+    }
+
+    public void setBrokerAvatar(String brokerAvatar) {
+        this.brokerAvatar = brokerAvatar;
+    }
+
+    public String getBrokerName() {
+        return brokerName;
+    }
+
+    public void setBrokerName(String brokerName) {
+        this.brokerName = brokerName;
+    }
+
+    public String getBrokerPhone() {
+        return brokerPhone;
+    }
+
+    public void setBrokerPhone(String brokerPhone) {
+        this.brokerPhone = brokerPhone;
     }
 }

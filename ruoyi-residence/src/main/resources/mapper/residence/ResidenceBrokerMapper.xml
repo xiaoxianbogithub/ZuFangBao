@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.residence.mapper.ResidenceBrokerMapper">
+    
+    <resultMap type="ResidenceBroker" id="ResidenceBrokerResult">
+        <result property="id"    column="id"    />
+        <result property="userId"    column="user_id"    />
+        <result property="idNumber"    column="id_number"    />
+        <result property="realName"    column="real_name"    />
+        <result property="idCardStartDate"    column="id_card_start_date"    />
+        <result property="idCardEndDate"    column="id_card_end_date"    />
+        <result property="avatar"    column="avatar"    />
+        <result property="name"    column="name"    />
+        <result property="phone"    column="phone"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectResidenceBrokerVo">
+        select id, user_id, id_number, real_name, id_card_start_date, id_card_end_date, avatar, name, phone, update_time from residence_broker
+    </sql>
+
+    <select id="selectResidenceBrokerList" parameterType="ResidenceBroker" resultMap="ResidenceBrokerResult">
+        <include refid="selectResidenceBrokerVo"/>
+        <where>  
+            <if test="idNumber != null  and idNumber != ''"> and id_number like concat('%', #{idNumber}, '%')</if>
+            <if test="realName != null  and realName != ''"> and real_name like concat('%', #{realName}, '%')</if>
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="phone != null  and phone != ''"> and phone like concat('%', #{phone}, '%')</if>
+        </where>
+    </select>
+    
+    <select id="selectResidenceBrokerById" parameterType="Long" resultMap="ResidenceBrokerResult">
+        <include refid="selectResidenceBrokerVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertResidenceBroker" parameterType="ResidenceBroker">
+        insert into residence_broker
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="userId != null">user_id,</if>
+            <if test="idNumber != null">id_number,</if>
+            <if test="realName != null">real_name,</if>
+            <if test="idCardStartDate != null">id_card_start_date,</if>
+            <if test="idCardEndDate != null">id_card_end_date,</if>
+            <if test="avatar != null">avatar,</if>
+            <if test="name != null">name,</if>
+            <if test="phone != null">phone,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="userId != null">#{userId},</if>
+            <if test="idNumber != null">#{idNumber},</if>
+            <if test="realName != null">#{realName},</if>
+            <if test="idCardStartDate != null">#{idCardStartDate},</if>
+            <if test="idCardEndDate != null">#{idCardEndDate},</if>
+            <if test="avatar != null">#{avatar},</if>
+            <if test="name != null">#{name},</if>
+            <if test="phone != null">#{phone},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateResidenceBroker" parameterType="ResidenceBroker">
+        update residence_broker
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userId != null">user_id = #{userId},</if>
+            <if test="idNumber != null">id_number = #{idNumber},</if>
+            <if test="realName != null">real_name = #{realName},</if>
+            <if test="idCardStartDate != null">id_card_start_date = #{idCardStartDate},</if>
+            <if test="idCardEndDate != null">id_card_end_date = #{idCardEndDate},</if>
+            <if test="avatar != null">avatar = #{avatar},</if>
+            <if test="name != null">name = #{name},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteResidenceBrokerById" parameterType="Long">
+        delete from residence_broker where id = #{id}
+    </delete>
+
+    <delete id="deleteResidenceBrokerByIds" parameterType="String">
+        delete from residence_broker where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
