@@ -2,6 +2,7 @@ package com.ruoyi.residence.service.impl;
 
 import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.residence.domain.VO.ResidenceFavoriteVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.residence.mapper.ResidenceFavoriteMapper;
@@ -21,25 +22,13 @@ public class ResidenceFavoriteServiceImpl implements IResidenceFavoriteService
     private ResidenceFavoriteMapper residenceFavoriteMapper;
 
     /**
-     * 查询房源收藏
-     * 
-     * @param id 房源收藏主键
-     * @return 房源收藏
-     */
-    @Override
-    public ResidenceFavorite selectResidenceFavoriteById(Long id)
-    {
-        return residenceFavoriteMapper.selectResidenceFavoriteById(id);
-    }
-
-    /**
      * 查询房源收藏列表
      * 
      * @param residenceFavorite 房源收藏
      * @return 房源收藏
      */
     @Override
-    public List<ResidenceFavorite> selectResidenceFavoriteList(ResidenceFavorite residenceFavorite)
+    public List<ResidenceFavoriteVO> selectResidenceFavoriteList(ResidenceFavorite residenceFavorite)
     {
         return residenceFavoriteMapper.selectResidenceFavoriteList(residenceFavorite);
     }
@@ -56,19 +45,6 @@ public class ResidenceFavoriteServiceImpl implements IResidenceFavoriteService
         residenceFavorite.setCreateTime(DateUtils.getNowDate());
         return residenceFavoriteMapper.insertResidenceFavorite(residenceFavorite);
     }
-
-    /**
-     * 修改房源收藏
-     * 
-     * @param residenceFavorite 房源收藏
-     * @return 结果
-     */
-    @Override
-    public int updateResidenceFavorite(ResidenceFavorite residenceFavorite)
-    {
-        return residenceFavoriteMapper.updateResidenceFavorite(residenceFavorite);
-    }
-
     /**
      * 批量删除房源收藏
      * 

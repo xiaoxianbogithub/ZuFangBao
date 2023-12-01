@@ -12,19 +12,33 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createTime"    column="create_time"    />
     </resultMap>
 
-    <sql id="selectResidenceFavoriteVo">
+    <resultMap id="ResidenceFavoriteVOResult" type="ResidenceFavoriteVO" extends="ResidenceFavoriteResult">
+        <result property="residenceName" column="residence_name"/>
+    </resultMap>
+
+
+    <sql id="selectResidenceFavoriteSQL">
         select id, user_id, residence_id, sort, create_time from residence_favorite
     </sql>
 
+    <sql id="selectResidenceFavoriteVOSQL">
+        select rf.id, rf.user_id, rf.residence_id, rf.sort, rf.create_time, ri.`name` residence_name from residence_favorite rf left join residence_info ri on rf.residence_id = ri.id
+
+    </sql>
+
     <select id="selectResidenceFavoriteList" parameterType="ResidenceFavorite" resultMap="ResidenceFavoriteResult">
-        <include refid="selectResidenceFavoriteVo"/>
-        <where>  
+        <include refid="selectResidenceFavoriteVOSQL"/>
+        <where>
+            <if test="userId != null"> and user_id = #{userId} </if>
         </where>
-    </select>
-    
-    <select id="selectResidenceFavoriteById" parameterType="Long" resultMap="ResidenceFavoriteResult">
-        <include refid="selectResidenceFavoriteVo"/>
-        where id = #{id}
+        <choose>
+            <when test="params.sortSql != null">
+                order by ${params.sortSql}
+            </when>
+            <otherwise>
+                order by rf.create_time desc
+            </otherwise>
+        </choose>
     </select>
         
     <insert id="insertResidenceFavorite" parameterType="ResidenceFavorite" useGeneratedKeys="true" keyProperty="id">
@@ -42,17 +56,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null">#{createTime},</if>
          </trim>
     </insert>
-
-    <update id="updateResidenceFavorite" parameterType="ResidenceFavorite">
-        update residence_favorite
-        <trim prefix="SET" suffixOverrides=",">
-            <if test="userId != null">user_id = #{userId},</if>
-            <if test="residenceId != null">residence_id = #{residenceId},</if>
-            <if test="sort != null">sort = #{sort},</if>
-            <if test="createTime != null">create_time = #{createTime},</if>
-        </trim>
-        where id = #{id}
-    </update>
 
     <delete id="deleteResidenceFavoriteById" parameterType="Long">
         delete from residence_favorite where id = #{id}

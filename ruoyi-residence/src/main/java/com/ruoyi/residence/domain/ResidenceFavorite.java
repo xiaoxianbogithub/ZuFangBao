@@ -1,5 +1,8 @@
 package com.ruoyi.residence.domain;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.annotation.Excel;
@@ -13,23 +16,28 @@ import java.io.Serializable;
  * @author climber
  * @date 2023-10-18
  */
+@ApiModel(description = "房源收藏")
 public class ResidenceFavorite extends BaseEntity
 {
     private static final long serialVersionUID = -3499623116477986856L;
     /** Id */
     @Excel(name = "Id")
+    @ApiModelProperty(name = "Id")
     private Long id;
 
     /** 用户Id */
     @Excel(name = "用户Id")
+    @ApiModelProperty(name = "用户Id")
     private Long userId;
 
     /** 房源Id */
     @Excel(name = "房源Id")
+    @ApiModelProperty(name = "房源Id")
     private Long residenceId;
 
     /** 排序 */
     @Excel(name = "排序")
+    @ApiModelProperty(name = "排序")
     private Long sort;
 
     public void setId(Long id) 

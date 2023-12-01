@@ -2,6 +2,10 @@ package com.ruoyi.residence.controller;
 
 import java.util.List;
 import javax.servlet.http.HttpServletResponse;
+
+import com.ruoyi.residence.domain.VO.ResidenceFavoriteVO;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,6 +33,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
  */
 @RestController
 @RequestMapping("/residence/favorite")
+@Api(value = "房源收藏")
 public class ResidenceFavoriteController extends BaseController
 {
     @Autowired
@@ -39,10 +44,11 @@ public class ResidenceFavoriteController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('residence:favorite:list')")
     @GetMapping("/list")
-    public TableDataInfo list(ResidenceFavorite residenceFavorite)
+    @ApiOperation("获取房源收藏列表")
+    public TableDataInfo list(@RequestBody ResidenceFavorite residenceFavorite)
     {
         startPage();
-        List<ResidenceFavorite> list = residenceFavoriteService.selectResidenceFavoriteList(residenceFavorite);
+        List<ResidenceFavoriteVO> list = residenceFavoriteService.selectResidenceFavoriteList(residenceFavorite);
         return getDataTable(list);
     }
 
@@ -52,21 +58,12 @@ public class ResidenceFavoriteController extends BaseController
     @PreAuthorize("@ss.hasPermi('residence:favorite:export')")
     @Log(title = "房源收藏", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, ResidenceFavorite residenceFavorite)
+    @ApiOperation("导出房源收藏列表")
+    public void export(HttpServletResponse response, @RequestBody ResidenceFavorite residenceFavorite)
     {
-        List<ResidenceFavorite> list = residenceFavoriteService.selectResidenceFavoriteList(residenceFavorite);
-        ExcelUtil<ResidenceFavorite> util = new ExcelUtil<ResidenceFavorite>(ResidenceFavorite.class);
+        List<ResidenceFavoriteVO> list = residenceFavoriteService.selectResidenceFavoriteList(residenceFavorite);
+        ExcelUtil<ResidenceFavoriteVO> util = new ExcelUtil<>(ResidenceFavoriteVO.class);
         util.exportExcel(response, list, "房源收藏数据");
-    }
-
-    /**
-     * 获取房源收藏详细信息
-     */
-    @PreAuthorize("@ss.hasPermi('residence:favorite:query')")
-    @GetMapping(value = "/{id}")
-    public AjaxResult getInfo(@PathVariable("id") Long id)
-    {
-        return success(residenceFavoriteService.selectResidenceFavoriteById(id));
     }
 
     /**
@@ -75,20 +72,10 @@ public class ResidenceFavoriteController extends BaseController
     @PreAuthorize("@ss.hasPermi('residence:favorite:add')")
     @Log(title = "房源收藏", businessType = BusinessType.INSERT)
     @PostMapping
+    @ApiOperation("新增房源收藏")
     public AjaxResult add(@RequestBody ResidenceFavorite residenceFavorite)
     {
         return toAjax(residenceFavoriteService.insertResidenceFavorite(residenceFavorite));
-    }
-
-    /**
-     * 修改房源收藏
-     */
-    @PreAuthorize("@ss.hasPermi('residence:favorite:edit')")
-    @Log(title = "房源收藏", businessType = BusinessType.UPDATE)
-    @PutMapping
-    public AjaxResult edit(@RequestBody ResidenceFavorite residenceFavorite)
-    {
-        return toAjax(residenceFavoriteService.updateResidenceFavorite(residenceFavorite));
     }
 
     /**
@@ -97,6 +84,7 @@ public class ResidenceFavoriteController extends BaseController
     @PreAuthorize("@ss.hasPermi('residence:favorite:remove')")
     @Log(title = "房源收藏", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
+    @ApiOperation("删除房源收藏")
     public AjaxResult remove(@PathVariable Long[] ids)
     {
         return toAjax(residenceFavoriteService.deleteResidenceFavoriteByIds(ids));
