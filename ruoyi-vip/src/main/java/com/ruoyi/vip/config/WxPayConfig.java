@@ -7,17 +7,18 @@ import lombok.EqualsAndHashCode;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
+import java.io.Serializable;
+
 /**
  * @author yupf
  * @description 微信支付配置类
  * @date 2023/7/26 09:30
  */
-@Data
-@EqualsAndHashCode(callSuper = false)
 @Component
 //@ConfigurationProperties(prefix = "wx.pay")
-public class WxPayConfig {
+public class WxPayConfig implements Serializable {
 
+    private static final long serialVersionUID = -8857868424883705213L;
     //APPID
     private final String appId="wx4e7581640648099e";
     //mchid
@@ -55,4 +56,28 @@ public class WxPayConfig {
     private final String apiV3Key="chixinanjuXM20230504youxiangongS";
     //支付通知地址
     private final String payNotifyUrl="/dsd/sd";
+
+    public String getAppId() {
+        return appId;
+    }
+
+    public String getMerchantId() {
+        return merchantId;
+    }
+
+    public String getPrivateKey() {
+        return privateKey;
+    }
+
+    public String getMerchantSerialNumber() {
+        return merchantSerialNumber;
+    }
+
+    public String getApiV3Key() {
+        return apiV3Key;
+    }
+
+    public String getPayNotifyUrl() {
+        return payNotifyUrl;
+    }
 }
