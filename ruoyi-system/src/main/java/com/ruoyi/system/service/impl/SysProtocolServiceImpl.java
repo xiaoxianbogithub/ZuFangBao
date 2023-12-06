@@ -1,6 +1,7 @@
 package com.ruoyi.system.service.impl;
 
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.system.domain.SysProtocol;
 import com.ruoyi.system.mapper.SysProtocolMapper;
 import com.ruoyi.system.service.ISysProtocolService;
@@ -66,6 +67,8 @@ public class SysProtocolServiceImpl implements ISysProtocolService
     @Override
     public int updateSysProtocol(SysProtocol sysProtocol)
     {
+        Long userId = SecurityUtils.getLoginUser().getBaseUser().getUserId();
+        sysProtocol.setUpdateBy(userId.toString());
         sysProtocol.setUpdateTime(DateUtils.getNowDate());
         return sysProtocolMapper.updateSysProtocol(sysProtocol);
     }

@@ -1,14 +1,11 @@
 package com.ruoyi.residence.domain;
 
-import io.swagger.annotations.Api;
+import com.ruoyi.common.annotation.Excel;
+import com.ruoyi.common.core.domain.BaseEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import com.ruoyi.common.annotation.Excel;
-import com.ruoyi.common.core.domain.BaseEntity;
-
-import java.io.Serializable;
 
 /**
  * 房源收藏对象 residence_favorite
@@ -33,7 +30,7 @@ public class ResidenceFavorite extends BaseEntity
     /** 房源Id */
     @Excel(name = "房源Id")
     @ApiModelProperty(name = "房源Id")
-    private Long residenceId;
+    private String residenceId;
 
     /** 排序 */
     @Excel(name = "排序")
@@ -58,12 +55,12 @@ public class ResidenceFavorite extends BaseEntity
     {
         return userId;
     }
-    public void setResidenceId(Long residenceId) 
+    public void setResidenceId(String residenceId)
     {
         this.residenceId = residenceId;
     }
 
-    public Long getResidenceId() 
+    public String getResidenceId()
     {
         return residenceId;
     }

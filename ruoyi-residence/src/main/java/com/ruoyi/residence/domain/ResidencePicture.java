@@ -7,8 +7,6 @@ import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import java.io.Serializable;
-
 /**
  * 房源图片对象 residence_picture
  * 
@@ -24,7 +22,7 @@ public class ResidencePicture extends BaseEntity {
     /** 房源Id */
     @Excel(name = "房源Id")
     @ApiModelProperty(value = "绑定的房源Id",required = true)
-    private Long residenceId;
+    private String residenceId;
 
     /** 图片路径 */
     @ApiModelProperty(value = "图片路径地址",required = true)
@@ -44,12 +42,12 @@ public class ResidencePicture extends BaseEntity {
     {
         return id;
     }
-    public void setResidenceId(Long residenceId) 
+    public void setResidenceId(String residenceId)
     {
         this.residenceId = residenceId;
     }
 
-    public Long getResidenceId() 
+    public String getResidenceId()
     {
         return residenceId;
     }

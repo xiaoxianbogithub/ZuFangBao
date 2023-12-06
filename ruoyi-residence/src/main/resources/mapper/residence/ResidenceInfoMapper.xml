@@ -235,7 +235,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         where id = #{id}
     </update>
 
-    <delete id="deleteResidenceInfoById" parameterType="Long">
+    <delete id="deleteResidenceInfoById" parameterType="String">
         delete from residence_info where id = #{id}
     </delete>
 
@@ -253,7 +253,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach>
     </delete>
 
-    <delete id="deleteResidencePictureByResidenceId" parameterType="Long">
+    <delete id="deleteResidencePictureByResidenceId" parameterType="String">
         delete from residence_picture where residence_id = #{residenceId}
     </delete>
 

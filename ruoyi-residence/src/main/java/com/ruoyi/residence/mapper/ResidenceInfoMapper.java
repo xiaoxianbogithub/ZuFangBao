@@ -54,7 +54,7 @@ public interface ResidenceInfoMapper
      * @param id 房屋基本信息主键
      * @return 结果
      */
-    public int deleteResidenceInfoById(Long id);
+    public int deleteResidenceInfoById(String id);
 
     /**
      * 批量删除房屋基本信息
@@ -87,7 +87,7 @@ public interface ResidenceInfoMapper
      * @param id 房屋基本信息ID
      * @return 结果
      */
-    public int deleteResidencePictureByResidenceId(Long id);
+    public int deleteResidencePictureByResidenceId(String id);
 
     /**
      * 修改房源信息状态

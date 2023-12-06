@@ -59,7 +59,7 @@ public interface IResidenceInfoService
      * @param id 房屋基本信息主键
      * @return 结果
      */
-    public int deleteResidenceInfoById(Long id);
+    public int deleteResidenceInfoById(String id);
 
     int verifyInfo(ResidenceInfo residenceInfo);
 
