@@ -38,7 +38,7 @@ public class ResidenceHomePageCarouselController extends BaseController
     @Anonymous
     @GetMapping("/list")
     @ApiOperation(value = "查询首页轮播图设置列表")
-    public TableDataInfo list(ResidenceHomePageCarousel residenceHomePageCarousel)
+    public TableDataInfo list(@RequestBody ResidenceHomePageCarousel residenceHomePageCarousel)
     {
         startPage();
         List<ResidenceHomePageCarousel> list = residenceHomePageCarouselService.selectResidenceHomePageCarouselList(residenceHomePageCarousel);
@@ -52,7 +52,7 @@ public class ResidenceHomePageCarouselController extends BaseController
     @Log(title = "首页轮播图设置", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ApiOperation(value = "导出首页轮播图设置列表")
-    public void export(HttpServletResponse response, ResidenceHomePageCarousel residenceHomePageCarousel)
+    public void export(HttpServletResponse response, @RequestBody ResidenceHomePageCarousel residenceHomePageCarousel)
     {
         List<ResidenceHomePageCarousel> list = residenceHomePageCarouselService.selectResidenceHomePageCarouselList(residenceHomePageCarousel);
         ExcelUtil<ResidenceHomePageCarousel> util = new ExcelUtil<ResidenceHomePageCarousel>(ResidenceHomePageCarousel.class);

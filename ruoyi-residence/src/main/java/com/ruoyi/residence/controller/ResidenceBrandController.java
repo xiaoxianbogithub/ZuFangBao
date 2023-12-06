@@ -37,7 +37,7 @@ public class ResidenceBrandController extends BaseController
     @ApiOperation("获取房源品牌列表")
     @PreAuthorize("@ss.hasPermi('residence:brand:list')")
     @GetMapping("/list")
-    public TableDataInfo list(ResidenceBrand residenceBrand)
+    public TableDataInfo list(@RequestBody ResidenceBrand residenceBrand)
     {
         startPage();
         List<ResidenceBrand> list = residenceBrandService.selectResidenceBrandList(residenceBrand);
@@ -51,7 +51,7 @@ public class ResidenceBrandController extends BaseController
     @PreAuthorize("@ss.hasPermi('residence:brand:export')")
     @Log(title = "房源品牌", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, ResidenceBrand residenceBrand)
+    public void export(HttpServletResponse response, @RequestBody ResidenceBrand residenceBrand)
     {
         List<ResidenceBrand> list = residenceBrandService.selectResidenceBrandList(residenceBrand);
         ExcelUtil<ResidenceBrand> util = new ExcelUtil<ResidenceBrand>(ResidenceBrand.class);

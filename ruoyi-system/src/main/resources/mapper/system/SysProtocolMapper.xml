@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SysProtocolMapper">
+    
+    <resultMap type="SysProtocol" id="SysProtocolResult">
+        <result property="id"    column="id"    />
+        <result property="cnName"    column="cn_name"    />
+        <result property="enName"    column="en_name"    />
+        <result property="content"    column="content"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectSysProtocolVo">
+        select id, cn_name, en_name, content, update_by, update_time from sys_protocol
+    </sql>
+
+    <select id="selectSysProtocolList" parameterType="SysProtocol" resultMap="SysProtocolResult">
+        <include refid="selectSysProtocolVo"/>
+        <where>  
+            <if test="cnName != null  and cnName != ''"> and cn_name like concat('%', #{cnName}, '%')</if>
+            <if test="enName != null  and enName != ''"> and en_name like concat('%', #{enName}, '%')</if>
+            <if test="content != null  and content != ''"> and content like concat('%', #{content}, '%')</if>
+            <if test="updateTime != null "> and update_time = #{updateTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectSysProtocolById" parameterType="String" resultMap="SysProtocolResult">
+        <include refid="selectSysProtocolVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertSysProtocol" parameterType="SysProtocol">
+        insert into sys_protocol
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="cnName != null">cn_name,</if>
+            <if test="enName != null">en_name,</if>
+            <if test="content != null">content,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="cnName != null">#{cnName},</if>
+            <if test="enName != null">#{enName},</if>
+            <if test="content != null">#{content},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSysProtocol" parameterType="SysProtocol">
+        update sys_protocol
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="cnName != null">cn_name = #{cnName},</if>
+            <if test="enName != null">en_name = #{enName},</if>
+            <if test="content != null">content = #{content},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSysProtocolById" parameterType="String">
+        delete from sys_protocol where id = #{id}
+    </delete>
+
+    <delete id="deleteSysProtocolByIds" parameterType="String">
+        delete from sys_protocol where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

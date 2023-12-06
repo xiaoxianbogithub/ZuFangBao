@@ -1,28 +1,21 @@
 package com.ruoyi.residence.controller;
 
-import java.util.List;
-import javax.servlet.http.HttpServletResponse;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
+import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
+import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.residence.domain.ResidencePicture;
 import com.ruoyi.residence.service.IResidencePictureService;
-import com.ruoyi.common.utils.poi.ExcelUtil;
-import com.ruoyi.common.core.page.TableDataInfo;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * 房源图片Controller
@@ -44,7 +37,7 @@ public class ResidencePictureController extends BaseController
     @PreAuthorize("@ss.hasPermi('residence:picture:list')")
     @GetMapping("/list")
     @ApiOperation("查询房源图片列表")
-    public TableDataInfo list(ResidencePicture residencePicture)
+    public TableDataInfo list(@RequestBody ResidencePicture residencePicture)
     {
         startPage();
         List<ResidencePicture> list = residencePictureService.selectResidencePictureList(residencePicture);
@@ -57,7 +50,7 @@ public class ResidencePictureController extends BaseController
     @PreAuthorize("@ss.hasPermi('residence:picture:export')")
     @Log(title = "房源图片", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
-    public void export(HttpServletResponse response, ResidencePicture residencePicture)
+    public void export(HttpServletResponse response,@RequestBody ResidencePicture residencePicture)
     {
         List<ResidencePicture> list = residencePictureService.selectResidencePictureList(residencePicture);
         ExcelUtil<ResidencePicture> util = new ExcelUtil<ResidencePicture>(ResidencePicture.class);

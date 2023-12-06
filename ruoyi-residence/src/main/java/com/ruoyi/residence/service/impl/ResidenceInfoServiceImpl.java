@@ -179,4 +179,12 @@ public class ResidenceInfoServiceImpl implements IResidenceInfoService
         residenceInfo.setUpdateTime(DateUtils.getNowDate());
         return residenceInfoMapper.verifyInfoById(residenceInfo);
     }
+
+    @Override
+    public int updateStatus(ResidenceInfo residenceInfo) {
+        Long userId = SecurityUtils.getLoginUser().getBaseUser().getUserId();
+        residenceInfo.setUpdateTime(DateUtils.getNowDate());
+        residenceInfo.setUpdateBy(userId.toString());
+        return residenceInfoMapper.updateResidenceInfo(residenceInfo);
+    }
 }

@@ -38,7 +38,7 @@ public class ResidencePriceRangeController extends BaseController
     @Anonymous
     @GetMapping("/list")
     @ApiOperation(value = "查询房源价格区间列表")
-    public TableDataInfo list(ResidencePriceRange residencePriceRange)
+    public TableDataInfo list(@RequestBody ResidencePriceRange residencePriceRange)
     {
         startPage();
         List<ResidencePriceRange> list = residencePriceRangeService.selectResidencePriceRangeList(residencePriceRange);
@@ -52,7 +52,7 @@ public class ResidencePriceRangeController extends BaseController
     @Log(title = "房源价格区间", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     @ApiOperation(value = "导出房源价格区间列表")
-    public void export(HttpServletResponse response, ResidencePriceRange residencePriceRange)
+    public void export(HttpServletResponse response, @RequestBody ResidencePriceRange residencePriceRange)
     {
         List<ResidencePriceRange> list = residencePriceRangeService.selectResidencePriceRangeList(residencePriceRange);
         ExcelUtil<ResidencePriceRange> util = new ExcelUtil<ResidencePriceRange>(ResidencePriceRange.class);

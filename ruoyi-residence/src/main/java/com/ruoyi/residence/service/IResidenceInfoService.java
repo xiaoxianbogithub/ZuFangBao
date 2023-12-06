@@ -62,4 +62,6 @@ public interface IResidenceInfoService
     public int deleteResidenceInfoById(Long id);
 
     int verifyInfo(ResidenceInfo residenceInfo);
+
+    int updateStatus(ResidenceInfo residenceInfo);
 }

@@ -1,10 +1,6 @@
 package com.ruoyi.vip.config;
 
 
-
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 import java.io.Serializable;

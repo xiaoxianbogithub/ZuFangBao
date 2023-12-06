@@ -26,7 +26,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     </sql>
 
-    <select id="selectResidenceFavoriteList" parameterType="ResidenceFavorite" resultMap="ResidenceFavoriteResult">
+    <select id="selectResidenceFavoriteList" parameterType="ResidenceFavorite" resultMap="ResidenceFavoriteVOResult">
         <include refid="selectResidenceFavoriteVOSQL"/>
         <where>
             <if test="userId != null"> and user_id = #{userId} </if>

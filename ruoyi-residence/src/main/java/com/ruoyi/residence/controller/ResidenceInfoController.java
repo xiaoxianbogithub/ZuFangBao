@@ -1,6 +1,5 @@
 package com.ruoyi.residence.controller;
 
-import com.ruoyi.common.annotation.Anonymous;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
@@ -113,5 +112,14 @@ public class ResidenceInfoController extends BaseController
     public AjaxResult remove(@PathVariable Long[] ids)
     {
         return toAjax(residenceInfoService.deleteResidenceInfoByIds(ids));
+    }
+
+    @PreAuthorize("@ss.hasPermi('residence:info:edit')")
+    @Log(title = "房屋基本信息", businessType = BusinessType.UPDATE)
+    @PostMapping("/updateStatus")
+    @ApiOperation("修改房源状态")
+    public AjaxResult updateStatus(@RequestBody ResidenceInfo residenceInfo)
+    {
+        return toAjax(residenceInfoService.updateStatus(residenceInfo));
     }
 }
