@@ -1,5 +1,9 @@
 package com.ruoyi.residence.service.impl;
 
+import cn.hutool.core.date.DatePattern;
+import cn.hutool.core.date.DateTime;
+import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.core.redis.RedisCache;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.SecurityUtils;
@@ -16,9 +20,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**
@@ -38,6 +44,10 @@ public class ResidenceInfoServiceImpl implements IResidenceInfoService
 
     @Autowired
     private IResidencePriceRangeService residencePriceRangeService;
+
+    private static final AtomicInteger counter = new AtomicInteger(0);
+
+    private static LocalDate currentDate = LocalDate.now();
 
     /**
      * 查询房屋基本信息
@@ -73,15 +83,41 @@ public class ResidenceInfoServiceImpl implements IResidenceInfoService
             }
         }
         List<ResidenceInfoVO> residenceInfos = residenceInfoMapper.selectResidenceInfoList(residenceInfo);
-        List<ResidenceInfoVO> resultList = residenceInfos.stream().map(
+        return residenceInfos.stream().map(
             info -> {
                 ResidenceInfoVO residenceInfoVO = new ResidenceInfoVO();
                 BeanUtils.copyProperties(info,residenceInfoVO);
-                residenceInfoVO.setDepositPay(info.getDepositName().concat(info.getPayName()));
+                residenceInfoVO.setDepositPay(ObjectUtil.defaultIfBlank(info.getDepositName(),"").concat(ObjectUtil.defaultIfBlank(info.getPayName(),"")));
                 return residenceInfoVO;
             }
         ).collect(Collectors.toList());
-        return resultList;
+    }
+
+    /**
+     * 生成唯一Id
+     * @return 唯一ID 202312070901001
+     */
+    private String generateUniqueId(){
+        LocalDate now = LocalDate.now();
+        // 如果是新的一天，重置计数器
+        if (!now.equals(currentDate)) {
+            counter.set(0);
+            currentDate = now;
+        }
+        DateTime dateNow = DateUtil.date();
+        StringBuilder uniqueId = new StringBuilder("FY-");
+        // 格式化日期部分
+        String dateFormat = DateUtil.format(dateNow, DatePattern.PURE_DATE_PATTERN);
+        uniqueId.append(dateFormat).append("-");
+        // 格式化时间部分
+        String timeFormat = DateUtil.format(dateNow, DatePattern.PURE_TIME_PATTERN);
+        uniqueId.append(timeFormat).append("-");
+        // 获取并递增计数器
+        int count = counter.getAndIncrement();
+        // 格式化计数器部分
+        uniqueId.append(String.format("%04d",count % 1000));
+        return uniqueId.toString();
+
     }
 
     /**
@@ -95,6 +131,7 @@ public class ResidenceInfoServiceImpl implements IResidenceInfoService
     public int insertResidenceInfo(ResidenceInfo residenceInfo)
     {
         Long userId = SecurityUtils.getLoginUser().getBaseUser().getUserId();
+        residenceInfo.setId(generateUniqueId());
         residenceInfo.setCreateBy(userId.toString());
         residenceInfo.setCreateTime(DateUtils.getNowDate());
         int rows = residenceInfoMapper.insertResidenceInfo(residenceInfo);

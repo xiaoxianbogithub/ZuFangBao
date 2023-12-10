@@ -1,11 +1,12 @@
 package com.ruoyi.residence.service.impl;
 
-import java.util.List;
+import com.ruoyi.residence.domain.ResidencePicture;
+import com.ruoyi.residence.mapper.ResidencePictureMapper;
+import com.ruoyi.residence.service.IResidencePictureService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.residence.mapper.ResidencePictureMapper;
-import com.ruoyi.residence.domain.ResidencePicture;
-import com.ruoyi.residence.service.IResidencePictureService;
+
+import java.util.List;
 
 /**
  * 房源图片Service业务层处理
