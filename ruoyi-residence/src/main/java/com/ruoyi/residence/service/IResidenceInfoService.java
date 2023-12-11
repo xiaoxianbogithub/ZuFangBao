@@ -51,7 +51,7 @@ public interface IResidenceInfoService
      * @param ids 需要删除的房屋基本信息主键集合
      * @return 结果
      */
-    public int deleteResidenceInfoByIds(Long[] ids);
+    public int deleteResidenceInfoByIds(String[] ids);
 
     /**
      * 删除房屋基本信息信息

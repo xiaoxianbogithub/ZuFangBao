@@ -165,7 +165,7 @@ public class ResidenceInfoServiceImpl implements IResidenceInfoService
      */
     @Transactional
     @Override
-    public int deleteResidenceInfoByIds(Long[] ids)
+    public int deleteResidenceInfoByIds(String[] ids)
     {
         residenceInfoMapper.deleteResidencePictureByResidenceIds(ids);
         return residenceInfoMapper.deleteResidenceInfoByIds(ids);
@@ -196,7 +196,7 @@ public class ResidenceInfoServiceImpl implements IResidenceInfoService
         String id = residenceInfo.getId();
         if (StringUtils.isNotNull(residencePictureList))
         {
-            List<ResidencePicture> list = new ArrayList<ResidencePicture>();
+            List<ResidencePicture> list = new ArrayList<>();
             for (ResidencePicture residencePicture : residencePictureList)
             {
                 residencePicture.setResidenceId(id);

@@ -37,7 +37,7 @@ public class ResidencePayController extends BaseController
     @PreAuthorize("@ss.hasPermi('residence:pay:list')")
     @GetMapping("/list")
     @ApiOperation("查询房源付款设置列表")
-    public TableDataInfo list(@RequestBody ResidencePay residencePay)
+    public TableDataInfo list(ResidencePay residencePay)
     {
         startPage();
         List<ResidencePay> list = residencePayService.selectResidencePayList(residencePay);

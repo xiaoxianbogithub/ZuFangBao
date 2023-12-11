@@ -37,7 +37,7 @@ public class SysProtocolController extends BaseController
     @PreAuthorize("@ss.hasPermi('system:protocol:list')")
     @GetMapping("/list")
     @ApiOperation("查询声明与协议内容列表")
-    public TableDataInfo list(@RequestBody SysProtocol sysProtocol)
+    public TableDataInfo list(SysProtocol sysProtocol)
     {
         startPage();
         List<SysProtocol> list = sysProtocolService.selectSysProtocolList(sysProtocol);

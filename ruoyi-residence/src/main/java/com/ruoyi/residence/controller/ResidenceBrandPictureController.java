@@ -38,7 +38,7 @@ public class ResidenceBrandPictureController extends BaseController
     @Anonymous
     @GetMapping("/list")
     @ApiOperation("查询房源品牌图片列表")
-    public TableDataInfo list(@RequestBody ResidenceBrandPicture residenceBrandPicture)
+    public TableDataInfo list(ResidenceBrandPicture residenceBrandPicture)
     {
         startPage();
         List<ResidenceBrandPicture> list = residenceBrandPictureService.selectResidenceBrandPictureList(residenceBrandPicture);

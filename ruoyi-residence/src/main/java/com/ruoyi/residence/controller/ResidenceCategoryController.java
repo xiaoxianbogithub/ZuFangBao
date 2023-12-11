@@ -35,7 +35,7 @@ public class ResidenceCategoryController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('residence:category:list')")
     @GetMapping("/list")
-    public TableDataInfo list(@RequestBody ResidenceCategory residenceCategory)
+    public TableDataInfo list(ResidenceCategory residenceCategory)
     {
         startPage();
         List<ResidenceCategory> list = residenceCategoryService.selectResidenceCategoryList(residenceCategory);

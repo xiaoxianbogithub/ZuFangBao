@@ -38,7 +38,7 @@ public class ResidenceInfoController extends BaseController
      */
     @GetMapping("/list")
     @ApiOperation("查询房屋基本信息列表")
-    public TableDataInfo list(@RequestBody ResidenceInfo residenceInfo)
+    public TableDataInfo list(ResidenceInfo residenceInfo)
     {
         startPage();
         List<ResidenceInfoVO> list = residenceInfoService.selectResidenceInfoList(residenceInfo);
@@ -109,7 +109,7 @@ public class ResidenceInfoController extends BaseController
     @Log(title = "房屋基本信息", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     @ApiOperation("删除房屋基本信息")
-    public AjaxResult remove(@PathVariable Long[] ids)
+    public AjaxResult remove(@PathVariable String[] ids)
     {
         return toAjax(residenceInfoService.deleteResidenceInfoByIds(ids));
     }

@@ -37,7 +37,7 @@ public class ResidenceBrandController extends BaseController
     @ApiOperation("获取房源品牌列表")
     @PreAuthorize("@ss.hasPermi('residence:brand:list')")
     @GetMapping("/list")
-    public TableDataInfo list(@RequestBody ResidenceBrand residenceBrand)
+    public TableDataInfo list(ResidenceBrand residenceBrand)
     {
         startPage();
         List<ResidenceBrand> list = residenceBrandService.selectResidenceBrandList(residenceBrand);

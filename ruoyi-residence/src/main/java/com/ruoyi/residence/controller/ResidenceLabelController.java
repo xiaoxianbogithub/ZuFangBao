@@ -37,7 +37,7 @@ public class ResidenceLabelController extends BaseController
     @PreAuthorize("@ss.hasPermi('residence:label:list')")
     @GetMapping("/list")
     @ApiOperation("查询房源标签列表")
-    public TableDataInfo list(@RequestBody ResidenceLabel residenceLabel)
+    public TableDataInfo list(ResidenceLabel residenceLabel)
     {
         startPage();
         List<ResidenceLabel> list = residenceLabelService.selectResidenceLabelList(residenceLabel);

@@ -37,7 +37,7 @@ public class ResidencePictureController extends BaseController
     @PreAuthorize("@ss.hasPermi('residence:picture:list')")
     @GetMapping("/list")
     @ApiOperation("查询房源图片列表")
-    public TableDataInfo list(@RequestBody ResidencePicture residencePicture)
+    public TableDataInfo list(ResidencePicture residencePicture)
     {
         startPage();
         List<ResidencePicture> list = residencePictureService.selectResidencePictureList(residencePicture);

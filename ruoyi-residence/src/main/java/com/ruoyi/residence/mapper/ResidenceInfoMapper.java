@@ -62,7 +62,7 @@ public interface ResidenceInfoMapper
      * @param ids 需要删除的数据主键集合
      * @return 结果
      */
-    public int deleteResidenceInfoByIds(Long[] ids);
+    public int deleteResidenceInfoByIds(String[] ids);
 
     /**
      * 批量删除房源图片
@@ -70,7 +70,7 @@ public interface ResidenceInfoMapper
      * @param ids 需要删除的数据主键集合
      * @return 结果
      */
-    public int deleteResidencePictureByResidenceIds(Long[] ids);
+    public int deleteResidencePictureByResidenceIds(String[] ids);
     
     /**
      * 批量新增房源图片

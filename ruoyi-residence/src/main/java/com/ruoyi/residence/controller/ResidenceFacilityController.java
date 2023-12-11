@@ -37,7 +37,7 @@ public class ResidenceFacilityController extends BaseController
     @PreAuthorize("@ss.hasPermi('residence:facility:list')")
     @GetMapping("/list")
     @ApiOperation("查询房源配置列表")
-    public TableDataInfo list(@RequestBody ResidenceFacility residenceFacility)
+    public TableDataInfo list(ResidenceFacility residenceFacility)
     {
         startPage();
         List<ResidenceFacility> list = residenceFacilityService.selectResidenceFacilityList(residenceFacility);

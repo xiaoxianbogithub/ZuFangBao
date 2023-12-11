@@ -38,7 +38,7 @@ public class ResidencePriceRangeController extends BaseController
     @Anonymous
     @GetMapping("/list")
     @ApiOperation(value = "查询房源价格区间列表")
-    public TableDataInfo list(@RequestBody ResidencePriceRange residencePriceRange)
+    public TableDataInfo list(ResidencePriceRange residencePriceRange)
     {
         startPage();
         List<ResidencePriceRange> list = residencePriceRangeService.selectResidencePriceRangeList(residencePriceRange);

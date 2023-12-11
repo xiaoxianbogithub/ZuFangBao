@@ -37,7 +37,7 @@ public class ResidenceHouseTypeController extends BaseController
     @PreAuthorize("@ss.hasPermi('residence:type:list')")
     @GetMapping("/list")
     @ApiOperation("查询房源户型设定列表")
-    public TableDataInfo list(@RequestBody ResidenceHouseType residenceHouseType)
+    public TableDataInfo list(ResidenceHouseType residenceHouseType)
     {
         startPage();
         List<ResidenceHouseType> list = residenceHouseTypeService.selectResidenceHouseTypeList(residenceHouseType);

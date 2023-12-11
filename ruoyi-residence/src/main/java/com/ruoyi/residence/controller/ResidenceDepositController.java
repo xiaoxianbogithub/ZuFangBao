@@ -37,7 +37,7 @@ public class ResidenceDepositController extends BaseController
     @PreAuthorize("@ss.hasPermi('residence:deposit:list')")
     @GetMapping("/list")
     @ApiOperation("查询房源押金设置列表")
-    public TableDataInfo list(@RequestBody ResidenceDeposit residenceDeposit)
+    public TableDataInfo list(ResidenceDeposit residenceDeposit)
     {
         startPage();
         List<ResidenceDeposit> list = residenceDepositService.selectResidenceDepositList(residenceDeposit);
