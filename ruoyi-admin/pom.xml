@@ -67,11 +67,30 @@
             <artifactId>ruoyi-residence</artifactId>
         </dependency>
 
-        <!--租房模块-->
+        <!--支付会员模块-->
         <dependency>
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-vip</artifactId>
         </dependency>
+
+        <!--聊天模块-->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-chat</artifactId>
+        </dependency>
+
+        <!--红包模块-->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-redpacket</artifactId>
+        </dependency>
+
+        <!--地图模块-->
+        <dependency>
+            <groupId>com.ruoyi</groupId>
+            <artifactId>ruoyi-map</artifactId>
+        </dependency>
+
     </dependencies>
 
     <build>

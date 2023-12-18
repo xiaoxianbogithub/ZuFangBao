@@ -4,6 +4,7 @@ import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
+import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.core.redis.RedisCache;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.SecurityUtils;
@@ -102,16 +103,15 @@ public class ResidenceInfoServiceImpl implements IResidenceInfoService
         // 如果是新的一天，重置计数器
         if (!now.equals(currentDate)) {
             counter.set(0);
-            currentDate = now;
         }
         DateTime dateNow = DateUtil.date();
         StringBuilder uniqueId = new StringBuilder("FY-");
         // 格式化日期部分
         String dateFormat = DateUtil.format(dateNow, DatePattern.PURE_DATE_PATTERN);
-        uniqueId.append(dateFormat).append("-");
+        uniqueId.append(dateFormat).append(Constants.HYPHEN_SHORT_HORIZONTAL);
         // 格式化时间部分
         String timeFormat = DateUtil.format(dateNow, DatePattern.PURE_TIME_PATTERN);
-        uniqueId.append(timeFormat).append("-");
+        uniqueId.append(timeFormat).append(Constants.HYPHEN_SHORT_HORIZONTAL);
         // 获取并递增计数器
         int count = counter.getAndIncrement();
         // 格式化计数器部分

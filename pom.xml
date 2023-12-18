@@ -184,6 +184,29 @@
                 <version>${ruoyi.version}</version>
             </dependency>
 
+            <!-- 聊天模块 -->
+            <dependency>
+                <groupId>com.ruoyi</groupId>
+                <artifactId>ruoyi-chat</artifactId>
+                <version>${ruoyi.version}</version>
+            </dependency>
+
+            <!-- 红包模块 -->
+            <dependency>
+                <groupId>com.ruoyi</groupId>
+                <artifactId>ruoyi-redpacket</artifactId>
+                <version>3.8.6</version>
+            </dependency>
+
+            <!-- 地图找房模块 -->
+            <dependency>
+                <groupId>com.ruoyi</groupId>
+                <artifactId>ruoyi-map</artifactId>
+                <version>3.8.6</version>
+            </dependency>
+
+
+
         </dependencies>
     </dependencyManagement>
 
@@ -196,6 +219,9 @@
         <module>ruoyi-common</module>
         <module>ruoyi-residence</module>
         <module>ruoyi-vip</module>
+        <module>ruoyi-chat</module>
+        <module>ruoyi-redpacket</module>
+        <module>ruoyi-map</module>
     </modules>
     <packaging>pom</packaging>
 

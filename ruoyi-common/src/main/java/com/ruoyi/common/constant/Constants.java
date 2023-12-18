@@ -153,4 +153,14 @@ public class Constants
 
     // 连接符-短横杠
     public static final String HYPHEN_SHORT_HORIZONTAL = "-";
+
+    // 房源Id前缀 - 品牌
+    public static final String RESIDENCE_PREFIX_PP = "PP";
+
+    // 房源Id前缀 - 自营
+    public static final String RESIDENCE_PREFIX_ZY = "ZY";
+
+    // 房源Id前缀 - 自由
+    public static final String RESIDENCE_PREFIX_FY = "FY";
+
 }
