@@ -16,13 +16,21 @@ import java.util.List;
  */
 public interface ResidenceInfoMapper 
 {
+
+    /**
+     * 根据Id模糊查询当日最大Id
+     * @param id 房源Id
+     * @return 房源信息
+     */
+    String selectCurrentMaxIdById(String id);
+
     /**
      * 查询房屋基本信息
      * 
      * @param id 房屋基本信息主键
      * @return 房屋基本信息
      */
-    public ResidenceInfoVO selectResidenceInfoById(Long id);
+    public ResidenceInfoVO selectResidenceInfoById(String id);
 
     /**
      * 查询房屋基本信息列表

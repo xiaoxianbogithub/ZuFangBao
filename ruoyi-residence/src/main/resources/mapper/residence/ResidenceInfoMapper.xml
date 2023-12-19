@@ -17,7 +17,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="totalAmount"    column="total_amount"    />
         <result property="waterBill"    column="water_bill"    />
         <result property="electricityBill"    column="electricity_bill"    />
-        <result property="houseTypeId"    column="house_type_id"    />
+        <result property="numOfBedrooms"    column="num_of_bedrooms"    />
+        <result property="numOfLivingrooms"    column="num_of_livingrooms"    />
         <result property="square"    column="square"    />
         <result property="floor"    column="floor"    />
         <result property="towards"    column="towards"    />
@@ -28,6 +29,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="addressId"    column="address_id"    />
         <result property="roomNo"    column="room_no"    />
         <result property="addressDetail"    column="address_detail"    />
+        <result property="longitude"    column="longitude"    />
+        <result property="latitude"    column="latitude"    />
         <result property="facilities"    column="facilities"    />
         <result property="labels"    column="labels"    />
         <result property="favoriteCount"    column="favorite_count"    />
@@ -55,7 +58,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <resultMap id="ResidenceInfoVOResult" type="ResidenceInfoVO" extends="ResidenceInfoResult">
         <result property="categoryName"    column="category_name"    />
         <result property="brandName"    column="brand_name"    />
-        <result property="houseTypeName"    column="house_type_name"    />
         <result property="depositName"    column="deposit_name"    />
         <result property="payName"    column="pay_name"    />
         <result property="areaName"    column="area_name"    />
@@ -67,14 +69,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectResidenceInfoList" parameterType="ResidenceInfoVO" resultMap="ResidenceInfoVOResult">
         select  ri.id, ri.`name`, ri.category_id, ri.brand_id, ri.price, ri.deposit_id, ri.pay_id, ri.deposite_amount, ri.pay_amount, ri.total_amount, ri.water_bill,
-                ri.electricity_bill, ri.house_type_id,square, ri.floor, ri.towards, ri.elevator, ri.furnish, ri.home_page_image, ri.introduction, ri.address_id,
-                ri.room_no,ri.address_detail, ri.facilities, ri.labels, ri.favorite_count, ri.browse_count, ri.status, ri.deleted, ri.weights, ri.sort, ri.create_by,
+                ri.electricity_bill, ri.num_of_bedrooms, ri.num_of_livingrooms, square, ri.floor, ri.towards, ri.elevator, ri.furnish, ri.home_page_image, ri.introduction, ri.address_id,
+                ri.room_no,ri.address_detail, ri.longitude, ri.latitude, ri.facilities, ri.labels, ri.favorite_count, ri.browse_count, ri.status, ri.deleted, ri.weights, ri.sort, ri.create_by,
                 ri.create_time, ri.update_by, ri.update_time,
-                rb.`name` brand_name, rc.`name` category_name, rht.`name` house_type_name, rd.`name` deposit_name, rp.`name` pay_name, sa.`name` area_name
+                rb.`name` brand_name, rc.`name` category_name, rd.`name` deposit_name, rp.`name` pay_name, sa.`name` area_name
         from residence_info ri
         left join residence_brand rb on ri.brand_id = rb.id
         left join residence_category rc on ri.category_id = rc.id
-        left join residence_house_type rht on ri.house_type_id = rht.id
         left join residence_deposit rd on ri.deposit_id = rd.id
         left join residence_pay rp on ri.pay_id = rp.id
         left join sys_area sa on sa.id = ri.address_id
@@ -86,9 +87,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="price != null "> and ri.price = #{price}</if>
             <if test="params.minPrice != null and params.minPrice > 0"> and ri.price &gt;= #{params.minPrice}</if>
             <if test="params.maxPrice != null and params.maxPrice > 0"> and ri.price &lt;= #{params.maxPrice}</if>
+            <if test="numOfBedrooms != null and numOfBedrooms &gt; 0 and numOfBedrooms &lt; 3" >and ri.num_of_bedrooms = #{numOfBedrooms} </if>
+            <if test="numOfBedrooms != null and numOfBedrooms &gt;= 3" >and ri.num_of_bedrooms > #{numOfBedrooms} </if>
             <if test="waterBill != null "> and ri.water_bill = #{waterBill}</if>
             <if test="electricityBill != null "> and ri.electricity_bill = #{electricityBill}</if>
-            <if test="houseTypeId != null "> and ri.house_type_id = #{houseTypeId}</if>
             <if test="square != null "> and ri.square = #{square}</if>
             <if test="floor != null "> and ri.floor = #{floor}</if>
             <if test="towards != null "> and ri.towards = #{towards}</if>
@@ -111,22 +113,27 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </choose>
     </select>
     
-    <select id="selectResidenceInfoById" parameterType="Long" resultMap="ResidenceInfoVOResidencePictureResult">
-        select  ri.id, ri.`name`, ri.category_id, ri.brand_id, ri.price, ri.deposit_id, ri.pay_id, ri.deposite_amount, ri.pay_amount, ri.total_amount, ri.water_bill, ri.electricity_bill, ri.house_type_id,square, ri.floor, ri.towards, ri.elevator, ri.furnish, ri.home_page_image,ri.introduction, ri.address_id, ri.room_no,ri.address_detail, ri.facilities, ri.labels, ri.favorite_count, ri.browse_count, ri.status, ri.deleted, ri.weights, ri.sort, ri.create_by, ri.create_time, ri.update_by, ri.update_time,
-                rb.`name` brand_name, rc.`name` category_name, rht.`name` house_type_name,rd.`name` deposit_name, rp.`name` pay_name,
+    <select id="selectResidenceInfoById" parameterType="String" resultMap="ResidenceInfoVOResidencePictureResult">
+        select  ri.id, ri.`name`, ri.category_id, ri.brand_id, ri.price, ri.deposit_id, ri.pay_id, ri.deposite_amount, ri.pay_amount, ri.total_amount, ri.water_bill,
+                ri.electricity_bill, ri.num_of_bedrooms, ri.num_of_livingrooms, square, ri.floor, ri.towards, ri.elevator, ri.furnish, ri.home_page_image, ri.introduction, ri.address_id,
+                ri.room_no,ri.address_detail, ri.longitude, ri.latitude, ri.facilities, ri.labels, ri.favorite_count, ri.browse_count, ri.status, ri.deleted, ri.weights, ri.sort, ri.create_by,
+                ri.create_time, ri.update_by, ri.update_time,
+                rb.`name` brand_name, rc.`name` category_name, rd.`name` deposit_name, rp.`name` pay_name,
                 rpic.id as sub_id, rpic.pic_url as sub_pic_url, rpic.sort as sub_sort,
                 sa.name area_name
         from residence_info ri
         left join residence_brand rb on ri.brand_id = rb.id
         left join residence_category rc on ri.category_id = rc.id
-        left join residence_house_type rht on ri.house_type_id = rht.id
         left join residence_deposit rd on ri.deposit_id = rd.id
         left join residence_pay rp on ri.pay_id = rp.id
         left join residence_picture rpic on rpic.residence_id = ri.id
         left join sys_area sa on sa.id = ri.address_id
         where ri.id = #{id}
     </select>
-        
+    <select id="selectCurrentMaxIdById" resultType="String">
+        select id from residence_info where id like concat(#{id}, '%') order by id desc limit 1
+    </select>
+
     <insert id="insertResidenceInfo" parameterType="ResidenceInfo" useGeneratedKeys="true" keyProperty="id">
         insert into residence_info
         <trim prefix="(" suffix=")" suffixOverrides=",">
@@ -142,7 +149,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="totalAmount != null">total_amount,</if>
             <if test="waterBill != null">water_bill,</if>
             <if test="electricityBill != null">electricity_bill,</if>
-            <if test="houseTypeId != null">house_type_id,</if>
+            <if test="numOfBedrooms != null">num_of_bedrooms,</if>
+            <if test="numOfLivingrooms != null">num_of_livingrooms,</if>
             <if test="square != null">square,</if>
             <if test="floor != null">floor,</if>
             <if test="towards != null">towards,</if>
@@ -153,6 +161,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="addressId != null">address_id,</if>
             <if test="roomNo != null">room_no,</if>
             <if test="addressDetail != null">address_detail,</if>
+            <if test="longitude != null">longitude,</if>
+            <if test="latitude != null">latitude,</if>
             <if test="facilities != null">facilities,</if>
             <if test="labels != null">labels,</if>
             <if test="favoriteCount != null">favorite_count,</if>
@@ -177,7 +187,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="totalAmount != null">#{totalAmount},</if>
             <if test="waterBill != null">#{waterBill},</if>
             <if test="electricityBill != null">#{electricityBill},</if>
-            <if test="houseTypeId != null">#{houseTypeId},</if>
+            <if test="numOfBedrooms != null">#{numOfBedrooms},</if>
+            <if test="numOfLivingrooms != null">#{numOfLivingrooms},</if>
             <if test="square != null">#{square},</if>
             <if test="floor != null">#{floor},</if>
             <if test="towards != null">#{towards},</if>
@@ -188,6 +199,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="addressId != null">#{addressId},</if>
             <if test="roomNo != null">#{roomNo},</if>
             <if test="addressDetail != null">#{addressDetail},</if>
+            <if test="longitude != null">#{longitude},</if>
+            <if test="latitude != null">#{latitude},</if>
             <if test="facilities != null">#{facilities},</if>
             <if test="labels != null">#{labels},</if>
             <if test="favoriteCount != null">#{favoriteCount},</if>
@@ -215,7 +228,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="totalAmount != null">total_amount = #{totalAmount},</if>
             <if test="waterBill != null">water_bill = #{waterBill},</if>
             <if test="electricityBill != null">electricity_bill = #{electricityBill},</if>
-            <if test="houseTypeId != null">house_type_id = #{houseTypeId},</if>
+            <if test="numOfBedrooms != null">num_of_bedrooms = #{numOfBedrooms},</if>
+            <if test="numOfLivingrooms != null">num_of_livingrooms = #{numOfLivingrooms},</if>
             <if test="square != null">square = #{square},</if>
             <if test="floor != null">floor = #{floor},</if>
             <if test="towards != null">towards = #{towards},</if>
@@ -226,6 +240,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="addressId != null">address_id = #{addressId},</if>
             <if test="roomNo != null">room_no = #{roomNo},</if>
             <if test="addressDetail != null">address_detail = #{addressDetail},</if>
+            <if test="longitude != null">longitude = #{longitude},</if>
+            <if test="latitude != null">longitude = #{latitude},</if>
             <if test="facilities != null">facilities = #{facilities},</if>
             <if test="labels != null">labels = #{labels},</if>
             <if test="favoriteCount != null">favorite_count = #{favoriteCount},</if>

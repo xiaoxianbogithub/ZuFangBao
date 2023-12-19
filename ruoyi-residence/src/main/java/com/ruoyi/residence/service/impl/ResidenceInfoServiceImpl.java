@@ -5,6 +5,8 @@ import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.ObjectUtil;
 import com.ruoyi.common.constant.Constants;
+import com.ruoyi.common.core.domain.entity.SysRole;
+import com.ruoyi.common.core.domain.model.BaseUser;
 import com.ruoyi.common.core.redis.RedisCache;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.SecurityUtils;
@@ -21,7 +23,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -48,8 +49,6 @@ public class ResidenceInfoServiceImpl implements IResidenceInfoService
 
     private static final AtomicInteger counter = new AtomicInteger(0);
 
-    private static LocalDate currentDate = LocalDate.now();
-
     /**
      * 查询房屋基本信息
      * 
@@ -57,7 +56,7 @@ public class ResidenceInfoServiceImpl implements IResidenceInfoService
      * @return 房屋基本信息
      */
     @Override
-    public ResidenceInfoVO selectResidenceInfoById(Long id)
+    public ResidenceInfoVO selectResidenceInfoById(String id)
     {
         ResidenceInfoVO residenceInfoVO = residenceInfoMapper.selectResidenceInfoById(id);
         residenceInfoVO.setDepositPay(residenceInfoVO.getDepositName().concat(residenceInfoVO
@@ -98,20 +97,20 @@ public class ResidenceInfoServiceImpl implements IResidenceInfoService
      * 生成唯一Id
      * @return 唯一ID 202312070901001
      */
-    private String generateUniqueId(){
-        LocalDate now = LocalDate.now();
-        // 如果是新的一天，重置计数器
-        if (!now.equals(currentDate)) {
-            counter.set(0);
-        }
+    private String generateUniqueId(String prefix){
         DateTime dateNow = DateUtil.date();
-        StringBuilder uniqueId = new StringBuilder("FY-");
+        StringBuilder uniqueId = new StringBuilder(prefix).append("-");
         // 格式化日期部分
         String dateFormat = DateUtil.format(dateNow, DatePattern.PURE_DATE_PATTERN);
         uniqueId.append(dateFormat).append(Constants.HYPHEN_SHORT_HORIZONTAL);
         // 格式化时间部分
         String timeFormat = DateUtil.format(dateNow, DatePattern.PURE_TIME_PATTERN);
         uniqueId.append(timeFormat).append(Constants.HYPHEN_SHORT_HORIZONTAL);
+        uniqueId.append(timeFormat).append("-");
+        String maxId = residenceInfoMapper.selectCurrentMaxIdById(uniqueId.toString());
+        if(StringUtils.isBlank(maxId)){
+            counter.set(0);
+        }
         // 获取并递增计数器
         int count = counter.getAndIncrement();
         // 格式化计数器部分
@@ -130,8 +129,11 @@ public class ResidenceInfoServiceImpl implements IResidenceInfoService
     @Override
     public int insertResidenceInfo(ResidenceInfo residenceInfo)
     {
-        Long userId = SecurityUtils.getLoginUser().getBaseUser().getUserId();
-        residenceInfo.setId(generateUniqueId());
+        BaseUser baseUser = SecurityUtils.getLoginUser().getBaseUser();
+        Long userId = baseUser.getUserId();
+        List<SysRole> roleList = baseUser.getRoles();
+
+        residenceInfo.setId(generateUniqueId("");
         residenceInfo.setCreateBy(userId.toString());
         residenceInfo.setCreateTime(DateUtils.getNowDate());
         int rows = residenceInfoMapper.insertResidenceInfo(residenceInfo);

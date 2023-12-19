@@ -98,9 +98,13 @@ public class ResidenceInfo extends BaseEntity {
     /**
      * 户型设定id
      */
-    @Excel(name = "户型设定id")
-    @ApiModelProperty(value = "户型设定id", required = true)
-    private Long houseTypeId;
+    @Excel(name = "卧室数量")
+    @ApiModelProperty(value = "卧室数量", required = true)
+    private Integer numOfBedrooms;
+
+    @Excel(name = "客厅数量")
+    @ApiModelProperty(value = "客厅数量", required = true)
+    private Integer numOfLivingrooms;
 
     /**
      * 面积
@@ -165,6 +169,14 @@ public class ResidenceInfo extends BaseEntity {
     @Excel(name = "详细地址")
     @ApiModelProperty(value = "详细地址")
     private String addressDetail;
+
+    @Excel(name = "经度")
+    @ApiModelProperty(value = "经度")
+    private String longitude;
+
+    @Excel(name = "纬度")
+    @ApiModelProperty(value = "纬度")
+    private String latitude;
 
     /**
      * 房源配置JSON(属性数组，JSON 格式, e.g.[{propertId: , valueId: }, {propertId: , valueId: }])
@@ -320,12 +332,20 @@ public class ResidenceInfo extends BaseEntity {
         return electricityBill;
     }
 
-    public void setHouseTypeId(Long houseTypeId) {
-        this.houseTypeId = houseTypeId;
+    public void setNumOfBedrooms(Integer numOfBedrooms) {
+        this.numOfBedrooms = numOfBedrooms;
     }
 
-    public Long getHouseTypeId() {
-        return houseTypeId;
+    public Integer getNumOfBedrooms() {
+        return numOfBedrooms;
+    }
+
+    public Integer getNumOfLivingrooms() {
+        return numOfLivingrooms;
+    }
+
+    public void setNumOfLivingrooms(Integer numOfLivingrooms) {
+        this.numOfLivingrooms = numOfLivingrooms;
     }
 
     public void setSquare(BigDecimal square) {
@@ -382,6 +402,22 @@ public class ResidenceInfo extends BaseEntity {
 
     public Long getAddressId() {
         return addressId;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
     }
 
     public void setAddressDetail(String addressDetail) {
@@ -482,7 +518,8 @@ public class ResidenceInfo extends BaseEntity {
     @Override
     public String toString() {
         return "ResidenceInfo{" +
-                "id=" + id +
+                "id='" + id + '\'' +
+                ", name='" + name + '\'' +
                 ", categoryId=" + categoryId +
                 ", brandId=" + brandId +
                 ", price=" + price +
@@ -493,7 +530,8 @@ public class ResidenceInfo extends BaseEntity {
                 ", totalAmount=" + totalAmount +
                 ", waterBill=" + waterBill +
                 ", electricityBill=" + electricityBill +
-                ", houseTypeId=" + houseTypeId +
+                ", numOfBedrooms=" + numOfBedrooms +
+                ", numOfLivingrooms=" + numOfLivingrooms +
                 ", square=" + square +
                 ", floor=" + floor +
                 ", towards='" + towards + '\'' +
@@ -504,6 +542,8 @@ public class ResidenceInfo extends BaseEntity {
                 ", addressId=" + addressId +
                 ", roomNo='" + roomNo + '\'' +
                 ", addressDetail='" + addressDetail + '\'' +
+                ", longitude='" + longitude + '\'' +
+                ", latitude='" + latitude + '\'' +
                 ", facilities='" + facilities + '\'' +
                 ", labels='" + labels + '\'' +
                 ", favoriteCount=" + favoriteCount +

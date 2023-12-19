@@ -64,7 +64,7 @@ public class ResidenceInfoController extends BaseController
      */
     @GetMapping(value = "/{id}")
     @ApiOperation("获取房屋基本信息详细信息")
-    public AjaxResult getInfo(@PathVariable("id") Long id)
+    public AjaxResult getInfo(@PathVariable("id") String id)
     {
         return success(residenceInfoService.selectResidenceInfoById(id));
     }

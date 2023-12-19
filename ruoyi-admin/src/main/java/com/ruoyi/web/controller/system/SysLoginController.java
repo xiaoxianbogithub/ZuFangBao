@@ -1,5 +1,6 @@
 package com.ruoyi.web.controller.system;
 
+import cn.hutool.core.collection.ListUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONObject;
@@ -9,6 +10,7 @@ import com.ruoyi.common.constant.UserConstants;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.domain.entity.SysAuthUser;
 import com.ruoyi.common.core.domain.entity.SysMenu;
+import com.ruoyi.common.core.domain.entity.SysRole;
 import com.ruoyi.common.core.domain.entity.SysUser;
 import com.ruoyi.common.core.domain.model.BaseUser;
 import com.ruoyi.common.core.domain.model.LoginBody;
@@ -154,6 +156,7 @@ public class SysLoginController
             authUser.setUserId(user.getUserId());
             authUser.setUserName(userName);
             authUser.setNickName(userName);
+            authUser.setRoles(ListUtil.toLinkedList(new SysRole(2L)));
             authUser.setSource(UserConstants.WE_CHAT);
             userService.insertAuthUser(authUser);
         }
