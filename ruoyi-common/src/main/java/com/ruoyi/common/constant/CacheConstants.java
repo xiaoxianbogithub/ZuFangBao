@@ -41,4 +41,11 @@ public class CacheConstants
      * 登录账户密码错误次数 redis key
      */
     public static final String PWD_ERR_CNT_KEY = "pwd_err_cnt:";
+
+    /**
+     * 房源Id前缀 cache keys
+     */
+    public static final String RESIDENCE_ID_KEY = "residence_id_prefix:";
+
+    public static final String RESIDENCE_ID_KEY_TEMPLATE = "{}-{}-";
 }

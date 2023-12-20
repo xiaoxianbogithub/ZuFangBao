@@ -10,7 +10,6 @@ import org.apache.http.HttpResponse;
 import org.apache.http.util.EntityUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import springfox.documentation.spring.web.json.Json;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -52,7 +51,7 @@ public class AliYunOcrUtil {
         log.info("OCR 请求参数 - {}", params);
         // 识别身份证人像面,并验证
         Map<String, String> headers = MapUtil.newHashMap();
-        //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73fe94948385f570e3c139105
+        //最后在header中的格式(中间是英文空格)为Authorization:APPCODE 83359fd73f0e3c139105
         headers.put("Authorization", "APPCODE " + AuthenticationConfig.getAppCode());
         //根据API的要求，定义相对应的Content-Type
         headers.put("Content-Type", "application/json; charset=UTF-8");

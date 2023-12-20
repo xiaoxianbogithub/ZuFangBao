@@ -1,9 +1,12 @@
 package com.ruoyi.residence.service.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.text.CharSequenceUtil;
 import cn.hutool.core.util.ObjectUtil;
+import com.ruoyi.common.constant.CacheConstants;
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.core.domain.entity.SysRole;
 import com.ruoyi.common.core.domain.model.BaseUser;
@@ -26,7 +29,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
 /**
@@ -46,8 +48,6 @@ public class ResidenceInfoServiceImpl implements IResidenceInfoService
 
     @Autowired
     private IResidencePriceRangeService residencePriceRangeService;
-
-    private static final AtomicInteger counter = new AtomicInteger(0);
 
     /**
      * 查询房屋基本信息
@@ -97,25 +97,33 @@ public class ResidenceInfoServiceImpl implements IResidenceInfoService
      * 生成唯一Id
      * @return 唯一ID 202312070901001
      */
-    private String generateUniqueId(String prefix){
+    private String generateUniqueId(String roleName){
+
         DateTime dateNow = DateUtil.date();
-        StringBuilder uniqueId = new StringBuilder(prefix).append("-");
         // 格式化日期部分
-        String dateFormat = DateUtil.format(dateNow, DatePattern.PURE_DATE_PATTERN);
-        uniqueId.append(dateFormat).append(Constants.HYPHEN_SHORT_HORIZONTAL);
-        // 格式化时间部分
-        String timeFormat = DateUtil.format(dateNow, DatePattern.PURE_TIME_PATTERN);
-        uniqueId.append(timeFormat).append(Constants.HYPHEN_SHORT_HORIZONTAL);
-        uniqueId.append(timeFormat).append("-");
-        String maxId = residenceInfoMapper.selectCurrentMaxIdById(uniqueId.toString());
-        if(StringUtils.isBlank(maxId)){
-            counter.set(0);
+        String dateStr = DateUtil.format(dateNow, DatePattern.PURE_DATE_PATTERN);
+        // Id前缀
+        String prefix = "";
+        // 根据权限名获取对应的房源Id前缀
+        switch (roleName){
+            // 管理员, 自营经纪人
+            case Constants.ADMIN:
+            case Constants.SELF:
+                prefix = Constants.RESIDENCE_PREFIX_ZY;break;
+            // 品牌经纪人
+            case Constants.BRAND:
+                prefix = Constants.RESIDENCE_PREFIX_PP;break;
+            // 自由经纪人
+            case Constants.FREE :
+                prefix = Constants.RESIDENCE_PREFIX_FY;break;
+            default: break;
         }
-        // 获取并递增计数器
-        int count = counter.getAndIncrement();
-        // 格式化计数器部分
-        uniqueId.append(String.format("%04d",count % 1000));
-        return uniqueId.toString();
+        // 房源Id前缀
+        String residenceIdPrefix = CharSequenceUtil.format(CacheConstants.RESIDENCE_ID_KEY_TEMPLATE, prefix, dateStr);
+        // 读取redis中的自增数并 + 1
+        Long counter = redisCache.incrementCounter(CacheConstants.RESIDENCE_ID_KEY + residenceIdPrefix);
+
+        return residenceIdPrefix + String.format("%04d",counter % 1000);
 
     }
 
@@ -130,11 +138,20 @@ public class ResidenceInfoServiceImpl implements IResidenceInfoService
     public int insertResidenceInfo(ResidenceInfo residenceInfo)
     {
         BaseUser baseUser = SecurityUtils.getLoginUser().getBaseUser();
-        Long userId = baseUser.getUserId();
+        // 获取权限列表
         List<SysRole> roleList = baseUser.getRoles();
-
-        residenceInfo.setId(generateUniqueId("");
-        residenceInfo.setCreateBy(userId.toString());
+        // 获取经纪人权限列表
+        List<SysRole> brokerRoleList = CollUtil.filter(
+                roleList,
+                // 判断是否存在非租客的权限
+                sysRole -> !sysRole.getRoleKey().equals(Constants.COMMON));
+        if(brokerRoleList.isEmpty()){
+            return -1;
+        }
+        // 获取权限名
+        String userRole = brokerRoleList.get(0).getRoleKey();
+        residenceInfo.setId(generateUniqueId(userRole));
+        residenceInfo.setCreateBy(baseUser.getUserId().toString());
         residenceInfo.setCreateTime(DateUtils.getNowDate());
         int rows = residenceInfoMapper.insertResidenceInfo(residenceInfo);
         insertResidencePicture(residenceInfo);

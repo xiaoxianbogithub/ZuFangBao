@@ -163,4 +163,19 @@ public class Constants
     // 房源Id前缀 - 自由
     public static final String RESIDENCE_PREFIX_FY = "FY";
 
+    // 身份 - 游客
+    public static final String COMMON = "common";
+
+    // 身份 - 自营经纪人
+    public static final String SELF = "self";
+
+    // 身份 - 品牌经纪人
+    public static final String BRAND = "brand";
+
+    // 身份 - 自由经纪人
+    public static final String FREE = "free";
+
+    // 身份 - 超级管理员
+    public static final String ADMIN = "admin";
+
 }
