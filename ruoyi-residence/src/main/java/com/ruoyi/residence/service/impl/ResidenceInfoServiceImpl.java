@@ -11,9 +11,12 @@ import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.core.domain.entity.SysRole;
 import com.ruoyi.common.core.domain.model.BaseUser;
 import com.ruoyi.common.core.redis.RedisCache;
+import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.SecurityUtils;
 import com.ruoyi.common.utils.StringUtils;
+import com.ruoyi.common.utils.spring.SpringUtils;
+import com.ruoyi.quartz.task.ResidenceIdPrefixTask;
 import com.ruoyi.residence.domain.ResidenceInfo;
 import com.ruoyi.residence.domain.ResidencePicture;
 import com.ruoyi.residence.domain.ResidencePriceRange;
@@ -75,7 +78,7 @@ public class ResidenceInfoServiceImpl implements IResidenceInfoService
     {
         Map<String, Object> params = residenceInfo.getParams();
         if(StringUtils.isNotEmpty(params)){
-            long priceRangeId = Long.parseLong(params.get("priceRangeId").toString());
+            long priceRangeId = Convert.toLong(params.get("priceRangeId"), 0L);
             if(0 < priceRangeId){
                 ResidencePriceRange residencePriceRange = residencePriceRangeService.selectResidencePriceRangeById(priceRangeId);
                 params.put("minPrice",residencePriceRange.getMinPrice());
@@ -120,10 +123,16 @@ public class ResidenceInfoServiceImpl implements IResidenceInfoService
         }
         // 房源Id前缀
         String residenceIdPrefix = CharSequenceUtil.format(CacheConstants.RESIDENCE_ID_KEY_TEMPLATE, prefix, dateStr);
+        // 判断key是否存在
+        Boolean hasKey = redisCache.hasKey(CacheConstants.RESIDENCE_ID_KEY + residenceIdPrefix);
+        // 不存在则重新设置 redis key
+        if(Boolean.FALSE.equals(hasKey)){
+            SpringUtils.getBean(ResidenceIdPrefixTask.class).setRedisCacheId();
+        }
         // 读取redis中的自增数并 + 1
         Long counter = redisCache.incrementCounter(CacheConstants.RESIDENCE_ID_KEY + residenceIdPrefix);
 
-        return residenceIdPrefix + String.format("%04d",counter % 1000);
+        return residenceIdPrefix + String.format("%04d",counter);
 
     }
 

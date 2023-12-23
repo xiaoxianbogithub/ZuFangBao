@@ -34,6 +34,29 @@ public class RedisCache
     }
 
     /**
+     * 使用 SETNX 设置 key
+     * @param key 缓存的键值
+     * @param value 缓存的值
+     */
+    public <T> boolean setIfAbsentCacheObject(final String key, final T value)
+    {
+        return Boolean.TRUE.equals(redisTemplate.opsForValue().setIfAbsent(key, value));
+    }
+
+    /**
+     * 缓存基本的对象，Integer、String、实体类等
+     *
+     * @param key 缓存的键值
+     * @param value 缓存的值
+     * @param timeout 时间
+     * @param timeUnit 时间颗粒度
+     */
+    public <T> boolean setIfAbsentCacheObject(final String key, final T value, final Integer timeout, final TimeUnit timeUnit)
+    {
+        return Boolean.TRUE.equals(redisTemplate.opsForValue().setIfAbsent(key, value, timeout, timeUnit));
+    }
+
+    /**
      * 缓存基本的对象，Integer、String、实体类等
      *
      * @param key 缓存的键值
@@ -269,7 +292,15 @@ public class RedisCache
      * @return +1后的值
      */
     public Long incrementCounter(String key) {
-        //
         return redisTemplate.opsForValue().increment(key);
+    }
+
+    /**
+     * 获取ValueOperations对象,执行DECR命令
+     * @param key Redis键
+     * @return -1后的值
+     */
+    public Long decrementCounter(String key) {
+        return redisTemplate.opsForValue().decrement(key);
     }
 }
