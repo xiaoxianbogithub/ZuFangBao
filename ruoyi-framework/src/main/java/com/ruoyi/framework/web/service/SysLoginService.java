@@ -216,6 +216,24 @@ public class SysLoginService
         SysAuthUser authUser = userService.selectAuthUserByUuid(uuid,UserConstants.WE_CHAT);
         // 查询初始密码
         String password = configService.selectConfigByKey("sys.user.initPassword");
+
+        // 用户验证
+        Authentication authentication = null;
+        try
+        {
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(uuid, sessionKey);
+            AuthenticationContextHolder.setContext(authenticationToken);
+            // 该方法会去调用UserDetailsServiceImpl.loadUserByUsername
+            authentication = authenticationManager.authenticate(authenticationToken);
+        }
+        catch (Exception e)
+        {
+        }
+        finally
+        {
+            AuthenticationContextHolder.clearContext();
+        }
+
         // 用户不存在时,新建用户
         if(null == authUser){
             SysUser user = new SysUser();

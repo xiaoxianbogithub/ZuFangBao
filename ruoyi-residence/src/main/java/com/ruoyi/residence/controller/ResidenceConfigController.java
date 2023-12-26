@@ -27,7 +27,6 @@ public class ResidenceConfigController extends BaseController {
     private IResidenceConfigService residenceConfigService;
 
 
-    @Anonymous
     //@PreAuthorize("@ss.hasAnyPermi('residence:info:add,residence:info:edit')")
     @GetMapping(value = "/list")
     @ApiOperation("获取所有后台房源相关设置列表")

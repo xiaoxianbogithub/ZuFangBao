@@ -35,7 +35,6 @@ public class ResidencePriceRangeController extends BaseController
     /**
      * 查询房源价格区间列表
      */
-    @Anonymous
     @GetMapping("/list")
     @ApiOperation(value = "查询房源价格区间列表")
     public TableDataInfo list(ResidencePriceRange residencePriceRange)

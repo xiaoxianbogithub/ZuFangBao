@@ -75,7 +75,6 @@ public class CommonController
     /**
      * 通用上传请求（单个）
      */
-    @Anonymous
     @PostMapping("/upload")
     public AjaxResult uploadFile(MultipartFile file) throws Exception
     {

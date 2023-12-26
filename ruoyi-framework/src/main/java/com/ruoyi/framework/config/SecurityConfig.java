@@ -112,7 +112,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .antMatchers("/login", "/wxLogin", "/register", "/captchaImage").permitAll()
                 // 开放房源查询
                 // 两个*代表多层路径，一个*代表一个或多个字符，问号代表一个字符
-                .antMatchers("/residence/**/list", "/residence/**/{id}").permitAll()
+                .antMatchers("/residence/**/list", "/residence/**/{id}", "/system/area/list","/system/area/listCombo").permitAll()
                 // 静态资源，可匿名访问
                 .antMatchers(HttpMethod.GET, "/", "/*.html", "/**/*.html", "/**/*.css", "/**/*.js", "/profile/**").permitAll()
                 .antMatchers("/swagger-ui.html", "/swagger-resources/**", "/webjars/**", "/*/api-docs", "/druid/**").permitAll()

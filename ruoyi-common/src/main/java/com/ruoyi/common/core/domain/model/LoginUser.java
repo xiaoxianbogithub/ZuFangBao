@@ -92,6 +92,14 @@ import java.util.Set;
         this.permissions = permissions;
     }
 
+    public LoginUser(Long userId, Long deptId, SysAuthUser baseUser, Set<String> permissions)
+    {
+        this.userId = userId;
+        this.deptId = deptId;
+        this.baseUser = baseUser;
+        this.permissions = permissions;
+    }
+
     public LoginUser(BaseUser baseUser)
     {
         this.baseUser = baseUser;

@@ -35,7 +35,6 @@ public class ResidenceBrandPictureController extends BaseController
     /**
      * 查询房源品牌图片列表
      */
-    @Anonymous
     @GetMapping("/list")
     @ApiOperation("查询房源品牌图片列表")
     public TableDataInfo list(ResidenceBrandPicture residenceBrandPicture)
@@ -61,7 +60,6 @@ public class ResidenceBrandPictureController extends BaseController
     /**
      * 获取房源品牌图片详细信息
      */
-    @Anonymous
     @GetMapping(value = "/{id}")
     @ApiOperation("获取房源品牌图片详细信息")
     public AjaxResult getInfo(@PathVariable("id") Long id)

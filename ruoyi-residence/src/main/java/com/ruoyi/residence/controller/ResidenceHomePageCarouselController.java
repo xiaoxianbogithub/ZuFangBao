@@ -35,7 +35,6 @@ public class ResidenceHomePageCarouselController extends BaseController
     /**
      * 查询首页轮播图设置列表
      */
-    @Anonymous
     @GetMapping("/list")
     @ApiOperation(value = "查询首页轮播图设置列表")
     public TableDataInfo list(ResidenceHomePageCarousel residenceHomePageCarousel)

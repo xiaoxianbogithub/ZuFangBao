@@ -15,9 +15,29 @@ public class BaseUser extends BaseEntity {
 
     private static final long serialVersionUID = 3578023119392191530L;
 
+    private String principal;
+
+    private String credentials;
+
     public boolean isAdmin(){ return false; }
 
     public List<SysRole> getRoles(){return Collections.emptyList();}
 
     public Long getUserId(){ return -1L;}
+
+    public String getPrincipal() {
+        return principal;
+    }
+
+    public void setPrincipal(String principal) {
+        this.principal = principal;
+    }
+
+    public String getCredentials() {
+        return credentials;
+    }
+
+    public void setCredentials(String credentials) {
+        this.credentials = credentials;
+    }
 }
