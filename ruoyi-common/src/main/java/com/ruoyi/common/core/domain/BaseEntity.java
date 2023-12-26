@@ -3,7 +3,6 @@ package com.ruoyi.common.core.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -21,34 +20,34 @@ public class BaseEntity implements Serializable
 
     /** 搜索值 */
     @JsonIgnore
-    @ApiModelProperty(hidden = true)
+    //@ApiModelProperty(hidden = true)
     private String searchValue;
 
     /** 创建者 */
-    @ApiModelProperty(hidden = true)
+    //@ApiModelProperty(hidden = true)
     private String createBy;
 
     /** 创建时间 */
-    @ApiModelProperty(hidden = true)
+    //@ApiModelProperty(hidden = true)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
 
     /** 更新者 */
-    @ApiModelProperty(hidden = true)
+    //@ApiModelProperty(hidden = true)
     private String updateBy;
 
     /** 更新时间 */
-    @ApiModelProperty(hidden = true)
+    //@ApiModelProperty(hidden = true)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
 
     /** 备注 */
-    @ApiModelProperty(hidden = true)
+    //@ApiModelProperty(hidden = true)
     private String remark;
 
     /** 请求参数 */
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
-    @ApiModelProperty(hidden = true)
+    //@ApiModelProperty(hidden = true)
     private Map<String, Object> params;
 
     public String getSearchValue()

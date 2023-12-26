@@ -108,7 +108,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
                 // 过滤请求
                 .authorizeRequests()
-                // 对于登录login 注册register 验证码captchaImage 允许匿名访问
+                // 对于登录login 注册register 验证码captchaImage 开放接口
                 .antMatchers("/login", "/wxLogin", "/register", "/captchaImage").permitAll()
                 // 开放房源查询
                 // 两个*代表多层路径，一个*代表一个或多个字符，问号代表一个字符

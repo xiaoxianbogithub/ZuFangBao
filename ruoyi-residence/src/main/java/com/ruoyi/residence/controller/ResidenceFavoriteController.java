@@ -1,5 +1,6 @@
 package com.ruoyi.residence.controller;
 
+import com.ruoyi.common.annotation.Anonymous;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.core.controller.BaseController;
 import com.ruoyi.common.core.domain.AjaxResult;
@@ -62,6 +63,7 @@ public class ResidenceFavoriteController extends BaseController
     /**
      * 新增房源收藏
      */
+    @Anonymous
     @PreAuthorize("@ss.hasPermi('residence:favorite:add')")
     @Log(title = "房源收藏", businessType = BusinessType.INSERT)
     @PostMapping

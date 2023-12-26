@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.residence.mapper.ResidenceExposeMapper">
+    
+    <resultMap type="ResidenceExpose" id="ResidenceExposeResult">
+        <result property="id"    column="id"    />
+        <result property="residenceId"    column="residence_id"    />
+        <result property="exposeReason"    column="expose_reason"    />
+        <result property="remark"    column="remark"    />
+        <result property="picUrl1"    column="pic_url1"    />
+        <result property="picUrl2"    column="pic_url2"    />
+        <result property="picUrl3"    column="pic_url3"    />
+        <result property="exposeStatus"    column="expose_status"    />
+        <result property="processReason"    column="process_reason"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectResidenceExposeVo">
+        select id, residence_id, expose_reason, remark, pic_url1, pic_url2, pic_url3, expose_status, process_reason, create_by, create_time, update_by, update_time from residence_expose
+    </sql>
+
+    <select id="selectResidenceExposeList" parameterType="ResidenceExpose" resultMap="ResidenceExposeResult">
+        <include refid="selectResidenceExposeVo"/>
+        <where>  
+            <if test="residenceId != null  and residenceId != ''"> and residence_id = #{residenceId}</if>
+            <if test="exposeReason != null "> and expose_reason = #{exposeReason}</if>
+            <if test="exposeStatus != null  and exposeStatus != ''"> and expose_status = #{exposeStatus}</if>
+            <if test="createBy != null  and createBy != ''"> and create_by = #{createBy}</if>
+            <if test="params.beginCreateTime != null and params.beginCreateTime != '' and params.endCreateTime != null and params.endCreateTime != ''"> and create_time between #{params.beginCreateTime} and #{params.endCreateTime}</if>
+            <if test="updateBy != null  and updateBy != ''"> and update_by = #{updateBy}</if>
+            <if test="params.beginUpdateTime != null and params.beginUpdateTime != '' and params.endUpdateTime != null and params.endUpdateTime != ''"> and update_time between #{params.beginUpdateTime} and #{params.endUpdateTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectResidenceExposeById" parameterType="Long" resultMap="ResidenceExposeResult">
+        <include refid="selectResidenceExposeVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertResidenceExpose" parameterType="ResidenceExpose" useGeneratedKeys="true" keyProperty="id">
+        insert into residence_expose
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="residenceId != null and residenceId != ''">residence_id,</if>
+            <if test="exposeReason != null">expose_reason,</if>
+            <if test="remark != null">remark,</if>
+            <if test="picUrl1 != null">pic_url1,</if>
+            <if test="picUrl2 != null">pic_url2,</if>
+            <if test="picUrl3 != null">pic_url3,</if>
+            <if test="exposeStatus != null">expose_status,</if>
+            <if test="processReason != null">process_reason,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="residenceId != null and residenceId != ''">#{residenceId},</if>
+            <if test="exposeReason != null">#{exposeReason},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="picUrl1 != null">#{picUrl1},</if>
+            <if test="picUrl2 != null">#{picUrl2},</if>
+            <if test="picUrl3 != null">#{picUrl3},</if>
+            <if test="exposeStatus != null">#{exposeStatus},</if>
+            <if test="processReason != null">#{processReason},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateResidenceExpose" parameterType="ResidenceExpose">
+        update residence_expose
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="residenceId != null and residenceId != ''">residence_id = #{residenceId},</if>
+            <if test="exposeReason != null">expose_reason = #{exposeReason},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="picUrl1 != null">pic_url1 = #{picUrl1},</if>
+            <if test="picUrl2 != null">pic_url2 = #{picUrl2},</if>
+            <if test="picUrl3 != null">pic_url3 = #{picUrl3},</if>
+            <if test="exposeStatus != null">expose_status = #{exposeStatus},</if>
+            <if test="processReason != null">process_reason = #{processReason},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteResidenceExposeById" parameterType="Long">
+        delete from residence_expose where id = #{id}
+    </delete>
+
+    <delete id="deleteResidenceExposeByIds" parameterType="String">
+        delete from residence_expose where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>
