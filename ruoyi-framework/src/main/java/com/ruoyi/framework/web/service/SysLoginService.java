@@ -32,7 +32,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
@@ -188,7 +187,6 @@ public class SysLoginService
         userService.updateUserProfile(sysUser);
     }
 
-
     /**
      * 微信登录验证
      *
@@ -216,24 +214,6 @@ public class SysLoginService
         SysAuthUser authUser = userService.selectAuthUserByUuid(uuid,UserConstants.WE_CHAT);
         // 查询初始密码
         String password = configService.selectConfigByKey("sys.user.initPassword");
-
-        // 用户验证
-        Authentication authentication = null;
-        try
-        {
-            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(uuid, sessionKey);
-            AuthenticationContextHolder.setContext(authenticationToken);
-            // 该方法会去调用UserDetailsServiceImpl.loadUserByUsername
-            authentication = authenticationManager.authenticate(authenticationToken);
-        }
-        catch (Exception e)
-        {
-        }
-        finally
-        {
-            AuthenticationContextHolder.clearContext();
-        }
-
         // 用户不存在时,新建用户
         if(null == authUser){
             SysUser user = new SysUser();
@@ -256,10 +236,29 @@ public class SysLoginService
         }
         authUser.setSessionKey(sessionKey);
 
-        LoginUser loginUser = new LoginUser(authUser);
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(authUser.getUuid(), authUser.getSessionKey());
-        authenticationToken.setDetails(loginUser);
-        SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        Authentication authentication = null;
+        try
+        {
+            UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(uuid, password);
+            AuthenticationContextHolder.setContext(authenticationToken);
+            // 该方法会去调用UserDetailsServiceImpl.loadUserByUsername
+            authentication = authenticationManager.authenticate(authenticationToken);
+        }
+        catch (Exception e)
+        {
+            AsyncManager.me().execute(AsyncFactory.recordLogininfor(uuid, Constants.LOGIN_FAIL, e.getMessage()));
+            throw new ServiceException(e.getMessage());
+        }
+        finally
+        {
+            AuthenticationContextHolder.clearContext();
+        }
+
+        //LoginUser loginUser = new LoginUser(authUser);
+        //UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(authUser.getUuid(), authUser.getSessionKey());
+        //authenticationToken.setDetails(loginUser);
+        //SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+        LoginUser loginUser = (LoginUser) authentication.getPrincipal();
         // 生成token
         return tokenService.createToken(loginUser);
     }

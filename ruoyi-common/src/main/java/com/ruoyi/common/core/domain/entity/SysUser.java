@@ -358,7 +358,6 @@ public class SysUser extends BaseUser
         this.roleId = roleId;
     }
 
-
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
