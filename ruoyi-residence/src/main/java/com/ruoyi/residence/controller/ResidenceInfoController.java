@@ -95,7 +95,7 @@ public class ResidenceInfoController extends BaseController
     @Log(title = "房屋基本信息", businessType = BusinessType.UPDATE)
     @PostMapping("/verifyInfo")
     @ApiOperation("房源审核")
-    public AjaxResult verifyInfo(ResidenceInfo residenceInfo)
+    public AjaxResult verifyInfo(@RequestBody ResidenceInfo residenceInfo)
     {
         return toAjax(residenceInfoService.verifyInfo(residenceInfo));
     }

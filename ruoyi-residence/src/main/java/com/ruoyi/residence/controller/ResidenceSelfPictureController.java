@@ -34,7 +34,7 @@ public class ResidenceSelfPictureController extends BaseController
     /**
      * 查询自营首页图片列表
      */
-    @PreAuthorize("@ss.hasPermi('residence:picture:list')")
+    @PreAuthorize("@ss.hasPermi('residence:selfPicture:list')")
     @GetMapping("/list")
     @ApiOperation(value = "查询自营首页图片列表")
     public TableDataInfo list(ResidenceSelfPicture residenceSelfPicture)
@@ -47,7 +47,7 @@ public class ResidenceSelfPictureController extends BaseController
     /**
      * 导出自营首页图片列表
      */
-    @PreAuthorize("@ss.hasPermi('residence:picture:export')")
+    @PreAuthorize("@ss.hasPermi('residence:selfPicture:export')")
     @Log(title = "自营首页图片", businessType = BusinessType.EXPORT)
     @PostMapping("/export")
     public void export(HttpServletResponse response, ResidenceSelfPicture residenceSelfPicture)
@@ -60,7 +60,7 @@ public class ResidenceSelfPictureController extends BaseController
     /**
      * 获取自营首页图片详细信息
      */
-    @PreAuthorize("@ss.hasPermi('residence:picture:query')")
+    @PreAuthorize("@ss.hasPermi('residence:selfPicture:query')")
     @GetMapping(value = "/{id}")
     @ApiOperation(value = "获取自营首页图片详细信息")
     public AjaxResult getInfo(@PathVariable("id") Long id)
@@ -71,7 +71,7 @@ public class ResidenceSelfPictureController extends BaseController
     /**
      * 新增自营首页图片
      */
-    @PreAuthorize("@ss.hasPermi('residence:picture:add')")
+    @PreAuthorize("@ss.hasPermi('residence:selfPicture:add')")
     @Log(title = "自营首页图片", businessType = BusinessType.INSERT)
     @PostMapping
     @ApiOperation(value = "新增自营首页图片")
@@ -83,7 +83,7 @@ public class ResidenceSelfPictureController extends BaseController
     /**
      * 修改自营首页图片
      */
-    @PreAuthorize("@ss.hasPermi('residence:picture:edit')")
+    @PreAuthorize("@ss.hasPermi('residence:selfPicture:edit')")
     @Log(title = "自营首页图片", businessType = BusinessType.UPDATE)
     @PutMapping
     @ApiOperation(value = "修改自营首页图片")
@@ -95,7 +95,7 @@ public class ResidenceSelfPictureController extends BaseController
     /**
      * 删除自营首页图片
      */
-    @PreAuthorize("@ss.hasPermi('residence:picture:remove')")
+    @PreAuthorize("@ss.hasPermi('residence:selfPicture:remove')")
     @Log(title = "自营首页图片", businessType = BusinessType.DELETE)
 	@DeleteMapping("/{ids}")
     @ApiOperation(value = "删除自营首页图片")
