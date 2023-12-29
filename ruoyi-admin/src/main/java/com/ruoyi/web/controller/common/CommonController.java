@@ -1,6 +1,5 @@
 package com.ruoyi.web.controller.common;
 
-import com.ruoyi.common.annotation.Anonymous;
 import com.ruoyi.common.config.RuoYiConfig;
 import com.ruoyi.common.constant.Constants;
 import com.ruoyi.common.core.domain.AjaxResult;
@@ -76,10 +75,17 @@ public class CommonController
      * 通用上传请求（单个）
      */
     @PostMapping("/upload")
-    public AjaxResult uploadFile(MultipartFile file) throws Exception
+    public AjaxResult uploadFile(MultipartFile file,HttpServletRequest request) throws Exception
     {
         try
         {
+            String scheme = request.getHeader("X-Forwarded-Scheme");
+            String serverName = request.getServerName();
+            int port = request.getServerPort();
+            String path = request.getContextPath();
+            String basePath = scheme + "://" + serverName + path;
+            log.info("upload 上传文件真实地址:port:{},path:{},basePath:{}",port,path,basePath);
+
             // 上传文件路径
             String filePath = RuoYiConfig.getUploadPath();
             // 上传并返回新文件名称
