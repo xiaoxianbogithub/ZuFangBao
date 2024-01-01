@@ -22,8 +22,8 @@ public class ResidenceInfoVO extends ResidenceInfo {
     @Excel(name = "压几付几")
     private String depositPay;
 
-    @Excel(name = "户型名")
-    private String houseTypeName;
+    @Excel(name = "户型")
+    private String houseType;
 
     @Excel(name = "地区名")
     private String areaName;
@@ -52,12 +52,12 @@ public class ResidenceInfoVO extends ResidenceInfo {
         this.depositPay = depositPay;
     }
 
-    public String getHouseTypeName() {
-        return houseTypeName;
+    public String getHouseType() {
+        return houseType;
     }
 
-    public void setHouseTypeName(String houseTypeName) {
-        this.houseTypeName = houseTypeName;
+    public void setHouseType(String houseType) {
+        this.houseType = houseType;
     }
 
     public String getDepositName() {
@@ -92,7 +92,7 @@ public class ResidenceInfoVO extends ResidenceInfo {
                 ", depositName='" + depositName + '\'' +
                 ", payName='" + payName + '\'' +
                 ", depositPay='" + depositPay + '\'' +
-                ", houseTypeName='" + houseTypeName + '\'' +
+                ", houseType='" + houseType + '\'' +
                 ", areaName='" + areaName + '\'' +
                 '}';
     }

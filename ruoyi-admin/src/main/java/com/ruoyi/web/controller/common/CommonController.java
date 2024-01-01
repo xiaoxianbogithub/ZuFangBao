@@ -75,16 +75,13 @@ public class CommonController
      * 通用上传请求（单个）
      */
     @PostMapping("/upload")
-    public AjaxResult uploadFile(MultipartFile file,HttpServletRequest request) throws Exception
+    public AjaxResult uploadFile(MultipartFile file, HttpServletRequest request) throws Exception
     {
         try
         {
             String scheme = request.getHeader("X-Forwarded-Scheme");
             String serverName = request.getServerName();
-            int port = request.getServerPort();
-            String path = request.getContextPath();
-            String basePath = scheme + "://" + serverName + path;
-            log.info("upload 上传文件真实地址:port:{},path:{},basePath:{}",port,path,basePath);
+            String basePath = scheme + "://" + serverName;
 
             // 上传文件路径
             String filePath = RuoYiConfig.getUploadPath();
@@ -92,7 +89,8 @@ public class CommonController
             String fileName = FileUploadUtils.upload(filePath, file);
             String url = serverConfig.getUrl() + fileName;
             AjaxFile ajaxFile = new AjaxFile();
-            ajaxFile.setUrl(url);
+            //ajaxFile.setUrl(url);
+            ajaxFile.setUrl(basePath + fileName);
             ajaxFile.setFileName(fileName);
             ajaxFile.setNewFileName(FileUtils.getName(fileName));
             ajaxFile.setOriginalFilename(file.getOriginalFilename());

@@ -110,6 +110,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .authorizeRequests()
                 // 对于登录login 注册register 验证码captchaImage 开放接口
                 .antMatchers("/login", "/wxLogin", "/register", "/captchaImage").permitAll()
+                .antMatchers("/common/upload").permitAll()
                 // 开放房源查询
                 // 两个*代表多层路径，一个*代表一个或多个字符，问号代表一个字符
                 .antMatchers("/residence/**/list", "/residence/**/{id}", "/system/area/list","/system/area/listCombo").permitAll()

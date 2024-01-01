@@ -172,11 +172,11 @@ public class ResidenceInfo extends BaseEntity {
 
     @Excel(name = "经度")
     @ApiModelProperty(value = "经度")
-    private String longitude;
+    private float longitude;
 
     @Excel(name = "纬度")
     @ApiModelProperty(value = "纬度")
-    private String latitude;
+    private float latitude;
 
     /**
      * 房源配置JSON(属性数组，JSON 格式, e.g.[{propertId: , valueId: }, {propertId: , valueId: }])
@@ -231,6 +231,8 @@ public class ResidenceInfo extends BaseEntity {
     @Excel(name = "排序")
     @ApiModelProperty(value = "排序", required = true)
     private Long sort;
+
+    private String geoCoordinate;
 
     /**
      * 房源图片信息
@@ -404,19 +406,19 @@ public class ResidenceInfo extends BaseEntity {
         return addressId;
     }
 
-    public String getLongitude() {
+    public float getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(float longitude) {
         this.longitude = longitude;
     }
 
-    public String getLatitude() {
+    public float getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(float latitude) {
         this.latitude = latitude;
     }
 
@@ -506,6 +508,14 @@ public class ResidenceInfo extends BaseEntity {
         this.towards = towards;
     }
 
+    public String getGeoCoordinate() {
+        return geoCoordinate;
+    }
+
+    public void setGeoCoordinate(String geoCoordinate) {
+        this.geoCoordinate = geoCoordinate;
+    }
+
     public List<ResidencePicture> getResidencePictureList() {
         return residencePictureList;
     }
@@ -552,6 +562,7 @@ public class ResidenceInfo extends BaseEntity {
                 ", deleted=" + deleted +
                 ", weights=" + weights +
                 ", sort=" + sort +
+                ", geoCoordinate=" + geoCoordinate +
                 ", residencePictureList=" + residencePictureList +
                 '}';
     }

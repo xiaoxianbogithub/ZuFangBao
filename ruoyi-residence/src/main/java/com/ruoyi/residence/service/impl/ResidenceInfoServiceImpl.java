@@ -91,6 +91,7 @@ public class ResidenceInfoServiceImpl implements IResidenceInfoService
                 ResidenceInfoVO residenceInfoVO = new ResidenceInfoVO();
                 BeanUtils.copyProperties(info,residenceInfoVO);
                 residenceInfoVO.setDepositPay(ObjectUtil.defaultIfBlank(info.getDepositName(),"").concat(ObjectUtil.defaultIfBlank(info.getPayName(),"")));
+                residenceInfoVO.setHouseType(info.getNumOfBedrooms()+ "室" + info.getNumOfLivingrooms() + "厅");
                 return residenceInfoVO;
             }
         ).collect(Collectors.toList());
