@@ -1,13 +1,13 @@
 package com.ruoyi.residence.service.impl;
 
-import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
-import com.ruoyi.residence.domain.VO.ResidenceFavoriteVO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import com.ruoyi.residence.mapper.ResidenceFavoriteMapper;
 import com.ruoyi.residence.domain.ResidenceFavorite;
+import com.ruoyi.residence.mapper.ResidenceFavoriteMapper;
 import com.ruoyi.residence.service.IResidenceFavoriteService;
+import org.springframework.stereotype.Service;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 房源收藏Service业务层处理
@@ -18,7 +18,7 @@ import com.ruoyi.residence.service.IResidenceFavoriteService;
 @Service
 public class ResidenceFavoriteServiceImpl implements IResidenceFavoriteService 
 {
-    @Autowired
+    @Resource
     private ResidenceFavoriteMapper residenceFavoriteMapper;
 
     /**
@@ -28,7 +28,7 @@ public class ResidenceFavoriteServiceImpl implements IResidenceFavoriteService
      * @return 房源收藏
      */
     @Override
-    public List<ResidenceFavoriteVO> selectResidenceFavoriteList(ResidenceFavorite residenceFavorite)
+    public List<ResidenceFavorite> selectResidenceFavoriteList(ResidenceFavorite residenceFavorite)
     {
         return residenceFavoriteMapper.selectResidenceFavoriteList(residenceFavorite);
     }

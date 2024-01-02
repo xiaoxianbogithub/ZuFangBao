@@ -7,7 +7,6 @@ import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.residence.domain.ResidenceFavorite;
-import com.ruoyi.residence.domain.VO.ResidenceFavoriteVO;
 import com.ruoyi.residence.service.IResidenceFavoriteService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -41,7 +40,7 @@ public class ResidenceFavoriteController extends BaseController
     public TableDataInfo list(ResidenceFavorite residenceFavorite)
     {
         startPage();
-        List<ResidenceFavoriteVO> list = residenceFavoriteService.selectResidenceFavoriteList(residenceFavorite);
+        List<ResidenceFavorite> list = residenceFavoriteService.selectResidenceFavoriteList(residenceFavorite);
         return getDataTable(list);
     }
 
@@ -54,8 +53,8 @@ public class ResidenceFavoriteController extends BaseController
     @ApiOperation("导出房源收藏列表")
     public void export(HttpServletResponse response, @RequestBody ResidenceFavorite residenceFavorite)
     {
-        List<ResidenceFavoriteVO> list = residenceFavoriteService.selectResidenceFavoriteList(residenceFavorite);
-        ExcelUtil<ResidenceFavoriteVO> util = new ExcelUtil<>(ResidenceFavoriteVO.class);
+        List<ResidenceFavorite> list = residenceFavoriteService.selectResidenceFavoriteList(residenceFavorite);
+        ExcelUtil<ResidenceFavorite> util = new ExcelUtil<>(ResidenceFavorite.class);
         util.exportExcel(response, list, "房源收藏数据");
     }
 

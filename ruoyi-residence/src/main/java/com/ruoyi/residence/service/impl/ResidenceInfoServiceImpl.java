@@ -61,6 +61,7 @@ public class ResidenceInfoServiceImpl implements IResidenceInfoService
     @Override
     public ResidenceInfoVO selectResidenceInfoById(String id)
     {
+
         ResidenceInfoVO residenceInfoVO = residenceInfoMapper.selectResidenceInfoById(id);
         residenceInfoVO.setDepositPay(residenceInfoVO.getDepositName().concat(residenceInfoVO
                 .getPayName()));
@@ -131,7 +132,7 @@ public class ResidenceInfoServiceImpl implements IResidenceInfoService
             SpringUtils.getBean(ResidenceIdPrefixTask.class).setRedisCacheId();
         }
         // 读取redis中的自增数并 + 1
-        Long counter = redisCache.incrementCounter(CacheConstants.RESIDENCE_ID_KEY + residenceIdPrefix);
+        Long counter = redisCache.incrementCounter(CacheConstants.RESIDENCE_ID_KEY + residenceIdPrefix,1);
 
         return residenceIdPrefix + String.format("%04d",counter);
 

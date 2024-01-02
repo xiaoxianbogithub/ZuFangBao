@@ -2,10 +2,13 @@ package com.ruoyi.residence.domain;
 
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.core.domain.BaseEntity;
+import com.ruoyi.residence.domain.VO.ResidenceInfoListVO;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+
+import java.util.List;
 
 /**
  * 房源收藏对象 residence_favorite
@@ -19,12 +22,12 @@ public class ResidenceFavorite extends BaseEntity
     private static final long serialVersionUID = -3499623116477986856L;
     /** Id */
     @Excel(name = "Id")
-    @ApiModelProperty(name = "Id")
+    @ApiModelProperty(value = "Id")
     private Long id;
 
     /** 用户Id */
     @Excel(name = "用户Id")
-    @ApiModelProperty(name = "用户Id")
+    @ApiModelProperty(notes = "用户Id")
     private Long userId;
 
     /** 房源Id */
@@ -34,8 +37,10 @@ public class ResidenceFavorite extends BaseEntity
 
     /** 排序 */
     @Excel(name = "排序")
-    @ApiModelProperty(name = "排序")
+    @ApiModelProperty(notes = "排序")
     private Long sort;
+
+    private List<ResidenceInfoListVO> residenceInfoList;
 
     public void setId(Long id) 
     {
@@ -74,6 +79,14 @@ public class ResidenceFavorite extends BaseEntity
         return sort;
     }
 
+    public List<ResidenceInfoListVO> getResidenceInfoList() {
+        return residenceInfoList;
+    }
+
+    public void setResidenceInfoList(List<ResidenceInfoListVO> residenceInfoList) {
+        this.residenceInfoList = residenceInfoList;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -82,6 +95,7 @@ public class ResidenceFavorite extends BaseEntity
             .append("residenceId", getResidenceId())
             .append("sort", getSort())
             .append("createTime", getCreateTime())
+            .append("residenceInfoList", residenceInfoList)
             .toString();
     }
 }

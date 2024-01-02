@@ -291,8 +291,8 @@ public class RedisCache
      * @param key Redis键
      * @return +1后的值
      */
-    public Long incrementCounter(String key) {
-        return redisTemplate.opsForValue().increment(key);
+    public Long incrementCounter(String key, long delta) {
+        return redisTemplate.opsForValue().increment(key, delta);
     }
 
     /**
@@ -300,7 +300,7 @@ public class RedisCache
      * @param key Redis键
      * @return -1后的值
      */
-    public Long decrementCounter(String key) {
-        return redisTemplate.opsForValue().decrement(key);
+    public Long decrementCounter(String key, long delta) {
+        return redisTemplate.opsForValue().decrement(key, delta);
     }
 }

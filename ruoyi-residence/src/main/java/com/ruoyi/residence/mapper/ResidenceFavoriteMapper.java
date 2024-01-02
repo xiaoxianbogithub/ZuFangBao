@@ -1,8 +1,8 @@
 package com.ruoyi.residence.mapper;
 
-import java.util.List;
 import com.ruoyi.residence.domain.ResidenceFavorite;
-import com.ruoyi.residence.domain.VO.ResidenceFavoriteVO;
+
+import java.util.List;
 
 /**
  * 房源收藏Mapper接口
@@ -18,7 +18,7 @@ public interface ResidenceFavoriteMapper
      * @param residenceFavorite 房源收藏
      * @return 房源收藏集合
      */
-    public List<ResidenceFavoriteVO> selectResidenceFavoriteList(ResidenceFavorite residenceFavorite);
+    public List<ResidenceFavorite> selectResidenceFavoriteList(ResidenceFavorite residenceFavorite);
 
     /**
      * 新增房源收藏

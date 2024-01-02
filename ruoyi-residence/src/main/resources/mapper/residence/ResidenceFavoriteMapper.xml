@@ -10,24 +10,34 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="residenceId"    column="residence_id"    />
         <result property="sort"    column="sort"    />
         <result property="createTime"    column="create_time"    />
+<!--        <collection property="residenceInfoList" notNullColumn="sub_id" javaType="java.util.List" resultMap="ResidenceInfoListVOResult" />-->
     </resultMap>
 
-    <resultMap id="ResidenceFavoriteVOResult" type="ResidenceFavoriteVO" extends="ResidenceFavoriteResult">
-        <result property="residenceName" column="residence_name"/>
+    <resultMap id="ResidenceFavoriteResidenceResult" type="ResidenceFavorite" extends="ResidenceFavoriteResult">
+        <collection property="residenceInfoList" notNullColumn="sub_id" javaType="java.util.List" resultMap="ResidenceInfoListVOResult" />
     </resultMap>
 
+    <resultMap id="ResidenceInfoListVOResult" type="ResidenceInfoListVO">
+        <result property="residenceId" column="res_id"  />
+        <result property="name" column="res_name"  />
+        <result property="labels"    column="res_labels"    />
+        <result property="price"    column="res_price"    />
+        <result property="towards"    column="res_towards"    />
+        <result property="geoCoordinate" column="res_geo_coordinate" />
+        <result property="browseCount"    column="res_browse_count"    />
+        <result property="status"    column="res_status"    />
+    </resultMap>
 
     <sql id="selectResidenceFavoriteSQL">
-        select id, user_id, residence_id, sort, create_time from residence_favorite
+        select rf.id, rf.user_id, rf.residence_id, rf.sort, rf.create_time,
+               ri.id res_id, ri.`name` res_name, ri.labels res_labels, ri.price res_price, ri.towards res_towards, ri.geo_coordinate res_geo_coordinate, ri.browse_count res_browse_count, ri.`status` res_status
+        from residence_favorite rf
+        left join residence_info ri on rf.residence_id = ri.id
+
     </sql>
 
-    <sql id="selectResidenceFavoriteVOSQL">
-        select rf.id, rf.user_id, rf.residence_id, rf.sort, rf.create_time, ri.`name` residence_name from residence_favorite rf left join residence_info ri on rf.residence_id = ri.id
-
-    </sql>
-
-    <select id="selectResidenceFavoriteList" parameterType="ResidenceFavorite" resultMap="ResidenceFavoriteVOResult">
-        <include refid="selectResidenceFavoriteVOSQL"/>
+    <select id="selectResidenceFavoriteList" parameterType="ResidenceFavorite" resultMap="ResidenceFavoriteResidenceResult">
+        <include refid="selectResidenceFavoriteSQL"/>
         <where>
             <if test="userId != null"> and user_id = #{userId} </if>
         </where>

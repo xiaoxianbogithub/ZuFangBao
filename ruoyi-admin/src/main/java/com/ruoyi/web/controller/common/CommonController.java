@@ -79,18 +79,18 @@ public class CommonController
     {
         try
         {
+            // 获取客户端原始请求协议 因为使用了Nginx代理
             String scheme = request.getHeader("X-Forwarded-Scheme");
             String serverName = request.getServerName();
-            String basePath = scheme + "://" + serverName;
 
             // 上传文件路径
             String filePath = RuoYiConfig.getUploadPath();
             // 上传并返回新文件名称
             String fileName = FileUploadUtils.upload(filePath, file);
-            String url = serverConfig.getUrl() + fileName;
+            //String url = serverConfig.getUrl() + fileName;
+            String url = scheme + "://" + serverName + fileName;
             AjaxFile ajaxFile = new AjaxFile();
-            //ajaxFile.setUrl(url);
-            ajaxFile.setUrl(basePath + fileName);
+            ajaxFile.setUrl(url);
             ajaxFile.setFileName(fileName);
             ajaxFile.setNewFileName(FileUtils.getName(fileName));
             ajaxFile.setOriginalFilename(file.getOriginalFilename());
@@ -106,10 +106,13 @@ public class CommonController
      * 通用上传请求（多个）
      */
     @PostMapping("/uploads")
-    public AjaxResult uploadFiles(List<MultipartFile> files) throws Exception
+    public AjaxResult uploadFiles(List<MultipartFile> files, HttpServletRequest request) throws Exception
     {
         try
         {
+            // 获取客户端原始请求协议 因为使用了Nginx代理
+            String scheme = request.getHeader("X-Forwarded-Scheme");
+            String serverName = request.getServerName();
             // 上传文件路径
             String filePath = RuoYiConfig.getUploadPath();
             List<String> urls = new ArrayList<String>();
@@ -120,7 +123,8 @@ public class CommonController
             {
                 // 上传并返回新文件名称
                 String fileName = FileUploadUtils.upload(filePath, file);
-                String url = serverConfig.getUrl() + fileName;
+                //String url = serverConfig.getUrl() + fileName;
+                String url = scheme + "://" + serverName + fileName;
                 urls.add(url);
                 fileNames.add(fileName);
                 newFileNames.add(FileUtils.getName(fileName));
