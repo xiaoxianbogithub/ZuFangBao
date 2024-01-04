@@ -1,7 +1,6 @@
 package com.ruoyi.common.core.controller;
 
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.ruoyi.common.constant.HttpStatus;
 import com.ruoyi.common.core.domain.AjaxResult;
 import com.ruoyi.common.core.domain.model.LoginUser;
@@ -87,7 +86,8 @@ public class BaseController
         rspData.setCode(HttpStatus.SUCCESS);
         rspData.setMsg("查询成功");
         rspData.setRows(list);
-        rspData.setTotal(new PageInfo(list).getTotal());
+        //rspData.setTotal(new PageInfo(list).getTotal());
+        rspData.setTotal(PageUtils.getDataTotal(list));
         return rspData;
     }
 

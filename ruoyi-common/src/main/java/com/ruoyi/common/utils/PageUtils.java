@@ -2,9 +2,7 @@ package com.ruoyi.common.utils;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.ruoyi.common.constant.HttpStatus;
 import com.ruoyi.common.core.page.PageDomain;
-import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.core.page.TableSupport;
 import com.ruoyi.common.utils.sql.SqlUtil;
 
@@ -29,16 +27,11 @@ public class PageUtils extends PageHelper
         Integer pageSize = pageDomain.getPageSize();
         String orderBy = SqlUtil.escapeOrderBySql(pageDomain.getOrderBy());
         Boolean reasonable = pageDomain.getReasonable();
-        PageHelper.startPage(pageNum, pageSize, orderBy).setReasonable(reasonable);
+        page = PageHelper.startPage(pageNum, pageSize, orderBy).setReasonable(reasonable);
     }
 
-    public static TableDataInfo getDataTable(List<?> list) {
-        TableDataInfo rspData = new TableDataInfo();
-        rspData.setCode(HttpStatus.SUCCESS);
-        rspData.setMsg("查询成功");
-        rspData.setRows(list);
-        rspData.setTotal(page.getTotal());
-        return rspData;
+    public static long getDataTotal(List<?> list) {
+        return page.getTotal();
     }
 
     /**

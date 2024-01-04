@@ -10,11 +10,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="residenceId"    column="residence_id"    />
         <result property="sort"    column="sort"    />
         <result property="createTime"    column="create_time"    />
-<!--        <collection property="residenceInfoList" notNullColumn="sub_id" javaType="java.util.List" resultMap="ResidenceInfoListVOResult" />-->
-    </resultMap>
-
-    <resultMap id="ResidenceFavoriteResidenceResult" type="ResidenceFavorite" extends="ResidenceFavoriteResult">
-        <collection property="residenceInfoList" notNullColumn="sub_id" javaType="java.util.List" resultMap="ResidenceInfoListVOResult" />
+        <association property="residenceInfo"  javaType="ResidenceInfoListVO" resultMap="ResidenceInfoListVOResult" />
     </resultMap>
 
     <resultMap id="ResidenceInfoListVOResult" type="ResidenceInfoListVO">
@@ -36,7 +32,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     </sql>
 
-    <select id="selectResidenceFavoriteList" parameterType="ResidenceFavorite" resultMap="ResidenceFavoriteResidenceResult">
+    <select id="selectResidenceFavoriteList" parameterType="ResidenceFavorite" resultMap="ResidenceFavoriteResult">
         <include refid="selectResidenceFavoriteSQL"/>
         <where>
             <if test="userId != null"> and user_id = #{userId} </if>

@@ -8,8 +8,6 @@ import io.swagger.annotations.ApiModelProperty;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
-import java.util.List;
-
 /**
  * 房源收藏对象 residence_favorite
  * 
@@ -40,7 +38,7 @@ public class ResidenceFavorite extends BaseEntity
     @ApiModelProperty(notes = "排序")
     private Long sort;
 
-    private List<ResidenceInfoListVO> residenceInfoList;
+    private ResidenceInfoListVO residenceInfo;
 
     public void setId(Long id) 
     {
@@ -79,12 +77,12 @@ public class ResidenceFavorite extends BaseEntity
         return sort;
     }
 
-    public List<ResidenceInfoListVO> getResidenceInfoList() {
-        return residenceInfoList;
+    public ResidenceInfoListVO getResidenceInfo() {
+        return residenceInfo;
     }
 
-    public void setResidenceInfoList(List<ResidenceInfoListVO> residenceInfoList) {
-        this.residenceInfoList = residenceInfoList;
+    public void setResidenceInfo(ResidenceInfoListVO residenceInfo) {
+        this.residenceInfo = residenceInfo;
     }
 
     @Override
@@ -95,7 +93,7 @@ public class ResidenceFavorite extends BaseEntity
             .append("residenceId", getResidenceId())
             .append("sort", getSort())
             .append("createTime", getCreateTime())
-            .append("residenceInfoList", residenceInfoList)
+            .append("residenceInfo", residenceInfo)
             .toString();
     }
 }
