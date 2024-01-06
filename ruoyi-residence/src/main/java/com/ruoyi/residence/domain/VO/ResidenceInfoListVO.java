@@ -1,6 +1,7 @@
 package com.ruoyi.residence.domain.VO;
 
 import com.ruoyi.residence.domain.ResidencePicture;
+import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -61,6 +62,7 @@ public class ResidenceInfoListVO implements Serializable {
     /**
      * 房源图片
      */
+    @ApiModelProperty(hidden = true)
     private List<ResidencePicture> residencePictureList;
 
     public String getResidenceId() {

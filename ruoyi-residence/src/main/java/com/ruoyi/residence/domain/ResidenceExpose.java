@@ -19,41 +19,41 @@ public class ResidenceExpose extends BaseEntity
 
     private static final long serialVersionUID = 8911859657207062228L;
     /** Id */
-    @ApiModelProperty(notes = "Id")
+    @ApiModelProperty(value  = "Id")
     private Long id;
 
     /** 房源Id */
-    @ApiModelProperty(notes = "房源Id")
+    @ApiModelProperty(value  = "房源Id")
     @Excel(name = "房源Id")
     private String residenceId;
 
     /** 举报原因Id */
-    @ApiModelProperty(notes = "举报原因(1:房源价格虚假;2:房源位置虚假;3:房源图片虚假;4:经纪人服务差;5:其他)")
+    @ApiModelProperty(value  = "举报原因(1:房源价格虚假;2:房源位置虚假;3:房源图片虚假;4:经纪人服务差;5:其他)",allowableValues = "1,2,3,4,5")
     @Excel(name = "举报原因(1:房源价格虚假;2:房源位置虚假;3:房源图片虚假;4:经纪人服务差;5:其他)")
     private String exposeReason;
 
     /** 凭证图片1 */
-    @ApiModelProperty(notes = "凭证图片1")
+    @ApiModelProperty(value  = "凭证图片1")
     @Excel(name = "凭证图片1")
     private String picUrl1;
 
     /** 凭证图片2 */
-    @ApiModelProperty(notes = "凭证图片2")
+    @ApiModelProperty(value  = "凭证图片2")
     @Excel(name = "凭证图片2")
     private String picUrl2;
 
     /** 凭证图片3 */
-    @ApiModelProperty(notes = "凭证图片3")
+    @ApiModelProperty(value  = "凭证图片3")
     @Excel(name = "凭证图片3")
     private String picUrl3;
 
     /** 委托状态(0:已删除;1:已提交;2:处理中;3同意;4:反对) */
-    @ApiModelProperty(notes = "委托状态(0:已删除;1:已提交;2:处理中;3同意;4:反对)")
+    @ApiModelProperty(value  = "委托状态(0:已删除;1:已提交;2:处理中;3同意;4:反对)", allowableValues = "0,1,2,3,4")
     @Excel(name = "委托状态(0:已删除;1:已提交;2:处理中;3同意;4:反对)")
     private String exposeStatus;
 
     /** 处理批注 */
-    @ApiModelProperty(notes = "处理批注")
+    @ApiModelProperty(value  = "处理批注")
     @Excel(name = "处理批注")
     private String processReason;
 

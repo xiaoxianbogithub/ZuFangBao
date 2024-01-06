@@ -6,8 +6,6 @@ import com.ruoyi.common.core.page.PageDomain;
 import com.ruoyi.common.core.page.TableSupport;
 import com.ruoyi.common.utils.sql.SqlUtil;
 
-import java.util.List;
-
 /**
  * 分页工具类
  * 
@@ -30,7 +28,7 @@ public class PageUtils extends PageHelper
         page = PageHelper.startPage(pageNum, pageSize, orderBy).setReasonable(reasonable);
     }
 
-    public static long getDataTotal(List<?> list) {
+    public static long getDataTotal() {
         return page.getTotal();
     }
 

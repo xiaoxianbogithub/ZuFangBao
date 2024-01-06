@@ -7,6 +7,7 @@ import com.ruoyi.common.core.page.TableDataInfo;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.utils.poi.ExcelUtil;
 import com.ruoyi.residence.domain.ResidenceEntrust;
+import com.ruoyi.residence.domain.VO.ResidenceEntrustVO;
 import com.ruoyi.residence.service.IResidenceEntrustService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -40,7 +41,7 @@ public class ResidenceEntrustController extends BaseController
     public TableDataInfo list(ResidenceEntrust residenceEntrust)
     {
         startPage();
-        List<ResidenceEntrust> list = residenceEntrustService.selectResidenceEntrustList(residenceEntrust);
+        List<ResidenceEntrustVO> list = residenceEntrustService.selectResidenceEntrustList(residenceEntrust);
         return getDataTable(list);
     }
 
@@ -52,8 +53,8 @@ public class ResidenceEntrustController extends BaseController
     @PostMapping("/export")
     public void export(HttpServletResponse response, ResidenceEntrust residenceEntrust)
     {
-        List<ResidenceEntrust> list = residenceEntrustService.selectResidenceEntrustList(residenceEntrust);
-        ExcelUtil<ResidenceEntrust> util = new ExcelUtil<ResidenceEntrust>(ResidenceEntrust.class);
+        List<ResidenceEntrustVO> list = residenceEntrustService.selectResidenceEntrustList(residenceEntrust);
+        ExcelUtil<ResidenceEntrustVO> util = new ExcelUtil<>(ResidenceEntrustVO.class);
         util.exportExcel(response, list, "委托管理数据");
     }
 

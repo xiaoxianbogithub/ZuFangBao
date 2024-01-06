@@ -25,19 +25,20 @@ public class ResidenceFavorite extends BaseEntity
 
     /** 用户Id */
     @Excel(name = "用户Id")
-    @ApiModelProperty(notes = "用户Id")
+    @ApiModelProperty(value = "用户Id")
     private Long userId;
 
     /** 房源Id */
     @Excel(name = "房源Id")
-    @ApiModelProperty(name = "房源Id")
+    @ApiModelProperty(value = "房源Id")
     private String residenceId;
 
     /** 排序 */
     @Excel(name = "排序")
-    @ApiModelProperty(notes = "排序")
+    @ApiModelProperty(value = "排序")
     private Long sort;
 
+    @ApiModelProperty(hidden = true)
     private ResidenceInfoListVO residenceInfo;
 
     public void setId(Long id) 

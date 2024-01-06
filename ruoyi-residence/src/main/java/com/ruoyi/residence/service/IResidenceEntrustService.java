@@ -1,7 +1,9 @@
 package com.ruoyi.residence.service;
 
-import java.util.List;
 import com.ruoyi.residence.domain.ResidenceEntrust;
+import com.ruoyi.residence.domain.VO.ResidenceEntrustVO;
+
+import java.util.List;
 
 /**
  * 委托管理Service接口
@@ -25,7 +27,7 @@ public interface IResidenceEntrustService
      * @param residenceEntrust 委托管理
      * @return 委托管理集合
      */
-    public List<ResidenceEntrust> selectResidenceEntrustList(ResidenceEntrust residenceEntrust);
+    public List<ResidenceEntrustVO> selectResidenceEntrustList(ResidenceEntrust residenceEntrust);
 
     /**
      * 新增委托管理

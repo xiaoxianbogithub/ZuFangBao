@@ -1,12 +1,13 @@
 package com.ruoyi.residence.service.impl;
 
-import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.residence.domain.ResidenceExpose;
+import com.ruoyi.residence.mapper.ResidenceExposeMapper;
+import com.ruoyi.residence.service.IResidenceExposeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.residence.mapper.ResidenceExposeMapper;
-import com.ruoyi.residence.domain.ResidenceExpose;
-import com.ruoyi.residence.service.IResidenceExposeService;
+
+import java.util.List;
 
 /**
  * 房源举报Service业务层处理

@@ -1,12 +1,14 @@
 package com.ruoyi.residence.service.impl;
 
-import java.util.List;
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.residence.domain.ResidenceEntrust;
+import com.ruoyi.residence.domain.VO.ResidenceEntrustVO;
+import com.ruoyi.residence.mapper.ResidenceEntrustMapper;
+import com.ruoyi.residence.service.IResidenceEntrustService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.residence.mapper.ResidenceEntrustMapper;
-import com.ruoyi.residence.domain.ResidenceEntrust;
-import com.ruoyi.residence.service.IResidenceEntrustService;
+
+import java.util.List;
 
 /**
  * 委托管理Service业务层处理
@@ -39,7 +41,7 @@ public class ResidenceEntrustServiceImpl implements IResidenceEntrustService
      * @return 委托管理
      */
     @Override
-    public List<ResidenceEntrust> selectResidenceEntrustList(ResidenceEntrust residenceEntrust)
+    public List<ResidenceEntrustVO> selectResidenceEntrustList(ResidenceEntrust residenceEntrust)
     {
         return residenceEntrustMapper.selectResidenceEntrustList(residenceEntrust);
     }

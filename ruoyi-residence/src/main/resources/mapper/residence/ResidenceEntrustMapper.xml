@@ -20,25 +20,31 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="updateBy"    column="update_by"    />
         <result property="updateTime"    column="update_time"    />
     </resultMap>
+    
+    <resultMap id="ResidenceEntrustVOResult" type="ResidenceEntrustVO" extends="ResidenceEntrustResult">
+        <result property="areaName" column="area_name"/>
+    </resultMap>
 
     <sql id="selectResidenceEntrustVo">
-        select id, entrust_type, address_id, amount, residence_type, remark, phonenumber, designate_id, entrust_status, process_reason, create_by, create_time, update_by, update_time from residence_entrust
+        select re.id, re.entrust_type, re.address_id, re.amount, re.residence_type, re.remark, re.phonenumber, re.designate_id, re.entrust_status, re.process_reason, re.create_by, re.create_time, re.update_by, re.update_time, sa.`name` area_name
+        from residence_entrust re
+        left join sys_area sa on re.address_id = sa.id
     </sql>
 
-    <select id="selectResidenceEntrustList" parameterType="ResidenceEntrust" resultMap="ResidenceEntrustResult">
+    <select id="selectResidenceEntrustList" parameterType="ResidenceEntrust" resultMap="ResidenceEntrustVOResult">
         <include refid="selectResidenceEntrustVo"/>
         <where>  
-            <if test="entrustType != null  and entrustType != ''"> and entrust_type = #{entrustType}</if>
-            <if test="residenceType != null  and residenceType != ''"> and residence_type = #{residenceType}</if>
-            <if test="phonenumber != null  and phonenumber != ''"> and phonenumber like concat('%', #{phonenumber}, '%')</if>
-            <if test="designateId != null  and designateId != ''"> and designate_id = #{designateId}</if>
-            <if test="entrustStatus != null  and entrustStatus != ''"> and entrust_status = #{entrustStatus}</if>
+            <if test="entrustType != null  and entrustType != ''"> and re.entrust_type = #{entrustType}</if>
+            <if test="residenceType != null  and residenceType != ''"> and re.residence_type = #{residenceType}</if>
+            <if test="phonenumber != null  and phonenumber != ''"> and re.phonenumber like concat('%', #{phonenumber}, '%')</if>
+            <if test="designateId != null  and designateId != ''"> and re.designate_id = #{designateId}</if>
+            <if test="entrustStatus != null  and entrustStatus != ''"> and re.entrust_status = #{entrustStatus}</if>
         </where>
     </select>
     
-    <select id="selectResidenceEntrustById" parameterType="Long" resultMap="ResidenceEntrustResult">
+    <select id="selectResidenceEntrustById" parameterType="Long" resultMap="ResidenceEntrustVOResult">
         <include refid="selectResidenceEntrustVo"/>
-        where id = #{id}
+        where re.id = #{id}
     </select>
         
     <insert id="insertResidenceEntrust" parameterType="ResidenceEntrust" useGeneratedKeys="true" keyProperty="id">

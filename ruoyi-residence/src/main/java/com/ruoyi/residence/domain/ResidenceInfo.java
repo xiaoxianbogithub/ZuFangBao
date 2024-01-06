@@ -16,8 +16,8 @@ import java.util.List;
  */
 @ApiModel(description = "房源基本信息")
 public class ResidenceInfo extends BaseEntity {
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 3431098351297507401L;
     /** ID */
     private String id;
 
@@ -131,14 +131,14 @@ public class ResidenceInfo extends BaseEntity {
      * 是否有电梯
      */
     @Excel(name = "是否有电梯")
-    @ApiModelProperty(value = "是否有电梯(0:无电梯;1:有电梯)", required = true)
+    @ApiModelProperty(value = "是否有电梯(0:无电梯;1:有电梯)", required = true, allowableValues = "0,1")
     private Byte elevator;
 
     /**
      * 装修
      */
     @Excel(name = "装修")
-    @ApiModelProperty(value = "装修(0:简装;1:精装)", required = true)
+    @ApiModelProperty(value = "装修(0:简装;1:精装)", required = true, allowableValues = "0,1")
     private String furnish;
 
     @Excel(name = "首页图片")
@@ -210,7 +210,7 @@ public class ResidenceInfo extends BaseEntity {
      * 状态
      */
     @Excel(name = "状态")
-    @ApiModelProperty(value = "状态(0草稿;1待审核;2上架;3下架)", required = true)
+    @ApiModelProperty(value = "状态(0草稿;1待审核;2上架;3下架)", required = true, allowableValues = "0, 1, 2 ,3")
     private String status;
 
     /**
@@ -231,7 +231,7 @@ public class ResidenceInfo extends BaseEntity {
     @Excel(name = "排序")
     @ApiModelProperty(value = "排序", required = true)
     private Long sort;
-
+    
     private String geoCoordinate;
 
     /**

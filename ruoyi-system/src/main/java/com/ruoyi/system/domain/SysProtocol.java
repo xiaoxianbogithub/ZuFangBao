@@ -21,29 +21,29 @@ public class SysProtocol implements Serializable
 
     private static final long serialVersionUID = 1625737986656854696L;
     /** Id */
-    @ApiModelProperty(name = "Id")
+    @ApiModelProperty(value = "Id")
     private String id;
 
     /** 中文名 */
-    @ApiModelProperty(name = "中文名")
+    @ApiModelProperty(value = "中文名")
     @Excel(name = "中文名")
     private String cnName;
 
     /** 英文名 */
-    @ApiModelProperty(name = "英文名")
+    @ApiModelProperty(value = "英文名")
     @Excel(name = "英文名")
     private String enName;
 
     /** 内容 */
-    @ApiModelProperty(name = "内容")
+    @ApiModelProperty(value = "内容")
     @Excel(name = "内容")
     private String content;
 
-    @ApiModelProperty(name = "修改人Id")
+    @ApiModelProperty(value = "修改人Id")
     @Excel(name = "修改人Id")
     private String updateBy;
 
-    @ApiModelProperty(name = "修改时间")
+    @ApiModelProperty(value = "修改时间")
     @Excel(name = "修改时间")
     private Date updateTime;
 

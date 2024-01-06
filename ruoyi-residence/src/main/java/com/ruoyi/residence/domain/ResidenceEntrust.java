@@ -21,47 +21,47 @@ public class ResidenceEntrust extends BaseEntity
     private static final long serialVersionUID = 1L;
 
     /** Id */
-    @ApiModelProperty(notes = "Id")
+    @ApiModelProperty(value  = "Id")
     private Long id;
 
     /** 委托类型(1:我要租房;2:我要出租) */
     @Excel(name = "委托类型(1:我要租房;2:我要出租)")
-    @ApiModelProperty(notes = "委托类型(1:我要租房;2:我要出租)")
+    @ApiModelProperty(value  = "委托类型(1:我要租房;2:我要出租)")
     private String entrustType;
 
     /** 区域 */
     @Excel(name = "区域")
-    @ApiModelProperty(notes = "区域Id")
+    @ApiModelProperty(value  = "区域Id")
     private Long addressId;
 
     /** 价格 */
     @Excel(name = "价格")
-    @ApiModelProperty(notes = "价格")
+    @ApiModelProperty(value  = "价格")
     private BigDecimal amount;
 
     /** 住房类型(1:住宅;2:办公商铺) */
     @Excel(name = "住房类型(1:住宅;2:办公商铺)")
-    @ApiModelProperty(notes = "住房类型(1:住宅;2:办公商铺)")
+    @ApiModelProperty(value  = "住房类型(1:住宅;2:办公商铺)")
     private String residenceType;
 
     /** 联系方式 */
     @Excel(name = "联系方式")
-    @ApiModelProperty(notes = "联系方式")
+    @ApiModelProperty(value  = "联系方式")
     private String phonenumber;
 
     /** 指定经纪人Id */
     @Excel(name = "指定经纪人Id")
-    @ApiModelProperty(notes = "指定经纪人Id")
+    @ApiModelProperty(value  = "指定经纪人Id")
     private String designateId;
 
     /** 委托状态(0:已删除;1:已发布;2:处理中;3批准;4:否决) */
     @Excel(name = "委托状态(0:已删除;1:已发布;2:处理中;3批准;4:否决)")
-    @ApiModelProperty(notes = "委托状态(0:已删除;1:已发布;2:处理中;3批准;4:否决")
+    @ApiModelProperty(value  = "委托状态(0:已删除;1:已发布;2:处理中;3批准;4:否决")
     private String entrustStatus;
 
     /** 处理批注 */
     @Excel(name = "处理批注")
-    @ApiModelProperty(notes = "处理批注")
+    @ApiModelProperty(value  = "处理批注")
     private String processReason;
 
     public void setId(Long id) 
