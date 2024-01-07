@@ -68,4 +68,9 @@ public class ResidenceFavoriteServiceImpl implements IResidenceFavoriteService
     {
         return residenceFavoriteMapper.deleteResidenceFavoriteById(id);
     }
+
+    @Override
+    public int deleteResidenceFavoriteByResidenceIdAndUserId(String residenceId, String userId) {
+        return residenceFavoriteMapper.deleteResidenceFavoriteByResidenceIdAndUserId(residenceId, userId);
+    }
 }

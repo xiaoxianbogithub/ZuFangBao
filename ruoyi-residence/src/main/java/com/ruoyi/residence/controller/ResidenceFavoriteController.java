@@ -75,10 +75,10 @@ public class ResidenceFavoriteController extends BaseController
      */
     @PreAuthorize("@ss.hasPermi('residence:favorite:remove')")
     @Log(title = "房源收藏", businessType = BusinessType.DELETE)
-	@DeleteMapping("/{ids}")
-    @ApiOperation("删除房源收藏")
-    public AjaxResult remove(@PathVariable Long[] ids)
+	@PostMapping("/deleteFavorite")
+    @ApiOperation("根据房源Id及用户Id删除房源收藏")
+    public AjaxResult remove(@RequestBody ResidenceFavorite residenceFavorite)
     {
-        return toAjax(residenceFavoriteService.deleteResidenceFavoriteByIds(ids));
+        return toAjax(residenceFavoriteService.deleteResidenceFavoriteByResidenceIdAndUserId(residenceFavorite.getResidenceId(), residenceFavorite.getUserId().toString()));
     }
 }

@@ -44,4 +44,12 @@ public interface IResidenceFavoriteService
      * @return 结果
      */
     public int deleteResidenceFavoriteById(Long id);
+
+    /**
+     * 根据房源Id及用户Id删除信息
+     * @param residenceId 房源Id
+     * @param userId 用户Id
+     * @return
+     */
+    int deleteResidenceFavoriteByResidenceIdAndUserId(String residenceId, String userId);
 }

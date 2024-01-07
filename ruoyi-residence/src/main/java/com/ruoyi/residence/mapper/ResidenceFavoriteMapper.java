@@ -1,6 +1,7 @@
 package com.ruoyi.residence.mapper;
 
 import com.ruoyi.residence.domain.ResidenceFavorite;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -44,4 +45,6 @@ public interface ResidenceFavoriteMapper
      * @return 结果
      */
     public int deleteResidenceFavoriteByIds(Long[] ids);
+
+    int deleteResidenceFavoriteByResidenceIdAndUserId(@Param("residenceId") String residenceId, @Param("userId") String userId);
 }
