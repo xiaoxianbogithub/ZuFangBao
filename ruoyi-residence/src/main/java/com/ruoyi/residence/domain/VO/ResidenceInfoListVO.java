@@ -29,6 +29,11 @@ public class ResidenceInfoListVO implements Serializable {
     private String name;
 
     /**
+     * 首页房源图片
+     */
+    private String homePageImage;
+
+    /**
      * 标签
      */
     private String labels;
@@ -79,6 +84,14 @@ public class ResidenceInfoListVO implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getHomePageImage() {
+        return homePageImage;
+    }
+
+    public void setHomePageImage(String homePageImage) {
+        this.homePageImage = homePageImage;
     }
 
     public String getLabels() {
@@ -142,6 +155,7 @@ public class ResidenceInfoListVO implements Serializable {
         return "ResidenceInfoListVO{" +
                 "residenceId='" + residenceId + '\'' +
                 ", name='" + name + '\'' +
+                ", homePageImage='" + homePageImage + '\'' +
                 ", labels='" + labels + '\'' +
                 ", price=" + price +
                 ", towards='" + towards + '\'' +

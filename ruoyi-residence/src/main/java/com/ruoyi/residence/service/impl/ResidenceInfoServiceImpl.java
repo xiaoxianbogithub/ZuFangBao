@@ -78,20 +78,25 @@ public class ResidenceInfoServiceImpl implements IResidenceInfoService
     public List<ResidenceInfoVO> selectResidenceInfoList(ResidenceInfo residenceInfo)
     {
         Map<String, Object> params = residenceInfo.getParams();
+        // 处理额外查询条件
         if(StringUtils.isNotEmpty(params)){
+            // 首页根据价格区间查询
             long priceRangeId = Convert.toLong(params.get("priceRangeId"), 0L);
             if(0 < priceRangeId){
+                // 根据传入的价格区间id查询对应的最小价格与最大价格的值
                 ResidencePriceRange residencePriceRange = residencePriceRangeService.selectResidencePriceRangeById(priceRangeId);
                 params.put("minPrice",residencePriceRange.getMinPrice());
                 params.put("maxPrice",residencePriceRange.getMaxPrice());
             }
         }
+        // 获取房源信息list
         List<ResidenceInfoVO> residenceInfos = residenceInfoMapper.selectResidenceInfoList(residenceInfo);
         return residenceInfos.stream().map(
             info -> {
                 ResidenceInfoVO residenceInfoVO = new ResidenceInfoVO();
                 BeanUtils.copyProperties(info,residenceInfoVO);
                 residenceInfoVO.setDepositPay(ObjectUtil.defaultIfBlank(info.getDepositName(),"").concat(ObjectUtil.defaultIfBlank(info.getPayName(),"")));
+                // 拼接户型名称
                 residenceInfoVO.setHouseType(info.getNumOfBedrooms()+ "室" + info.getNumOfLivingrooms() + "厅");
                 return residenceInfoVO;
             }
@@ -223,9 +228,10 @@ public class ResidenceInfoServiceImpl implements IResidenceInfoService
     public void insertResidencePicture(ResidenceInfo residenceInfo)
     {
         List<ResidencePicture> residencePictureList = residenceInfo.getResidencePictureList();
-        String id = residenceInfo.getId();
         if (StringUtils.isNotNull(residencePictureList))
         {
+            // 房源Id
+            String id = residenceInfo.getId();
             List<ResidencePicture> list = new ArrayList<>();
             for (ResidencePicture residencePicture : residencePictureList)
             {
